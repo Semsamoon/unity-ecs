@@ -50,14 +50,11 @@ namespace ECS
         }
 
         /// <param name="capacity">Initial capacity of internal array</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Throws if capacity is less than or equal to 0
-        /// </exception>
         public DenseArray(int capacity = DefaultCapacity)
         {
             if (capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(capacity), capacity, "Capacity must be greater than 0");
+                capacity = DefaultCapacity;
             }
 
             _array = new T[capacity];

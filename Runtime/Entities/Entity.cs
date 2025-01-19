@@ -31,12 +31,12 @@ namespace ECS
         {
             if (id < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(id), id, "must be >= 0");
+                id = 0;
             }
 
             if (gen < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(gen), gen, "must be >= 0");
+                gen = 0;
             }
 
             Id = id;

@@ -46,7 +46,7 @@ namespace ECS
         {
             if (length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), length, "must be > 0");
+                length = DefaultCapacity;
             }
 
             _array = new T[length];
