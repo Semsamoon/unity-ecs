@@ -7,8 +7,7 @@ namespace ECS
     /// Consists of internal array that is extended automatically.
     /// The first item in array is counted as invalid.<br/>
     /// <br/>
-    /// <i>Dense arrays are like lists, but with swap deletion.
-    /// They always store data consistently in memory.
+    /// <i>Dense arrays are like lists, but with back swap remove operation.
     /// In most cases they store components, and indexes for them are stored in <see cref="SparseArray{T}"/></i>
     /// </summary>
     /// <typeparam name="T">Type of internal array</typeparam>
@@ -83,9 +82,9 @@ namespace ECS
 
         /// <summary>
         /// Removes item from internal array by specified <paramref name="index"/>.
-        /// Uses swap with the last item to avoid array shifting.<br/>
+        /// Uses back swap (a swap with the last item) to avoid array shifting.<br/>
         /// <br/>
-        /// <i>Ensure that indexes in <see cref="SparseArray{T}"/> are correct after swap.</i>
+        /// <i>Ensure that indexes in <see cref="SparseArray{T}"/> are correct after back swap.</i>
         /// </summary>
         /// <param name="index">Index of item to remove</param>
         public void RemoveAt(int index)
