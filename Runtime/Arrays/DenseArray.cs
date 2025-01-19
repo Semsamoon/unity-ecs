@@ -4,7 +4,8 @@ namespace ECS
 {
     /// <summary>
     /// Represents dense array.
-    /// Consists of internal array that is extended automatically.<br/>
+    /// Consists of internal array that is extended automatically.
+    /// The first item in array is counted as invalid.<br/>
     /// <br/>
     /// <i>Dense arrays are like lists, but with swap deletion.
     /// They always store data consistently in memory.
@@ -25,12 +26,16 @@ namespace ECS
 
         /// <summary>
         /// Current length of internal array.
-        /// Initialized in constructor and can not be increased manually.
+        /// Initialized in constructor and can not be increased manually.<br/>
+        /// <br/>
+        /// <i>Remember that the first item is counted as invalid.</i>
         /// </summary>
         public int Length { get; private set; }
 
         /// <summary>
-        /// Access to internal array.
+        /// Access to internal array.<br/>
+        /// <br/>
+        /// <i>Remember that the first item is counted as invalid.</i>
         /// </summary>
         /// <exception cref="IndexOutOfRangeException">
         /// Throws if <paramref name="index"/> is greater than or equal to array's <see cref="Length"/>
@@ -59,7 +64,7 @@ namespace ECS
 
             _array = new T[capacity];
             Capacity = capacity;
-            Length = 0;
+            Length = 1;
         }
 
         /// <summary>
