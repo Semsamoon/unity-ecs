@@ -44,6 +44,11 @@ namespace ECS
         /// <param name="length">Initial length of internal array</param>
         public SparseArray(int length = DefaultCapacity)
         {
+            if (length <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length), length, "must be > 0");
+            }
+
             _array = new T[length];
             Length = length;
         }

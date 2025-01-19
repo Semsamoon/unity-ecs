@@ -29,6 +29,16 @@ namespace ECS
         /// <param name="gen">Generation number</param>
         public Entity(int id, int gen)
         {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id), id, "must be >= 0");
+            }
+
+            if (gen < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(gen), gen, "must be >= 0");
+            }
+
             Id = id;
             Gen = gen;
         }
