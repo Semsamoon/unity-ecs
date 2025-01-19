@@ -7,7 +7,8 @@ namespace ECS
     /// Consists of identifier <see cref="Id"/> and generation number <see cref="Gen"/> -
     /// this pair of values is unique for each entity.<br/>
     /// <br/>
-    /// <i>Entities are kind of game objects with associated data and no logic.</i>
+    /// <i>Entities are kind of game objects with associated data and no logic.
+    /// Entity with <see cref="Id"/> = 0 is invalid and called NULL-entity.</i>
     /// </summary>
     public readonly struct Entity : IEquatable<Entity>
     {

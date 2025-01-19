@@ -53,7 +53,7 @@ namespace ECS
             }
         }
 
-        /// <param name="capacity">Initial capacity of internal array</param>
+        /// <param name="capacity">Initial <see cref="Capacity"/> of internal array</param>
         public DenseArray(int capacity = DefaultCapacity)
         {
             if (capacity <= 0)
@@ -104,7 +104,7 @@ namespace ECS
         }
 
         /// <summary>
-        /// Extends 2 times capacity of internal array.
+        /// Extends 2 times <see cref="Capacity"/> of internal array.
         /// </summary>
         private void DoubleCapacity()
         {
