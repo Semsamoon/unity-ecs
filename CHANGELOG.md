@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2025-01-19
+
+### Changed
+
+- Index operator of sparse array returns reference to element (no get/set value).
+- Use 'element' instead of 'item' in terms of arrays.
+- Add documentation references between different structures.
+
+## [0.3.2] - 2025-01-19
+
+### Changed
+
+- Make the first element in dense array counted as invalid.
+- Simplify back swap removing description in dense array.
+
+## [0.3.1] - 2025-01-19
+
+### Fixed
+
+- Try to recover instead of throwing exception. Use default values for invalid arguments.
+- Add missed index check in dense array's method Remove.
+- Make comparison operations look more natural.
+
+## [0.3.0] - 2025-01-19
+
+### Added
+
+- Dense array structure with XML documentation.
+
 ## [0.2.2] - 2025-01-19
 
 ### Fixed
