@@ -24,20 +24,19 @@ namespace ECS
 
         /// <summary>
         /// Access to internal array.
-        /// If index is bigger than array's length, getter returns default value and setter extends internal array.
+        /// Extends internal array if index is bigger than or equals to array's length.
         /// </summary>
         /// <param name="index">Index of array element</param>
-        public T this[int index]
+        public ref T this[int index]
         {
-            get => Length <= index ? default : _array[index];
-            set
+            get
             {
-                if (Length <= index)
+                if (index >= Length)
                 {
                     ExtendToIndex(index);
                 }
 
-                _array[index] = value;
+                return ref _array[index];
             }
         }
 
