@@ -40,7 +40,7 @@ namespace ECS
         {
             get
             {
-                if (Length <= index)
+                if (index >= Length)
                 {
                     throw new IndexOutOfRangeException($"Index (= {index}) must be less than {nameof(Length)} (= {Length})");
                 }
@@ -68,7 +68,7 @@ namespace ECS
         /// <param name="item">Item to add</param>
         public void Add(T item)
         {
-            if (Capacity <= Length)
+            if (Length >= Capacity)
             {
                 DoubleCapacity();
             }
@@ -85,6 +85,11 @@ namespace ECS
         /// <param name="index">Index of item to remove</param>
         public void RemoveAt(int index)
         {
+            if (index >= Length)
+            {
+                return;
+            }
+
             Length--;
             (_array[index], _array[Length]) = (_array[Length], _array[index]);
         }
