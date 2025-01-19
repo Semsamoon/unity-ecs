@@ -29,7 +29,7 @@ namespace ECS
         /// <param name="index">Index of array element</param>
         public T this[int index]
         {
-            get => _array[index];
+            get => Length <= index ? default : _array[index];
             set
             {
                 if (Length <= index)
