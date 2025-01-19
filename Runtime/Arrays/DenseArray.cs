@@ -2,15 +2,40 @@
 
 namespace ECS
 {
+    /// <summary>
+    /// Represents dense array.
+    /// Consists of internal array that is extended automatically.<br/>
+    /// <br/>
+    /// <i>Dense arrays are like lists, but with swap deletion.
+    /// They always store data consistently in memory.
+    /// In most cases they store components, and indexes for them are stored in <see cref="SparseArray{T}"/></i>
+    /// </summary>
+    /// <typeparam name="T">Type of internal array</typeparam>
     public sealed class DenseArray<T>
     {
         private const int DefaultCapacity = 64;
 
         private T[] _array;
 
+        /// <summary>
+        /// Current capacity of internal array.
+        /// Initialized in constructor and can not be increased manually.
+        /// </summary>
         public int Capacity { get; private set; }
+
+        /// <summary>
+        /// Current length of internal array.
+        /// Initialized in constructor and can not be increased manually.
+        /// </summary>
         public int Length { get; private set; }
 
+        /// <summary>
+        /// Access to internal array.
+        /// </summary>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Throws if <paramref name="index"/> is greater than or equal to array's <see cref="Length"/>
+        /// </exception>
+        /// <param name="index">Index of array element</param>
         public ref T this[int index]
         {
             get
@@ -24,6 +49,10 @@ namespace ECS
             }
         }
 
+        /// <param name="capacity">Initial capacity of internal array</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Throws if capacity is less than or equal to 0
+        /// </exception>
         public DenseArray(int capacity = DefaultCapacity)
         {
             if (capacity <= 0)
@@ -36,6 +65,10 @@ namespace ECS
             Length = 0;
         }
 
+        /// <summary>
+        /// Adds <paramref name="item"/> to the end of internal array and extends it if needed.
+        /// </summary>
+        /// <param name="item">Item to add</param>
         public void Add(T item)
         {
             if (Capacity <= Length)
@@ -46,6 +79,13 @@ namespace ECS
             _array[Length++] = item;
         }
 
+        /// <summary>
+        /// Removes item from internal array by specified <paramref name="index"/>.
+        /// Uses swap with the last item to avoid array shifting.<br/>
+        /// <br/>
+        /// <i>Ensure that indexes in <see cref="SparseArray{T}"/> are correct after swap.</i>
+        /// </summary>
+        /// <param name="index">Index of item to remove</param>
         public void RemoveAt(int index)
         {
             Length--;
@@ -57,6 +97,9 @@ namespace ECS
             return _array.AsSpan(0, Length);
         }
 
+        /// <summary>
+        /// Extends 2 times capacity of internal array.
+        /// </summary>
         private void DoubleCapacity()
         {
             Capacity *= 2;
