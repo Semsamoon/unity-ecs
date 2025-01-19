@@ -5,7 +5,7 @@ namespace ECS
     /// <summary>
     /// Represents dense array.
     /// Consists of internal array that is extended automatically.
-    /// The first item in array is counted as invalid.<br/>
+    /// The first element in array is counted as invalid.<br/>
     /// <br/>
     /// <i>Dense arrays are like lists, but with back swap remove operation.
     /// In most cases they store components, and indexes for them are stored in <see cref="SparseArray{T}"/></i>
@@ -27,14 +27,14 @@ namespace ECS
         /// Current length of internal array.
         /// Initialized in constructor and can not be increased manually.<br/>
         /// <br/>
-        /// <i>Remember that the first item is counted as invalid.</i>
+        /// <i>Remember that the first element is counted as invalid.</i>
         /// </summary>
         public int Length { get; private set; }
 
         /// <summary>
         /// Access to internal array.<br/>
         /// <br/>
-        /// <i>Remember that the first item is counted as invalid.</i>
+        /// <i>Remember that the first element is counted as invalid.</i>
         /// </summary>
         /// <exception cref="IndexOutOfRangeException">
         /// Throws if <paramref name="index"/> is greater than or equal to array's <see cref="Length"/>
@@ -81,12 +81,12 @@ namespace ECS
         }
 
         /// <summary>
-        /// Removes item from internal array by specified <paramref name="index"/>.
-        /// Uses back swap (a swap with the last item) to avoid array shifting.<br/>
+        /// Removes element from internal array by specified <paramref name="index"/>.
+        /// Uses back swap (a swap with the last element) to avoid array shifting.<br/>
         /// <br/>
         /// <i>Ensure that indexes in <see cref="SparseArray{T}"/> are correct after back swap.</i>
         /// </summary>
-        /// <param name="index">Index of item to remove</param>
+        /// <param name="index">Index of element to remove</param>
         public void RemoveAt(int index)
         {
             if (index >= Length)
