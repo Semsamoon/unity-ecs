@@ -1,0 +1,23 @@
+{
+  "name": "com.semsamoon.unity-ecs",
+  "version": "0.0.0",
+  "displayName": "Semsamoon ECS",
+  "description": "Entity-Component-System Framework for Unity Engine. It is designed to be as simple as possible and easy to extend.",
+  "unity": "6000.0",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://github.com/Semsamoon/unity-ecs/blob/master/README.md",
+  "licensesUrl": "https://github.com/Semsamoon/unity-ecs/blob/master/LICENSE.md",
+  "keywords": [
+    "Entity-Component-System",
+    "ECS",
+    "Semsamoon"
+  ],
+  "repository": {
+    "url": "https://github.com/Semsamoon/unity-ecs.git",
+    "type": "git"
+  },
+  "author": {
+    "name": "Semsamoon",
+    "url": "https://github.com/Semsamoon"
+  }
+}
