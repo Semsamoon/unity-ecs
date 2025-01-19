@@ -20,7 +20,7 @@ namespace ECS
         /// Current length of internal array.
         /// Initialized in constructor and can not be increased manually.
         /// </summary>
-        public int Capacity { get; private set; }
+        public int Length { get; private set; }
 
         /// <summary>
         /// Access to internal array.
@@ -32,20 +32,20 @@ namespace ECS
             get => _array[index];
             set
             {
-                if (Capacity <= index)
+                if (Length <= index)
                 {
-                    ResizeForIndex(index);
+                    ExtendToIndex(index);
                 }
 
                 _array[index] = value;
             }
         }
 
-        /// <param name="capacity">Initial length of internal array</param>
-        public SparseArray(int capacity = DefaultCapacity)
+        /// <param name="length">Initial length of internal array</param>
+        public SparseArray(int length = DefaultCapacity)
         {
-            _array = new T[capacity];
-            Capacity = capacity;
+            _array = new T[length];
+            Length = length;
         }
 
         public ReadOnlySpan<T> AsReadOnlySpan()
@@ -57,17 +57,17 @@ namespace ECS
         /// Extends internal array to the specified index.
         /// Lenght is increased 2 times until index can be accessed.<br/>
         /// <br/>
-        /// <i>Does not perform length check before first extenstion, so check it before calling this method.</i>
+        /// <i>Does not perform length check before the first extenstion, so check it before calling this method.</i>
         /// </summary>
-        /// <param name="index">Index that need to be accessed</param>
-        private void ResizeForIndex(int index)
+        /// <param name="index">Index that needs to be accessed</param>
+        private void ExtendToIndex(int index)
         {
             do
             {
-                Capacity *= 2;
-            } while (index >= Capacity);
+                Length *= 2;
+            } while (index >= Length);
 
-            Array.Resize(ref _array, Capacity);
+            Array.Resize(ref _array, Length);
         }
     }
 }
