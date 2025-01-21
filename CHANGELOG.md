@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.3] - 2025-01-21
+
+### Removed
+
+- Dense array with two types of items (because it can be replaced with tuples).
+
+### Changed
+
+- Use one-typed dense array with tuple of two items in pool instead of two-typed dense array.
+- Make index operator in pool work to get only entities. Separate getters for items in pool
+  (by index or entity).
+
+## [0.4.2] - 2025-01-21
+
+### Added
+
+- Assembly definition for Tests folder.
+- Tests for Entity, Sparse Array, Dense Array and Pool.
+
+## [0.4.1] - 2025-01-21
+
+### Added
+
+- Dense array with two types of items to store together.
+- Index operator to access item in pool by entity.
+
+### Changed
+
+- Use one dense array with two items instead of two dense arrays in pool.
+
+## [0.4.0] - 2025-01-20
+
+### Added
+
+- Pool class with XML documentation.
+
 ## [0.3.3] - 2025-01-19
 
 ### Changed
