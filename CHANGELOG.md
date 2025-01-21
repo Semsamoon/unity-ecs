@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Index operator of sparse array returns reference to element (no get/set value).
 - Use 'element' instead of 'item' in terms of arrays.
-- Add documentation references between different structures.
+- Add documentation references between different classes.
 
 ## [0.3.2] - 2025-01-19
 
@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Dense array structure with XML documentation.
+- Dense array class with XML documentation.
 
 ## [0.2.2] - 2025-01-19
 
@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Sparse array structure with XML documentation.
+- Sparse array class with XML documentation.
 
 ## [0.1.0] - 2025-01-19
 
