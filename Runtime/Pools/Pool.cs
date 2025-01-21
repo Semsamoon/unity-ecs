@@ -103,7 +103,7 @@ namespace ECS
         private const int DefaultDenseCapacity = 64;
 
         private readonly SparseArray<int> _sparseArray;
-        private readonly DenseArray<Entity, T> _denseArray;
+        private readonly DenseArray<(Entity, T)> _denseArray;
 
         /// <summary>
         /// Current length of internal <see cref="DenseArray{T}"/>.
@@ -125,7 +125,7 @@ namespace ECS
         public Pool(int sparseCapacity = DefaultSparseCapacity, int denseCapacity = DefaultDenseCapacity)
         {
             _sparseArray = new SparseArray<int>(sparseCapacity);
-            _denseArray = new DenseArray<Entity, T>(denseCapacity);
+            _denseArray = new DenseArray<(Entity, T)>(denseCapacity);
         }
 
         /// <summary>
