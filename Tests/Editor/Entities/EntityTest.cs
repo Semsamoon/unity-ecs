@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace ECS.Tests
 {
-    public class EntityTests
+    public sealed class EntityTests
     {
         [Test]
         public void EntityConstructorSetsValidValues()
