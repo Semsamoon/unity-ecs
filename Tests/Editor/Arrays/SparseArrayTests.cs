@@ -10,6 +10,7 @@ namespace ECS.Tests
             Assert.AreEqual(10, new SparseArray<int>(10).Length);
             Assert.Positive(new SparseArray<int>(-10).Length);
             Assert.Positive(new SparseArray<int>(0).Length);
+            Assert.Positive(new SparseArray<int>().Length);
         }
 
         [Test]
