@@ -115,6 +115,11 @@ namespace ECS
         /// </summary>
         public ref (Entity entity, T item) this[int index] => ref _denseArray[index];
 
+        /// <summary>
+        /// Access to component in internal <see cref="DenseArray{T}"/> by the entity.
+        /// </summary>
+        public ref T this[Entity entity] => ref _denseArray[_sparseArray[entity.Id]].Item2;
+
         /// <param name="sparseCapacity">Initial capacity of internal <see cref="SparseArray{T}"/></param>
         /// <param name="denseCapacity">Initial capacity of internal <see cref="DenseArray{T}"/></param>
         public Pool(int sparseCapacity = DefaultSparseCapacity, int denseCapacity = DefaultDenseCapacity)
