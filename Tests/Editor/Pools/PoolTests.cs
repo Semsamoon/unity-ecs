@@ -19,7 +19,7 @@ namespace ECS.Tests
         }
 
         [Test]
-        public void SetterAndGetterAreCorrect()
+        public void GettersAreCorrect()
         {
             var pool1 = new Pool(10);
             pool1.Add(new Entity(1, 0));
@@ -27,8 +27,13 @@ namespace ECS.Tests
 
             var pool2 = new Pool<int>(4, 4);
             pool2.AddOrSet(new Entity(1, 0), 10);
-            pool2[1].item = 20;
-            Assert.AreEqual(20, pool2[1].item);
+            Assert.AreEqual(new Entity(1, 0), pool2[1]);
+
+            pool2.Get(1) = 20;
+            Assert.AreEqual(20, pool2.Get(1));
+
+            pool2.Get(new Entity(1, 0)) = 30;
+            Assert.AreEqual(30, pool2.Get(1));
         }
 
         [Test]
@@ -44,7 +49,7 @@ namespace ECS.Tests
             pool2.AddOrSet(new Entity(1, 0), 10);
 
             Assert.AreEqual(2, pool2.Length);
-            Assert.AreEqual(10, pool2[1].item);
+            Assert.AreEqual(10, pool2.Get(1));
         }
 
         [Test]
@@ -62,7 +67,7 @@ namespace ECS.Tests
             pool2.AddOrSet(new Entity(1, 0), 20);
 
             Assert.AreEqual(2, pool2.Length);
-            Assert.AreEqual(20, pool2[1].item);
+            Assert.AreEqual(20, pool2.Get(1));
         }
 
         [Test]

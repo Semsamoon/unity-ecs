@@ -111,14 +111,9 @@ namespace ECS
         public int Length => _denseArray.Length;
 
         /// <summary>
-        /// Access to entities with components in internal <see cref="DenseArray{T}"/>.
+        /// Access to entities in internal <see cref="DenseArray{T}"/>.
         /// </summary>
-        public ref (Entity entity, T item) this[int index] => ref _denseArray[index];
-
-        /// <summary>
-        /// Access to component in internal <see cref="DenseArray{T}"/> by the entity.
-        /// </summary>
-        public ref T this[Entity entity] => ref _denseArray[_sparseArray[entity.Id]].Item2;
+        public Entity this[int index] => _denseArray[index].Item1;
 
         /// <param name="sparseCapacity">Initial capacity of internal <see cref="SparseArray{T}"/></param>
         /// <param name="denseCapacity">Initial capacity of internal <see cref="DenseArray{T}"/></param>
@@ -143,6 +138,22 @@ namespace ECS
 
             _sparseArray[entity.Id] = _denseArray.Length;
             _denseArray.Add((entity, item));
+        }
+
+        /// <summary>
+        /// Access to component in internal <see cref="DenseArray{T}"/> by the <paramref name="index"/>.
+        /// </summary>
+        public ref T Get(int index)
+        {
+            return ref _denseArray[index].Item2;
+        }
+
+        /// <summary>
+        /// Access to component in internal <see cref="DenseArray{T}"/> by the <paramref name="entity"/>.
+        /// </summary>
+        public ref T Get(Entity entity)
+        {
+            return ref _denseArray[_sparseArray[entity.Id]].Item2;
         }
 
         /// <returns>True if the <paramref name="entity"/> with associated component has
