@@ -75,8 +75,8 @@ namespace ECS
 
             var backSwappedEntity = _denseArray[^1];
             _denseArray.RemoveAt(index);
-            _sparseArray[entity.Id] = 0;
             _sparseArray[backSwappedEntity.Id] = index;
+            _sparseArray[entity.Id] = 0;
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
@@ -178,8 +178,8 @@ namespace ECS
 
             var backSwappedEntity = _denseArray[^1].Item1;
             _denseArray.RemoveAt(index);
-            _sparseArray[entity.Id] = 0;
             _sparseArray[backSwappedEntity.Id] = index;
+            _sparseArray[entity.Id] = 0;
         }
 
         public ReadOnlySpan<(Entity, T)> AsReadOnlySpan()
