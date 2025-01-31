@@ -13,18 +13,18 @@ namespace ECS
     /// </summary>
     public sealed class Entities
     {
-        private readonly Pool _pool;
+        private readonly Pool _existing;
         private readonly Pool _removed;
         private int _id;
 
         /// <summary>
         /// Current length of internal <see cref="Pool"/> with existing entities.
         /// </summary>
-        public int Length => _pool.Length;
+        public int Length => _existing.Length;
 
         public Entities()
         {
-            _pool = new Pool();
+            _existing = new Pool();
             _removed = new Pool();
             _id = 1;
         }
@@ -33,7 +33,7 @@ namespace ECS
         /// <param name="denseCapacity">Initial dense capacity of internal <see cref="Pool"/></param>
         public Entities(int sparseCapacity, int denseCapacity)
         {
-            _pool = new Pool(sparseCapacity, denseCapacity);
+            _existing = new Pool(sparseCapacity, denseCapacity);
             _removed = new Pool(sparseCapacity, denseCapacity);
             _id = 1;
         }
@@ -47,7 +47,7 @@ namespace ECS
         /// <returns>True if the entity exists, false elsewhere</returns>
         public bool Contains(Entity entity)
         {
-            return _pool.Contains(entity);
+            return _existing.Contains(entity);
         }
 
         /// <summary>
@@ -58,25 +58,25 @@ namespace ECS
         /// </summary>
         public void Remove(Entity entity)
         {
-            if (!_pool.Contains(entity))
+            if (!_existing.Contains(entity))
             {
                 return;
             }
 
             _removed.Add(entity);
-            _pool.Remove(entity);
+            _existing.Remove(entity);
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
         {
-            return _pool.AsReadOnlySpan();
+            return _existing.AsReadOnlySpan();
         }
 
         /// <returns>A new entity with incremented <see cref="Entity.Id"/></returns>
         private Entity CreateNew()
         {
             var entity = new Entity(_id++, 0);
-            _pool.Add(entity);
+            _existing.Add(entity);
             return entity;
         }
 
@@ -97,7 +97,7 @@ namespace ECS
                 }
 
                 recycle = new Entity(recycle.Id, recycle.Gen + 1);
-                _pool.Add(recycle);
+                _existing.Add(recycle);
                 return recycle;
             }
 
