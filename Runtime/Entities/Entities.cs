@@ -29,12 +29,14 @@ namespace ECS
             _id = 1;
         }
 
-        /// <param name="sparseCapacity">Initial sparse capacity of internal <see cref="Pool"/></param>
-        /// <param name="denseCapacity">Initial dense capacity of internal <see cref="Pool"/></param>
-        public Entities(int sparseCapacity, int denseCapacity)
+        /// <param name="existingSparseCapacity">Initial sparse capacity of internal <see cref="Pool"/> with existing entities</param>
+        /// <param name="existingDenseCapacity">Initial dense capacity of internal <see cref="Pool"/> with existing entities</param>
+        /// <param name="removedSparseCapacity">Initial sparse capacity of internal <see cref="Pool"/> with removed entities</param>
+        /// <param name="removedDenseCapacity">Initial dense capacity of internal <see cref="Pool"/> with removed entities</param>
+        public Entities(int existingSparseCapacity, int existingDenseCapacity, int removedSparseCapacity, int removedDenseCapacity)
         {
-            _existing = new Pool(sparseCapacity, denseCapacity);
-            _removed = new Pool(sparseCapacity, denseCapacity);
+            _existing = new Pool(existingSparseCapacity, existingDenseCapacity);
+            _removed = new Pool(removedSparseCapacity, removedDenseCapacity);
             _id = 1;
         }
 

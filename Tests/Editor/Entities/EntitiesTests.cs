@@ -7,8 +7,8 @@ namespace ECS.Tests
         [Test]
         public void ConstructorSetsValidValues()
         {
-            Assert.AreEqual(1, new Entities(10, 10).Length);
-            Assert.DoesNotThrow(() => new Entities(-10, -10));
+            Assert.AreEqual(1, new Entities(10, 10, 10, 10).Length);
+            Assert.DoesNotThrow(() => new Entities(-10, -10, -10, -10));
 
             // Initial length must be 1
             Assert.AreEqual(1, new Entities().Length);
@@ -17,7 +17,7 @@ namespace ECS.Tests
         [Test]
         public void CanCreateEntity()
         {
-            var entities = new Entities(4, 4);
+            var entities = new Entities();
             Assert.AreEqual(entities.Create(), new Entity(1, 0));
             Assert.AreEqual(entities.Create(), new Entity(2, 0));
         }
@@ -25,7 +25,7 @@ namespace ECS.Tests
         [Test]
         public void CanRecycleEntity()
         {
-            var entities = new Entities(4, 4);
+            var entities = new Entities();
             entities.Remove(entities.Create());
 
             Assert.AreEqual(entities.Length, 1);
@@ -35,7 +35,7 @@ namespace ECS.Tests
         [Test]
         public void ContainsIsCorrect()
         {
-            var entities = new Entities(4, 4);
+            var entities = new Entities();
             entities.Create();
 
             Assert.True(entities.Contains(new Entity(1, 0)));
@@ -46,7 +46,7 @@ namespace ECS.Tests
         [Test]
         public void CanAutomaticallyExtend()
         {
-            var entities = new Entities(1, 1);
+            var entities = new Entities(1, 1, 1, 1);
             Assert.DoesNotThrow(() => entities.Create());
             Assert.DoesNotThrow(() => entities.Create());
         }
@@ -54,7 +54,7 @@ namespace ECS.Tests
         [Test]
         public void RemovingIsCorrect()
         {
-            var entities = new Entities(2, 2);
+            var entities = new Entities();
             Assert.DoesNotThrow(() => entities.Remove(new Entity(1, 0)));
 
             entities.Create();
@@ -66,7 +66,7 @@ namespace ECS.Tests
         [Test]
         public void ReadOnlySpanIsCorrect()
         {
-            var entities = new Entities(4, 4);
+            var entities = new Entities();
 
             // Foreach-loop
             foreach (var i in entities.AsReadOnlySpan())
