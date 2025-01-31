@@ -13,9 +13,6 @@ namespace ECS
     /// </summary>
     public sealed class Entities
     {
-        private const int DefaultSparseCapacity = 64;
-        private const int DefaultDenseCapacity = 64;
-
         private readonly Pool _pool;
         private readonly Pool _removed;
         private int _id;
@@ -25,9 +22,16 @@ namespace ECS
         /// </summary>
         public int Length => _pool.Length;
 
+        public Entities()
+        {
+            _pool = new Pool();
+            _removed = new Pool();
+            _id = 1;
+        }
+
         /// <param name="sparseCapacity">Initial sparse capacity of internal <see cref="Pool"/></param>
         /// <param name="denseCapacity">Initial dense capacity of internal <see cref="Pool"/></param>
-        public Entities(int sparseCapacity = DefaultSparseCapacity, int denseCapacity = DefaultDenseCapacity)
+        public Entities(int sparseCapacity, int denseCapacity)
         {
             _pool = new Pool(sparseCapacity, denseCapacity);
             _removed = new Pool(sparseCapacity, denseCapacity);

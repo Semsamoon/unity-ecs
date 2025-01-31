@@ -14,9 +14,6 @@ namespace ECS
     /// </summary>
     public sealed class Pool
     {
-        private const int DefaultSparseCapacity = 64;
-        private const int DefaultDenseCapacity = 64;
-
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<Entity> _denseArray;
 
@@ -30,9 +27,15 @@ namespace ECS
         /// </summary>
         public Entity this[int index] => _denseArray[index];
 
+        public Pool()
+        {
+            _sparseArray = new SparseArray<int>();
+            _denseArray = new DenseArray<Entity>();
+        }
+
         /// <param name="sparseCapacity">Initial capacity of internal <see cref="SparseArray{T}"/></param>
         /// <param name="denseCapacity">Initial capacity of internal <see cref="DenseArray{T}"/></param>
-        public Pool(int sparseCapacity = DefaultSparseCapacity, int denseCapacity = DefaultDenseCapacity)
+        public Pool(int sparseCapacity, int denseCapacity)
         {
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<Entity>(denseCapacity);

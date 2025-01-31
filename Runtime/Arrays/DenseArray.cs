@@ -53,8 +53,15 @@ namespace ECS
             }
         }
 
+        public DenseArray()
+        {
+            _array = new T[DefaultCapacity];
+            Capacity = DefaultCapacity;
+            Length = 1;
+        }
+
         /// <param name="capacity">Initial <see cref="Capacity"/> of internal array</param>
-        public DenseArray(int capacity = DefaultCapacity)
+        public DenseArray(int capacity)
         {
             if (capacity <= 0)
             {

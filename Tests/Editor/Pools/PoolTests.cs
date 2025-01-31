@@ -21,7 +21,7 @@ namespace ECS.Tests
         [Test]
         public void GettersAreCorrect()
         {
-            var pool1 = new Pool(10);
+            var pool1 = new Pool(10, 10);
             pool1.Add(new Entity(1, 0));
             Assert.AreEqual(new Entity(1, 0), pool1[1]);
 

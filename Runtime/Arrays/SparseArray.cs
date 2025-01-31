@@ -41,8 +41,14 @@ namespace ECS
             }
         }
 
+        public SparseArray()
+        {
+            _array = new T[DefaultCapacity];
+            Length = DefaultCapacity;
+        }
+
         /// <param name="length">Initial <see cref="Length"/> of internal array</param>
-        public SparseArray(int length = DefaultCapacity)
+        public SparseArray(int length)
         {
             if (length <= 0)
             {
