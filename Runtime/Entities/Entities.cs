@@ -54,6 +54,11 @@ namespace ECS
         /// </summary>
         public void Remove(Entity entity)
         {
+            if (!_pool.Contains(entity))
+            {
+                return;
+            }
+
             _removed.Add(entity);
             _pool.Remove(entity);
         }
