@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2025-01-31
+
+### Changed
+
+- Add default constructors for sparse array, dense array, pool and entities.
+- Rename entities' internal pool with existing entities Pool to Existing
+  because it explains its purpose.
+- Separate existing and deleted pools' capacities in entities' constructor.
+
+## [0.5.1] - 2025-01-31
+
+### Fixed
+
+- Add check whether entity to remove from entities exists.
+  If it is not, there is no need to remove the entity.
+- Reorder assignment of sparse array's elements when use back swap removing in pool.
+  This prevents invalid value in sparse array when remove the last added entity.
+
+### Changed
+
+- Add exception check for pool tests when remove the last added entity.
+
+### Added
+
+- Tests for entities.
+
+## [0.5.0] - 2025-01-31
+
+### Added
+
+- Entities class with XML documentation.
+
 ## [0.4.3] - 2025-01-21
 
 ### Removed
@@ -22,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Assembly definition for Tests folder.
-- Tests for Entity, Sparse Array, Dense Array and Pool.
+- Tests for entity, sparse array, dense array and pool.
 
 ## [0.4.1] - 2025-01-21
 
