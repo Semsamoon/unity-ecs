@@ -107,6 +107,7 @@ namespace ECS.Tests
             pool1.Add(new Entity(1, 0));
             Assert.DoesNotThrow(() => pool1.Remove(new Entity(1, 0)));
             Assert.AreEqual(1, pool1.Length);
+            Assert.DoesNotThrow(() => pool1.Contains(new Entity(1, 0)));
 
             var pool2 = new Pool<int>(2, 2);
             Assert.DoesNotThrow(() => pool2.Remove(new Entity(1, 0)));
@@ -114,6 +115,7 @@ namespace ECS.Tests
             pool2.AddOrSet(new Entity(1, 0), 10);
             Assert.DoesNotThrow(() => pool2.Remove(new Entity(1, 0)));
             Assert.AreEqual(1, pool2.Length);
+            Assert.DoesNotThrow(() => pool2.Contains(new Entity(1, 0)));
         }
 
         [Test]
