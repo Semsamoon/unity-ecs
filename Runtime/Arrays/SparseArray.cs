@@ -14,7 +14,7 @@ namespace ECS
     /// <typeparam name="T">Type of internal array</typeparam>
     public sealed class SparseArray<T>
     {
-        private const int DefaultCapacity = 64;
+        private const int DefaultLength = 64;
 
         private T[] _array;
 
@@ -22,7 +22,7 @@ namespace ECS
         /// Current length of internal array.
         /// Initialized in constructor and can not be increased manually.
         /// </summary>
-        public int Length { get; private set; }
+        public int Length => _array.Length;
 
         /// <summary>
         /// Access to internal array.
@@ -44,8 +44,7 @@ namespace ECS
 
         public SparseArray()
         {
-            _array = new T[DefaultCapacity];
-            Length = DefaultCapacity;
+            _array = new T[DefaultLength];
         }
 
         /// <param name="length">Initial <see cref="Length"/> of internal array</param>
@@ -53,11 +52,10 @@ namespace ECS
         {
             if (length <= 0)
             {
-                length = DefaultCapacity;
+                length = DefaultLength;
             }
 
             _array = new T[length];
-            Length = length;
         }
 
         public ReadOnlySpan<T> AsReadOnlySpan()
@@ -79,12 +77,14 @@ namespace ECS
         /// <param name="index">Index that needs to be accessed</param>
         private void ExtendToIndex(int index)
         {
+            var length = _array.Length;
+
             do
             {
-                Length *= 2;
-            } while (index >= Length);
+                length *= 2;
+            } while (index >= length);
 
-            Array.Resize(ref _array, Length);
+            Array.Resize(ref _array, length);
         }
     }
 }
