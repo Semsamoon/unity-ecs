@@ -33,11 +33,7 @@ namespace ECS
         {
             get
             {
-                if (index >= Length)
-                {
-                    ExtendToIndex(index);
-                }
-
+                ExtendTo(index);
                 return ref _array[index];
             }
         }
@@ -50,11 +46,7 @@ namespace ECS
         /// <param name="length">Initial <see cref="Length"/> of internal array</param>
         public SparseArray(int length)
         {
-            if (length <= 0)
-            {
-                length = DefaultLength;
-            }
-
+            length = Math.Max(length, 2);
             _array = new T[length];
         }
 
@@ -70,14 +62,17 @@ namespace ECS
 
         /// <summary>
         /// Extends internal array to the specified <paramref name="index"/>.
-        /// <see cref="Length"/> is increased 2 times until <paramref name="index"/> can be accessed.<br/>
-        /// <br/>
-        /// <i>Does not perform <see cref="Length"/> check before the first extenstion, so check it before calling this method.</i>
+        /// <see cref="Length"/> is increased 2 times until <paramref name="index"/> can be accessed.
         /// </summary>
         /// <param name="index">Index that needs to be accessed</param>
-        private void ExtendToIndex(int index)
+        private void ExtendTo(int index)
         {
-            var length = _array.Length;
+            var length = Length;
+
+            if (index < length)
+            {
+                return;
+            }
 
             do
             {
