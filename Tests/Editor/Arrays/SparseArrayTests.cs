@@ -61,5 +61,18 @@ namespace ECS.Tests
                 Assert.AreEqual(i, span[i]);
             }
         }
+
+        [Test]
+        public void EnumerableIsCorrect()
+        {
+            var sparseArray = new SparseArray<int>(2);
+            sparseArray[0] = 10;
+            sparseArray[1] = 10;
+
+            foreach (var i in sparseArray)
+            {
+                Assert.AreEqual(10, i);
+            }
+        }
     }
 }
