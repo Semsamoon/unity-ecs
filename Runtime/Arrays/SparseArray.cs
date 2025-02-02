@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ECS
 {
@@ -62,6 +63,11 @@ namespace ECS
         public ReadOnlySpan<T> AsReadOnlySpan()
         {
             return _array.AsSpan();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return (IEnumerator<T>)_array.GetEnumerator();
         }
 
         /// <summary>
