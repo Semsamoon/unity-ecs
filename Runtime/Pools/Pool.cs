@@ -20,19 +20,17 @@ namespace ECS
         {
             _sparseArray = new SparseArray<int>();
             _denseArray = new DenseArray<Entity>();
-            _denseArray.Add(new Entity());
         }
 
         public Pool(int sparseCapacity, int denseCapacity)
         {
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<Entity>(denseCapacity);
-            _denseArray.Add(new Entity());
         }
 
         public void Add(Entity entity)
         {
-            if (_sparseArray[entity.Id] > 0)
+            if (entity.IsNull() || _denseArray[_sparseArray[entity.Id]] == entity)
             {
                 return;
             }
@@ -43,22 +41,22 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return _denseArray[_sparseArray[entity.Id]] == entity;
+            return !entity.IsNull() && _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
         public void Remove(Entity entity)
         {
             var index = _sparseArray[entity.Id];
 
-            if (index <= 0)
+            if (entity.IsNull() || _denseArray[index] != entity)
             {
                 return;
             }
 
-            var backSwappedEntity = _denseArray[^1];
-            _denseArray.RemoveAt(index);
-            _sparseArray[backSwappedEntity.Id] = index;
+            _sparseArray[_denseArray[^1].Id] = index;
             _sparseArray[entity.Id] = 0;
+            _denseArray[index] = new Entity();
+            _denseArray.RemoveAt(index);
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
@@ -88,21 +86,26 @@ namespace ECS
         {
             _sparseArray = new SparseArray<int>(DefaultSparseCapacity);
             _denseArray = new DenseArray<(Entity, T)>(DefaultDenseCapacity);
-            _denseArray.Add((new Entity(), default));
         }
 
         public Pool(int sparseCapacity, int denseCapacity)
         {
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<(Entity, T)>(denseCapacity);
-            _denseArray.Add((new Entity(), default));
         }
 
         public void AddOrSet(Entity entity, T value)
         {
-            if (_sparseArray[entity.Id] > 0)
+            if (entity.IsNull())
             {
-                _denseArray[_sparseArray[entity.Id]].Value = value;
+                return;
+            }
+
+            ref var data = ref _denseArray[_sparseArray[entity.Id]];
+
+            if (data.Entity == entity)
+            {
+                data.Value = value;
                 return;
             }
 
@@ -122,22 +125,22 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return _denseArray[_sparseArray[entity.Id]].Entity == entity;
+            return !entity.IsNull() && _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
         public void Remove(Entity entity)
         {
             var index = _sparseArray[entity.Id];
 
-            if (index <= 0)
+            if (entity.IsNull() || _denseArray[index].Entity != entity)
             {
                 return;
             }
 
-            var backSwappedEntity = _denseArray[^1].Entity;
-            _denseArray.RemoveAt(index);
-            _sparseArray[backSwappedEntity.Id] = index;
+            _sparseArray[_denseArray[^1].Entity.Id] = index;
             _sparseArray[entity.Id] = 0;
+            _denseArray[index].Entity = new Entity();
+            _denseArray.RemoveAt(index);
         }
 
         public ReadOnlySpan<(Entity Entity, T Value)> AsReadOnlySpan()
