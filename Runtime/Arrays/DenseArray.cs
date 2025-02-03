@@ -4,35 +4,18 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Represents dense array.
-    /// Consists of internal array that is extended automatically.<br/>
-    /// <br/>
-    /// <i>Dense arrays are like lists, but with back swap remove operation.
-    /// In most cases they store components, and indexes for them are stored in <see cref="SparseArray{T}"/></i>
+    /// Dense array is a <see cref="List{T}"/> with swap removing
+    /// (swap with the last element) and index access like in <see cref="Array"/>.
     /// </summary>
-    /// <typeparam name="T">Type of internal array</typeparam>
     public sealed class DenseArray<T>
     {
         private const int DefaultCapacity = 64;
 
         private T[] _array;
 
-        /// <summary>
-        /// Current capacity of internal array.
-        /// Initialized in constructor and can not be increased manually.
-        /// </summary>
         public int Capacity => _array.Length;
-
-        /// <summary>
-        /// Current length of internal array.
-        /// Initialized in constructor and can not be increased manually.
-        /// </summary>
         public int Length { get; private set; }
 
-        /// <summary>
-        /// Access to internal array.
-        /// </summary>
-        /// <param name="index">Index of array element</param>
         public ref T this[int index]
         {
             get
@@ -47,30 +30,18 @@ namespace ECS
             _array = new T[DefaultCapacity];
         }
 
-        /// <param name="capacity">Initial <see cref="Capacity"/> of internal array</param>
         public DenseArray(int capacity)
         {
             capacity = Math.Max(capacity, 2);
             _array = new T[capacity];
         }
 
-        /// <summary>
-        /// Adds <paramref name="item"/> to the end of internal array and extends it if needed.
-        /// </summary>
-        /// <param name="item">Item to add</param>
         public void Add(T item)
         {
             ExtendTo(Length);
             _array[Length++] = item;
         }
 
-        /// <summary>
-        /// Removes element from internal array by specified <paramref name="index"/>.
-        /// Uses back swap (a swap with the last element) to avoid array shifting.<br/>
-        /// <br/>
-        /// <i>Ensure that indexes in <see cref="SparseArray{T}"/> are correct after back swap.</i>
-        /// </summary>
-        /// <param name="index">Index of element to remove</param>
         public void RemoveAt(int index)
         {
             if (index >= Length)
