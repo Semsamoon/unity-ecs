@@ -45,11 +45,7 @@ namespace ECS
         {
             get
             {
-                if (index >= Length)
-                {
-                    throw new IndexOutOfRangeException($"Index (= {index}) must be less than {nameof(Length)} (= {Length})");
-                }
-
+                ExtendTo(index);
                 return ref _array[index];
             }
         }
@@ -78,11 +74,7 @@ namespace ECS
         /// <param name="item">Item to add</param>
         public void Add(T item)
         {
-            if (Length >= Capacity)
-            {
-                DoubleCapacity();
-            }
-
+            ExtendTo(Length);
             _array[Length++] = item;
         }
 
@@ -114,12 +106,21 @@ namespace ECS
             return ((IEnumerable<T>)_array[..Length]).GetEnumerator();
         }
 
-        /// <summary>
-        /// Extends 2 times <see cref="Capacity"/> of internal array.
-        /// </summary>
-        private void DoubleCapacity()
+        private void ExtendTo(int index)
         {
-            Array.Resize(ref _array, Capacity * 2);
+            var capacity = Capacity;
+
+            if (index < capacity)
+            {
+                return;
+            }
+
+            do
+            {
+                capacity *= 2;
+            } while (index >= capacity);
+
+            Array.Resize(ref _array, capacity);
         }
     }
 }
