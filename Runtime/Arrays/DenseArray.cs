@@ -5,8 +5,7 @@ namespace ECS
 {
     /// <summary>
     /// Represents dense array.
-    /// Consists of internal array that is extended automatically.
-    /// The first element in array is counted as invalid.<br/>
+    /// Consists of internal array that is extended automatically.<br/>
     /// <br/>
     /// <i>Dense arrays are like lists, but with back swap remove operation.
     /// In most cases they store components, and indexes for them are stored in <see cref="SparseArray{T}"/></i>
@@ -26,20 +25,13 @@ namespace ECS
 
         /// <summary>
         /// Current length of internal array.
-        /// Initialized in constructor and can not be increased manually.<br/>
-        /// <br/>
-        /// <i>Remember that the first element is counted as invalid.</i>
+        /// Initialized in constructor and can not be increased manually.
         /// </summary>
         public int Length { get; private set; }
 
         /// <summary>
-        /// Access to internal array.<br/>
-        /// <br/>
-        /// <i>Remember that the first element is counted as invalid.</i>
+        /// Access to internal array.
         /// </summary>
-        /// <exception cref="IndexOutOfRangeException">
-        /// Throws if <paramref name="index"/> is greater than or equal to array's <see cref="Length"/>
-        /// </exception>
         /// <param name="index">Index of array element</param>
         public ref T this[int index]
         {
@@ -53,7 +45,6 @@ namespace ECS
         public DenseArray()
         {
             _array = new T[DefaultCapacity];
-            Length = 1;
         }
 
         /// <param name="capacity">Initial <see cref="Capacity"/> of internal array</param>
@@ -61,7 +52,6 @@ namespace ECS
         {
             capacity = Math.Max(capacity, 2);
             _array = new T[capacity];
-            Length = 1;
         }
 
         /// <summary>

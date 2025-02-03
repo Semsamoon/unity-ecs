@@ -31,6 +31,7 @@ namespace ECS
         {
             _sparseArray = new SparseArray<int>();
             _denseArray = new DenseArray<Entity>();
+            _denseArray.Add(new Entity());
         }
 
         /// <param name="sparseCapacity">Initial capacity of internal <see cref="SparseArray{T}"/></param>
@@ -39,6 +40,7 @@ namespace ECS
         {
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<Entity>(denseCapacity);
+            _denseArray.Add(new Entity());
         }
 
         /// <summary>
@@ -124,6 +126,7 @@ namespace ECS
         {
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<(Entity, T)>(denseCapacity);
+            _denseArray.Add((new Entity(), default));
         }
 
         /// <summary>
