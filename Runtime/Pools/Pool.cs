@@ -71,9 +71,6 @@ namespace ECS
     /// </summary>
     public sealed class Pool<T>
     {
-        private const int DefaultSparseCapacity = 64;
-        private const int DefaultDenseCapacity = 64;
-
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<(Entity Entity, T Value)> _denseArray;
 
@@ -84,8 +81,8 @@ namespace ECS
 
         public Pool()
         {
-            _sparseArray = new SparseArray<int>(DefaultSparseCapacity);
-            _denseArray = new DenseArray<(Entity, T)>(DefaultDenseCapacity);
+            _sparseArray = new SparseArray<int>();
+            _denseArray = new DenseArray<(Entity, T)>();
         }
 
         public Pool(int sparseCapacity, int denseCapacity)
