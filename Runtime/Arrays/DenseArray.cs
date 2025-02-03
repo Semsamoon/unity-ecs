@@ -22,7 +22,7 @@ namespace ECS
         /// Current capacity of internal array.
         /// Initialized in constructor and can not be increased manually.
         /// </summary>
-        public int Capacity { get; private set; }
+        public int Capacity => _array.Length;
 
         /// <summary>
         /// Current length of internal array.
@@ -57,7 +57,6 @@ namespace ECS
         public DenseArray()
         {
             _array = new T[DefaultCapacity];
-            Capacity = DefaultCapacity;
             Length = 1;
         }
 
@@ -70,7 +69,6 @@ namespace ECS
             }
 
             _array = new T[capacity];
-            Capacity = capacity;
             Length = 1;
         }
 
@@ -121,8 +119,7 @@ namespace ECS
         /// </summary>
         private void DoubleCapacity()
         {
-            Capacity *= 2;
-            Array.Resize(ref _array, Capacity);
+            Array.Resize(ref _array, Capacity * 2);
         }
     }
 }
