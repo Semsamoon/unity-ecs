@@ -17,6 +17,8 @@ namespace ECS
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<Entity> _denseArray;
 
+        public int Capacity => _denseArray.Capacity;
+
         /// <summary>
         /// Current length of internal <see cref="DenseArray{T}"/>.
         /// </summary>
@@ -109,6 +111,8 @@ namespace ECS
 
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<(Entity Entity, T Value)> _denseArray;
+
+        public int Capacity => _denseArray.Capacity;
 
         /// <summary>
         /// Current length of internal <see cref="DenseArray{T}"/>.
