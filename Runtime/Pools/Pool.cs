@@ -83,7 +83,7 @@ namespace ECS
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
 
-        public Entity this[int index] => _denseArray[index].Entity;
+        public (Entity Entity, T Value) this[int index] => _denseArray[index];
 
         public Pool()
         {
@@ -97,7 +97,7 @@ namespace ECS
             _denseArray = new DenseArray<(Entity, T)>(denseCapacity);
         }
 
-        public void AddOrSet(Entity entity, T value)
+        public void Set(Entity entity, T value)
         {
             if (entity.IsNull())
             {
