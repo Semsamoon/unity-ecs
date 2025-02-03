@@ -108,7 +108,7 @@ namespace ECS
         private const int DefaultDenseCapacity = 64;
 
         private readonly SparseArray<int> _sparseArray;
-        private readonly DenseArray<(Entity, T)> _denseArray;
+        private readonly DenseArray<(Entity Entity, T Value)> _denseArray;
 
         /// <summary>
         /// Current length of internal <see cref="DenseArray{T}"/>.
@@ -118,7 +118,7 @@ namespace ECS
         /// <summary>
         /// Access to entities in internal <see cref="DenseArray{T}"/>.
         /// </summary>
-        public Entity this[int index] => _denseArray[index].Item1;
+        public Entity this[int index] => _denseArray[index].Entity;
 
         public Pool()
         {
@@ -137,20 +137,20 @@ namespace ECS
         }
 
         /// <summary>
-        /// Adds the <paramref name="item"/> with the <paramref name="entity"/> to
+        /// Adds the <paramref name="value"/> with the <paramref name="entity"/> to
         /// the end of internal <see cref="DenseArray{T}"/>. Overwrites existing
         /// item if it has already been added.
         /// </summary>
-        public void AddOrSet(Entity entity, T item)
+        public void AddOrSet(Entity entity, T value)
         {
             if (_sparseArray[entity.Id] > 0)
             {
-                _denseArray[_sparseArray[entity.Id]].Item2 = item;
+                _denseArray[_sparseArray[entity.Id]].Value = value;
                 return;
             }
 
             _sparseArray[entity.Id] = _denseArray.Length;
-            _denseArray.Add((entity, item));
+            _denseArray.Add((entity, value));
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace ECS
         /// </summary>
         public ref T Get(int index)
         {
-            return ref _denseArray[index].Item2;
+            return ref _denseArray[index].Value;
         }
 
         /// <summary>
@@ -166,14 +166,14 @@ namespace ECS
         /// </summary>
         public ref T Get(Entity entity)
         {
-            return ref _denseArray[_sparseArray[entity.Id]].Item2;
+            return ref _denseArray[_sparseArray[entity.Id]].Value;
         }
 
         /// <returns>True if the <paramref name="entity"/> with associated component has
         /// been added to internal <see cref="DenseArray{T}"/>, false otherwise</returns>
         public bool Contains(Entity entity)
         {
-            return _denseArray[_sparseArray[entity.Id]].Item1 == entity;
+            return _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
         /// <summary>
@@ -189,13 +189,13 @@ namespace ECS
                 return;
             }
 
-            var backSwappedEntity = _denseArray[^1].Item1;
+            var backSwappedEntity = _denseArray[^1].Entity;
             _denseArray.RemoveAt(index);
             _sparseArray[backSwappedEntity.Id] = index;
             _sparseArray[entity.Id] = 0;
         }
 
-        public ReadOnlySpan<(Entity, T)> AsReadOnlySpan()
+        public ReadOnlySpan<(Entity Entity, T Value)> AsReadOnlySpan()
         {
             return _denseArray.AsReadOnlySpan();
         }
