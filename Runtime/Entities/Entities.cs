@@ -28,7 +28,21 @@ namespace ECS
 
         public Entity Create()
         {
-            return _removed > 0 ? Recycle() : CreateNew();
+            if (_removed > 0)
+            {
+                _removed--;
+                var removed = _denseArray[Length + _removed];
+                var recycled = new Entity(removed.Id, removed.Gen + 1);
+                _sparseArray[recycled.Id] = Length;
+                _denseArray.Add(recycled);
+                return recycled;
+            }
+
+            _id++;
+            var created = new Entity(_id, 0);
+            _sparseArray[created.Id] = Length;
+            _denseArray.Add(created);
+            return created;
         }
 
         public bool Contains(Entity entity)
@@ -54,34 +68,6 @@ namespace ECS
         public ReadOnlySpan<Entity> AsReadOnlySpan()
         {
             return _denseArray.AsReadOnlySpan();
-        }
-
-        private Entity CreateNew()
-        {
-            var entity = new Entity(++_id, 0);
-            _sparseArray[entity.Id] = Length;
-            _denseArray.Add(entity);
-            return entity;
-        }
-
-        private Entity Recycle()
-        {
-            while (_removed > 0)
-            {
-                _removed--;
-                var recycle = _denseArray[Length + _removed];
-
-                if (recycle.Gen >= int.MaxValue)
-                {
-                    continue;
-                }
-
-                recycle = new Entity(recycle.Id, recycle.Gen + 1);
-                _denseArray.Add(recycle);
-                return recycle;
-            }
-
-            return CreateNew();
         }
     }
 }
