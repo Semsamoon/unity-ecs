@@ -1,6 +1,6 @@
 {
   "name": "com.semsamoon.unity-ecs",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "displayName": "Semsamoon ECS",
   "description": "Entity-Component-System Framework for Unity Engine. It is designed to be as simple as possible and easy to extend.",
   "unity": "6000.0",

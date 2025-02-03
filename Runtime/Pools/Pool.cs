@@ -120,9 +120,16 @@ namespace ECS
         /// </summary>
         public Entity this[int index] => _denseArray[index].Item1;
 
+        public Pool()
+        {
+            _sparseArray = new SparseArray<int>(DefaultSparseCapacity);
+            _denseArray = new DenseArray<(Entity, T)>(DefaultDenseCapacity);
+            _denseArray.Add((new Entity(), default));
+        }
+
         /// <param name="sparseCapacity">Initial capacity of internal <see cref="SparseArray{T}"/></param>
         /// <param name="denseCapacity">Initial capacity of internal <see cref="DenseArray{T}"/></param>
-        public Pool(int sparseCapacity = DefaultSparseCapacity, int denseCapacity = DefaultDenseCapacity)
+        public Pool(int sparseCapacity, int denseCapacity)
         {
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<(Entity, T)>(denseCapacity);
