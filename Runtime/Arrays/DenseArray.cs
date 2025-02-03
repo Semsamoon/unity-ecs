@@ -59,11 +59,7 @@ namespace ECS
         /// <param name="capacity">Initial <see cref="Capacity"/> of internal array</param>
         public DenseArray(int capacity)
         {
-            if (capacity <= 0)
-            {
-                capacity = DefaultCapacity;
-            }
-
+            capacity = Math.Max(capacity, 2);
             _array = new T[capacity];
             Length = 1;
         }
@@ -98,7 +94,7 @@ namespace ECS
 
         public ReadOnlySpan<T> AsReadOnlySpan()
         {
-            return _array.AsSpan(0, Length);
+            return _array[..Length];
         }
 
         public IEnumerator<T> GetEnumerator()
