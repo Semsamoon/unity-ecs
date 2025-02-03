@@ -36,7 +36,7 @@ namespace ECS
                 return;
             }
 
-            _sparseArray[entity.Id] = _denseArray.Length;
+            _sparseArray[entity.Id] = Length;
             _denseArray.Add(entity);
         }
 
@@ -112,7 +112,7 @@ namespace ECS
                 return;
             }
 
-            _sparseArray[entity.Id] = _denseArray.Length;
+            _sparseArray[entity.Id] = Length;
             _denseArray.Add((entity, value));
         }
 
