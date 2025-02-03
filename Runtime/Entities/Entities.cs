@@ -13,43 +13,40 @@ namespace ECS
     /// </summary>
     public sealed class Entities
     {
-        private readonly Pool _existing;
-        private readonly Pool _removed;
+        private readonly SparseArray<int> _sparseArray;
+        private readonly DenseArray<Entity> _denseArray;
+        private int _removed;
         private int _id;
 
         /// <summary>
         /// Current length of internal <see cref="Pool"/> with existing entities.
         /// </summary>
-        public int Length => _existing.Length;
+        public int Length => _denseArray.Length;
 
         public Entities()
         {
-            _existing = new Pool();
-            _removed = new Pool();
-            _id = 1;
+            _sparseArray = new SparseArray<int>();
+            _denseArray = new DenseArray<Entity>();
         }
 
-        /// <param name="existingSparseCapacity">Initial sparse capacity of internal <see cref="Pool"/> with existing entities</param>
-        /// <param name="existingDenseCapacity">Initial dense capacity of internal <see cref="Pool"/> with existing entities</param>
-        /// <param name="removedSparseCapacity">Initial sparse capacity of internal <see cref="Pool"/> with removed entities</param>
-        /// <param name="removedDenseCapacity">Initial dense capacity of internal <see cref="Pool"/> with removed entities</param>
-        public Entities(int existingSparseCapacity, int existingDenseCapacity, int removedSparseCapacity, int removedDenseCapacity)
+        /// <param name="sparseCapacity">Initial sparse capacity of internal <see cref="Pool"/> with existing entities</param>
+        /// <param name="denseCapacity">Initial dense capacity of internal <see cref="Pool"/> with existing entities</param>
+        public Entities(int sparseCapacity, int denseCapacity)
         {
-            _existing = new Pool(existingSparseCapacity, existingDenseCapacity);
-            _removed = new Pool(removedSparseCapacity, removedDenseCapacity);
-            _id = 1;
+            _sparseArray = new SparseArray<int>(sparseCapacity);
+            _denseArray = new DenseArray<Entity>(denseCapacity);
         }
 
         /// <returns>Created valid <see cref="Entity"/></returns>
         public Entity Create()
         {
-            return _removed.Length <= 1 ? CreateNew() : Recycle();
+            return _removed > 0 ? Recycle() : CreateNew();
         }
 
         /// <returns>True if the entity exists, false elsewhere</returns>
         public bool Contains(Entity entity)
         {
-            return _existing.Contains(entity);
+            return !entity.IsNull() && _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
         /// <summary>
@@ -60,25 +57,30 @@ namespace ECS
         /// </summary>
         public void Remove(Entity entity)
         {
-            if (!_existing.Contains(entity))
+            var index = _sparseArray[entity.Id];
+
+            if (entity.IsNull() || _denseArray[index] != entity)
             {
                 return;
             }
 
-            _removed.Add(entity);
-            _existing.Remove(entity);
+            _sparseArray[_denseArray[^1].Id] = index;
+            _sparseArray[entity.Id] = 0;
+            _denseArray.RemoveAt(index);
+            _removed++;
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
         {
-            return _existing.AsReadOnlySpan();
+            return _denseArray.AsReadOnlySpan();
         }
 
         /// <returns>A new entity with incremented <see cref="Entity.Id"/></returns>
         private Entity CreateNew()
         {
-            var entity = new Entity(_id++, 0);
-            _existing.Add(entity);
+            var entity = new Entity(++_id, 0);
+            _sparseArray[entity.Id] = Length;
+            _denseArray.Add(entity);
             return entity;
         }
 
@@ -88,10 +90,10 @@ namespace ECS
         /// </returns>
         private Entity Recycle()
         {
-            while (_removed.Length > 1)
+            while (_removed > 0)
             {
-                var recycle = _removed[1];
-                _removed.Remove(recycle);
+                _removed--;
+                var recycle = _denseArray[Length + _removed];
 
                 if (recycle.Gen >= int.MaxValue)
                 {
@@ -99,7 +101,7 @@ namespace ECS
                 }
 
                 recycle = new Entity(recycle.Id, recycle.Gen + 1);
-                _existing.Add(recycle);
+                _denseArray.Add(recycle);
                 return recycle;
             }
 
