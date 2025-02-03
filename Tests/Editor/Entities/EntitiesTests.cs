@@ -7,11 +7,10 @@ namespace ECS.Tests
         [Test]
         public void ConstructorSetsValidValues()
         {
-            Assert.AreEqual(1, new Entities(10, 10, 10, 10).Length);
-            Assert.DoesNotThrow(() => new Entities(-10, -10, -10, -10));
+            Assert.AreEqual(0, new Entities(10, 10).Length);
+            Assert.DoesNotThrow(() => new Entities(-10, -10));
 
-            // Initial length must be 1
-            Assert.AreEqual(1, new Entities().Length);
+            Assert.AreEqual(0, new Entities().Length);
         }
 
         [Test]
@@ -26,9 +25,12 @@ namespace ECS.Tests
         public void CanRecycleEntity()
         {
             var entities = new Entities();
-            entities.Remove(entities.Create());
-
+            var entity = entities.Create();
             Assert.AreEqual(entities.Length, 1);
+
+            entities.Remove(entity);
+            Assert.AreEqual(entities.Length, 0);
+
             Assert.AreEqual(entities.Create(), new Entity(1, 1));
         }
 
@@ -46,7 +48,7 @@ namespace ECS.Tests
         [Test]
         public void CanAutomaticallyExtend()
         {
-            var entities = new Entities(1, 1, 1, 1);
+            var entities = new Entities(1, 1);
             Assert.DoesNotThrow(() => entities.Create());
             Assert.DoesNotThrow(() => entities.Create());
         }
@@ -59,7 +61,7 @@ namespace ECS.Tests
 
             entities.Create();
             Assert.DoesNotThrow(() => entities.Remove(new Entity(1, 0)));
-            Assert.AreEqual(1, entities.Length);
+            Assert.AreEqual(0, entities.Length);
             Assert.DoesNotThrow(() => entities.Contains(new Entity(1, 0)));
         }
 
@@ -68,23 +70,45 @@ namespace ECS.Tests
         {
             var entities = new Entities();
 
+            for (var i = 0; i < 3; i++)
+            {
+                entities.Create();
+            }
+
+            var j = 0;
+
             // Foreach-loop
             foreach (var i in entities.AsReadOnlySpan())
             {
-                Assert.AreEqual(new Entity(0, 0), i);
-            }
-
-            for (var i = 1; i < 3; i++)
-            {
-                entities.Create();
+                j++;
+                Assert.AreEqual(new Entity(j, 0), i);
             }
 
             var span = entities.AsReadOnlySpan();
 
             // For-loop
-            for (var i = 1; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
-                Assert.AreEqual(new Entity(i, 0), span[i]);
+                Assert.AreEqual(new Entity(i + 1, 0), span[i]);
+            }
+        }
+
+        [Test]
+        public void EnumerableIsCorrect()
+        {
+            var entities = new Entities();
+
+            for (var i = 0; i < 3; i++)
+            {
+                entities.Create();
+            }
+
+            var j = 0;
+
+            foreach (var i in entities)
+            {
+                j++;
+                Assert.AreEqual(new Entity(j, 0), i);
             }
         }
     }
