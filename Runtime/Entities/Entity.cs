@@ -30,16 +30,8 @@ namespace ECS
         /// <param name="gen">Generation number</param>
         public Entity(int id, int gen)
         {
-            if (id < 0)
-            {
-                id = 0;
-            }
-
-            if (gen < 0)
-            {
-                gen = 0;
-            }
-
+            id = Math.Max(id, 0);
+            gen = Math.Max(gen, 0);
             Id = id;
             Gen = gen;
         }
