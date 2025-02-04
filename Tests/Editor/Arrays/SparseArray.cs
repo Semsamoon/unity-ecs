@@ -69,7 +69,7 @@ namespace ECS.Tests
         [Test]
         public void Enumerable()
         {
-            var sparseArray = new SparseArray<int>();
+            var sparseArray = new SparseArray<int>(4);
 
             for (var i = 0; i < 4; i++)
             {
