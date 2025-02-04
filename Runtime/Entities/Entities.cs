@@ -13,7 +13,10 @@ namespace ECS
         private int _removed;
         private int _id;
 
+        public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
+
+        public Entity this[int index] => _denseArray[index];
 
         public Entities()
         {
