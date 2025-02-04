@@ -5,6 +5,85 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.4] - 2025-02-04
+
+### Added
+
+- Capacity and index getter for entities.
+
+### Changed
+
+- Simplify arguments' checks in entities' constructor.
+- String format for entity is [NULL] and [id, gen].
+- Reduce documentation of entity.
+- Improve entity, sparse array, dense array, pool, pool<T> and entities tests.
+
+### Fixed
+
+- Add a single gap between existing and removed entities in internal array of entities.
+  This prevents incorrect result of Contains method when the only entity was removed but
+  still exists at the same index for recycle (since 0 is not invalid index).
+
+## [0.6.3] - 2025-02-03
+
+### Added
+
+- Entities' GetEnumerator to allow using foreach loop.
+- Tests for enumeration in entities.
+
+### Changed
+
+- Use sparse and dense arrays directly in entities instead of pool.
+- Use Length property instead of internal array's length in pool.
+- Reduce documentation of entities.
+
+## [0.6.2] - 2025-02-03
+
+### Added
+
+- Capacity for pool and pool<T>.
+- Pool's and pool<T>'s GetEnumerator to allow using foreach loop.
+- Tests for enumeration in pool and pool<T>.
+
+### Changed
+
+- Add names (entity, value) to the tuple elements returned from pool<T>.
+  Return the tuple in pool's index getter.
+- Rename pool<T>'s method AddOrSet to Set because it is simpler.
+- Add default constructor for pool<T>.
+- Reduce documentation of pool and pool<T>.
+- The first element in pool is not invalid.
+- Update pool's and pool<T>'s tests.
+
+## [0.6.1] - 2025-02-03
+
+### Added
+
+- Dense array's GetEnumerator to allow using foreach loop.
+- Tests for enumeration in dense array.
+
+### Changed
+
+- Use internal array's length as capacity instead of property in dense array.
+- Extend dense array to index instead of doubling.
+- Rename and simplify methods in dense array.
+- Default length of dense array is 0.
+- Reduce documentation of dense array.
+- Update dense array's tests.
+
+## [0.6.0] - 2025-02-02
+
+### Added
+
+- Sparse array's GetEnumerator to allow using foreach loop.
+- Tests for enumeration in sparse array.
+
+### Changed
+
+- Use internal array's length instead of property in sparse array.
+- Rename and simplify methods in sparse array.
+- Reduce documentation of sparse array.
+
 ## [0.5.2] - 2025-01-31
 
 ### Changed
