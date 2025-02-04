@@ -20,31 +20,31 @@ namespace ECS.Tests
         public void GettersAreCorrect()
         {
             var pool1 = new Pool(2, 2);
-            pool1.Add(new Entity(1, 0));
-            Assert.AreEqual(new Entity(1, 0), pool1[0]);
+            pool1.Add(new ECS.Entity(1, 0));
+            Assert.AreEqual(new ECS.Entity(1, 0), pool1[0]);
 
             var pool2 = new Pool<int>(2, 2);
-            pool2.Set(new Entity(1, 0), 10);
-            Assert.AreEqual(new Entity(1, 0), pool2[0].Entity);
+            pool2.Set(new ECS.Entity(1, 0), 10);
+            Assert.AreEqual(new ECS.Entity(1, 0), pool2[0].Entity);
 
             pool2.Get(0) = 20;
             Assert.AreEqual(20, pool2.Get(0));
 
-            pool2.Get(new Entity(1, 0)) = 30;
-            Assert.AreEqual(30, pool2.Get(new Entity(1, 0)));
+            pool2.Get(new ECS.Entity(1, 0)) = 30;
+            Assert.AreEqual(30, pool2.Get(new ECS.Entity(1, 0)));
         }
 
         [Test]
         public void AddingIsCorrect()
         {
             var pool1 = new Pool(2, 2);
-            pool1.Add(new Entity(1, 0));
+            pool1.Add(new ECS.Entity(1, 0));
 
             Assert.AreEqual(1, pool1.Length);
-            Assert.AreEqual(new Entity(1, 0), pool1[0]);
+            Assert.AreEqual(new ECS.Entity(1, 0), pool1[0]);
 
             var pool2 = new Pool<int>(2, 2);
-            pool2.Set(new Entity(1, 0), 10);
+            pool2.Set(new ECS.Entity(1, 0), 10);
 
             Assert.AreEqual(1, pool2.Length);
             Assert.AreEqual(10, pool2.Get(0));
@@ -54,15 +54,15 @@ namespace ECS.Tests
         public void SettingIsCorrect()
         {
             var pool1 = new Pool(2, 2);
-            pool1.Add(new Entity(1, 0));
-            Assert.DoesNotThrow(() => pool1.Add(new Entity(1, 0)));
+            pool1.Add(new ECS.Entity(1, 0));
+            Assert.DoesNotThrow(() => pool1.Add(new ECS.Entity(1, 0)));
 
             Assert.AreEqual(1, pool1.Length);
-            Assert.AreEqual(new Entity(1, 0), pool1[0]);
+            Assert.AreEqual(new ECS.Entity(1, 0), pool1[0]);
 
             var pool2 = new Pool<int>(2, 2);
-            pool2.Set(new Entity(1, 0), 10);
-            Assert.DoesNotThrow(() => pool2.Set(new Entity(1, 0), 20));
+            pool2.Set(new ECS.Entity(1, 0), 10);
+            Assert.DoesNotThrow(() => pool2.Set(new ECS.Entity(1, 0), 20));
 
             Assert.AreEqual(1, pool2.Length);
             Assert.AreEqual(20, pool2.Get(0));
@@ -72,50 +72,50 @@ namespace ECS.Tests
         public void ContainsIsCorrect()
         {
             var pool1 = new Pool(2, 2);
-            pool1.Add(new Entity(1, 0));
+            pool1.Add(new ECS.Entity(1, 0));
 
-            Assert.True(pool1.Contains(new Entity(1, 0)));
-            Assert.False(pool1.Contains(new Entity(2, 0)));
-            Assert.False(pool1.Contains(new Entity()));
+            Assert.True(pool1.Contains(new ECS.Entity(1, 0)));
+            Assert.False(pool1.Contains(new ECS.Entity(2, 0)));
+            Assert.False(pool1.Contains(new ECS.Entity()));
 
             var pool2 = new Pool<int>(2, 2);
-            pool2.Set(new Entity(1, 0), 10);
+            pool2.Set(new ECS.Entity(1, 0), 10);
 
-            Assert.True(pool2.Contains(new Entity(1, 0)));
-            Assert.False(pool2.Contains(new Entity(2, 0)));
-            Assert.False(pool2.Contains(new Entity()));
+            Assert.True(pool2.Contains(new ECS.Entity(1, 0)));
+            Assert.False(pool2.Contains(new ECS.Entity(2, 0)));
+            Assert.False(pool2.Contains(new ECS.Entity()));
         }
 
         [Test]
         public void CanAutomaticallyExtend()
         {
             var pool1 = new Pool(1, 1);
-            Assert.DoesNotThrow(() => pool1.Add(new Entity(1, 0)));
-            Assert.DoesNotThrow(() => pool1.Add(new Entity(2, 0)));
+            Assert.DoesNotThrow(() => pool1.Add(new ECS.Entity(1, 0)));
+            Assert.DoesNotThrow(() => pool1.Add(new ECS.Entity(2, 0)));
 
             var pool2 = new Pool<int>(1, 1);
-            Assert.DoesNotThrow(() => pool2.Set(new Entity(1, 0), 10));
-            Assert.DoesNotThrow(() => pool2.Set(new Entity(2, 0), 10));
+            Assert.DoesNotThrow(() => pool2.Set(new ECS.Entity(1, 0), 10));
+            Assert.DoesNotThrow(() => pool2.Set(new ECS.Entity(2, 0), 10));
         }
 
         [Test]
         public void RemovingIsCorrect()
         {
             var pool1 = new Pool(2, 2);
-            Assert.DoesNotThrow(() => pool1.Remove(new Entity(1, 0)));
+            Assert.DoesNotThrow(() => pool1.Remove(new ECS.Entity(1, 0)));
 
-            pool1.Add(new Entity(1, 0));
-            Assert.DoesNotThrow(() => pool1.Remove(new Entity(1, 0)));
+            pool1.Add(new ECS.Entity(1, 0));
+            Assert.DoesNotThrow(() => pool1.Remove(new ECS.Entity(1, 0)));
             Assert.AreEqual(0, pool1.Length);
-            Assert.DoesNotThrow(() => pool1.Contains(new Entity(1, 0)));
+            Assert.DoesNotThrow(() => pool1.Contains(new ECS.Entity(1, 0)));
 
             var pool2 = new Pool<int>(2, 2);
-            Assert.DoesNotThrow(() => pool2.Remove(new Entity(1, 0)));
+            Assert.DoesNotThrow(() => pool2.Remove(new ECS.Entity(1, 0)));
 
-            pool2.Set(new Entity(1, 0), 10);
-            Assert.DoesNotThrow(() => pool2.Remove(new Entity(1, 0)));
+            pool2.Set(new ECS.Entity(1, 0), 10);
+            Assert.DoesNotThrow(() => pool2.Remove(new ECS.Entity(1, 0)));
             Assert.AreEqual(0, pool2.Length);
-            Assert.DoesNotThrow(() => pool2.Contains(new Entity(1, 0)));
+            Assert.DoesNotThrow(() => pool2.Contains(new ECS.Entity(1, 0)));
         }
 
         [Test]
@@ -126,8 +126,8 @@ namespace ECS.Tests
 
             for (var i = 0; i < 3; i++)
             {
-                pool1.Add(new Entity(i + 1, 0));
-                pool2.Set(new Entity(i + 1, 0), i);
+                pool1.Add(new ECS.Entity(i + 1, 0));
+                pool2.Set(new ECS.Entity(i + 1, 0), i);
             }
 
             // Foreach-loop
@@ -135,7 +135,7 @@ namespace ECS.Tests
 
             foreach (var i in pool1.AsReadOnlySpan())
             {
-                Assert.AreEqual(new Entity(j + 1, 0), i);
+                Assert.AreEqual(new ECS.Entity(j + 1, 0), i);
                 j++;
             }
 
@@ -143,7 +143,7 @@ namespace ECS.Tests
 
             foreach (var i in pool2.AsReadOnlySpan())
             {
-                Assert.AreEqual((new Entity(j + 1, 0), j), i);
+                Assert.AreEqual((new ECS.Entity(j + 1, 0), j), i);
                 j++;
             }
 
@@ -153,8 +153,8 @@ namespace ECS.Tests
             // For-loop
             for (var i = 0; i < 3; i++)
             {
-                Assert.AreEqual(new Entity(i + 1, 0), span1[i]);
-                Assert.AreEqual((new Entity(i + 1, 0), i), span2[i]);
+                Assert.AreEqual(new ECS.Entity(i + 1, 0), span1[i]);
+                Assert.AreEqual((new ECS.Entity(i + 1, 0), i), span2[i]);
             }
         }
 
@@ -162,29 +162,29 @@ namespace ECS.Tests
         public void EnumerableIsCorrect()
         {
             var pool1 = new Pool(4, 4);
-            pool1.Add(new Entity(1, 0));
-            pool1.Add(new Entity(2, 0));
-            pool1.Add(new Entity(3, 0));
+            pool1.Add(new ECS.Entity(1, 0));
+            pool1.Add(new ECS.Entity(2, 0));
+            pool1.Add(new ECS.Entity(3, 0));
 
             var j = 0;
 
             foreach (var i in pool1)
             {
                 j++;
-                Assert.AreEqual(new Entity(j, 0), i);
+                Assert.AreEqual(new ECS.Entity(j, 0), i);
             }
 
             var pool2 = new Pool<int>(4, 4);
-            pool2.Set(new Entity(1, 0), 10);
-            pool2.Set(new Entity(2, 0), 20);
-            pool2.Set(new Entity(3, 0), 30);
+            pool2.Set(new ECS.Entity(1, 0), 10);
+            pool2.Set(new ECS.Entity(2, 0), 20);
+            pool2.Set(new ECS.Entity(3, 0), 30);
 
             j = 0;
 
             foreach (var i in pool2)
             {
                 j++;
-                Assert.AreEqual((new Entity(j, 0), j * 10), i);
+                Assert.AreEqual((new ECS.Entity(j, 0), j * 10), i);
             }
         }
     }

@@ -17,8 +17,8 @@ namespace ECS.Tests
         public void CanCreateEntity()
         {
             var entities = new Entities();
-            Assert.AreEqual(entities.Create(), new Entity(1, 0));
-            Assert.AreEqual(entities.Create(), new Entity(2, 0));
+            Assert.AreEqual(entities.Create(), new ECS.Entity(1, 0));
+            Assert.AreEqual(entities.Create(), new ECS.Entity(2, 0));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace ECS.Tests
             entities.Remove(entity);
             Assert.AreEqual(entities.Length, 0);
 
-            Assert.AreEqual(entities.Create(), new Entity(1, 1));
+            Assert.AreEqual(entities.Create(), new ECS.Entity(1, 1));
         }
 
         [Test]
@@ -40,9 +40,9 @@ namespace ECS.Tests
             var entities = new Entities();
             entities.Create();
 
-            Assert.True(entities.Contains(new Entity(1, 0)));
-            Assert.False(entities.Contains(new Entity(1, 1)));
-            Assert.False(entities.Contains(new Entity(2, 0)));
+            Assert.True(entities.Contains(new ECS.Entity(1, 0)));
+            Assert.False(entities.Contains(new ECS.Entity(1, 1)));
+            Assert.False(entities.Contains(new ECS.Entity(2, 0)));
         }
 
         [Test]
@@ -57,12 +57,12 @@ namespace ECS.Tests
         public void RemovingIsCorrect()
         {
             var entities = new Entities();
-            Assert.DoesNotThrow(() => entities.Remove(new Entity(1, 0)));
+            Assert.DoesNotThrow(() => entities.Remove(new ECS.Entity(1, 0)));
 
             entities.Create();
-            Assert.DoesNotThrow(() => entities.Remove(new Entity(1, 0)));
+            Assert.DoesNotThrow(() => entities.Remove(new ECS.Entity(1, 0)));
             Assert.AreEqual(0, entities.Length);
-            Assert.DoesNotThrow(() => entities.Contains(new Entity(1, 0)));
+            Assert.DoesNotThrow(() => entities.Contains(new ECS.Entity(1, 0)));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace ECS.Tests
             foreach (var i in entities.AsReadOnlySpan())
             {
                 j++;
-                Assert.AreEqual(new Entity(j, 0), i);
+                Assert.AreEqual(new ECS.Entity(j, 0), i);
             }
 
             var span = entities.AsReadOnlySpan();
@@ -89,7 +89,7 @@ namespace ECS.Tests
             // For-loop
             for (var i = 0; i < 3; i++)
             {
-                Assert.AreEqual(new Entity(i + 1, 0), span[i]);
+                Assert.AreEqual(new ECS.Entity(i + 1, 0), span[i]);
             }
         }
 
@@ -108,7 +108,7 @@ namespace ECS.Tests
             foreach (var i in entities)
             {
                 j++;
-                Assert.AreEqual(new Entity(j, 0), i);
+                Assert.AreEqual(new ECS.Entity(j, 0), i);
             }
         }
     }
