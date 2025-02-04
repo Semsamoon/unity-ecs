@@ -75,7 +75,7 @@ namespace ECS
 
         public override string ToString()
         {
-            return IsNull() ? "NULL-entity" : $"Entity({Id.ToString()}; {Gen.ToString()})";
+            return IsNull() ? "[NULL]" : $"[{Id.ToString()}; {Gen.ToString()}]";
         }
     }
 }
