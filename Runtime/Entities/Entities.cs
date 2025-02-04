@@ -34,11 +34,11 @@ namespace ECS
         {
             if (_removed > 0)
             {
-                _removed--;
                 var removed = _denseArray[Length + _removed];
                 var recycled = new Entity(removed.Id, removed.Gen + 1);
                 _sparseArray[recycled.Id] = Length;
                 _denseArray.Add(recycled);
+                _removed--;
                 return recycled;
             }
 
@@ -67,6 +67,7 @@ namespace ECS
             _sparseArray[entity.Id] = 0;
             _denseArray.RemoveAt(index);
             _removed++;
+            (_denseArray[Length], _denseArray[Length + _removed]) = (_denseArray[Length + _removed], _denseArray[Length]);
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
