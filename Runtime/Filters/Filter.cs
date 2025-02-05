@@ -15,21 +15,23 @@ namespace ECS
 
         public Entity this[int index] => _filtered[index];
 
-        public Filter(DenseArray<IContains> included, DenseArray<IContains> excluded)
+        public Filter(int sum)
         {
+            sum = Math.Max(0, sum);
             _filtered = new Pool();
             _counts = new SparseArray<int>();
-            _sum = included.Length + excluded.Length;
+            _sum = sum;
         }
 
-        public Filter(DenseArray<IContains> included, DenseArray<IContains> excluded, int sparseCapacity, int denseCapacity)
+        public Filter(int sum, int sparseCapacity, int denseCapacity)
         {
+            sum = Math.Max(0, sum);
             _filtered = new Pool(sparseCapacity, denseCapacity);
             _counts = new SparseArray<int>(sparseCapacity);
-            _sum = included.Length + excluded.Length;
+            _sum = sum;
         }
 
-        public void Recheck(Entity entity, DenseArray<IContains> included, DenseArray<IContains> excluded)
+        public void Recheck(Entity entity, ReadOnlySpan<IContains> included, ReadOnlySpan<IContains> excluded)
         {
             _counts[entity.Id] = 0;
 
