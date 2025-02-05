@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace ECS
 {
+    /// <summary>
+    /// Filter is a container that holds entities with
+    /// specified components and tags included and excluded.
+    /// </summary>
     public sealed class Filter
     {
         private readonly SparseArray<int> _counts;
