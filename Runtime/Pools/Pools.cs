@@ -98,5 +98,10 @@ namespace ECS
         {
             _pools.Remove(typeof(T));
         }
+
+        public IEnumerator<IPool> GetEnumerator()
+        {
+            return _pools.Values.GetEnumerator();
+        }
     }
 }
