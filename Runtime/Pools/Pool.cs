@@ -7,7 +7,7 @@ namespace ECS
     /// Pool is a Sparse Set for entities.
     /// Use <see cref="Pool{T}"/> to store data.
     /// </summary>
-    public sealed class Pool
+    public sealed class Pool : IPool, IContains
     {
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<Entity> _denseArray;
@@ -75,7 +75,7 @@ namespace ECS
     /// Pool is a Sparse Set for entities with data.
     /// Use <see cref="Pool"/> to store entities only.
     /// </summary>
-    public sealed class Pool<T>
+    public sealed class Pool<T> : IPool, IContains
     {
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<(Entity Entity, T Value)> _denseArray;
