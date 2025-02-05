@@ -10,19 +10,19 @@ namespace ECS
     {
         private const int DefaultCapacity = 64;
 
-        private readonly Dictionary<Type, object> _pools;
+        private readonly Dictionary<Type, IPool> _pools;
 
         public int Length => _pools.Count;
 
         public Pools()
         {
-            _pools = new Dictionary<Type, object>(DefaultCapacity);
+            _pools = new Dictionary<Type, IPool>(DefaultCapacity);
         }
 
         public Pools(int capacity)
         {
             capacity = Math.Max(capacity, 2);
-            _pools = new Dictionary<Type, object>(capacity);
+            _pools = new Dictionary<Type, IPool>(capacity);
         }
 
         public Pools Add<T>()
