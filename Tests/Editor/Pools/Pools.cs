@@ -88,6 +88,24 @@ namespace ECS.Tests
             Assert.False(pools.Contains<ATag>());
         }
 
+        [Test]
+        public void Enumerable()
+        {
+            var pools = new ECS.Pools();
+
+            pools.Add<int>();
+            pools.Add<ATag>();
+
+            var j = 0;
+            foreach (var pool in pools)
+            {
+                Assert.IsTrue(pool is Pool<int> or ECS.Pool);
+                j++;
+            }
+
+            Assert.AreEqual(2, j);
+        }
+
         private struct ATag : ITag
         {
         }
