@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ECS
 {
+    /// <summary>
+    /// Pools is a manager for pools.
+    /// </summary>
     public sealed class Pools
     {
         private const int DefaultCapacity = 64;
