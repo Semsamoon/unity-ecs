@@ -13,6 +13,9 @@ namespace ECS
         private readonly Pool _filtered;
         private readonly int _sum;
 
+        public int Capacity => _filtered.Capacity;
+        public int Length => _filtered.Length;
+
         public Entity this[int index] => _filtered[index];
 
         public Filter(int sum)
