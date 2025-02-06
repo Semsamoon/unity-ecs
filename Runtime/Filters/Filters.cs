@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ECS
 {
+    /// <summary>
+    /// Filters is a manager for filters.
+    /// </summary>
     public sealed class Filters
     {
         private const int DefaultCapacity = 64;
