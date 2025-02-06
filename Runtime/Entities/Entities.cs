@@ -6,7 +6,7 @@ namespace ECS
     /// <summary>
     /// Entities is a manager for entities.
     /// </summary>
-    public sealed class Entities
+    public sealed class Entities : IEntities
     {
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<Entity> _denseArray;
