@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.2] - 2025-02-06
+
+### Added
+
+- Filters class with XML documentation.
+- Tests for filters.
+
+### Changed
+
+- Remove filter's method Recheck because Change can be used for the same purpose.
+- Remove filter's test of method Recheck.
+
+## [0.7.1] - 2025-02-05
+
+### Added
+
+- Filter class with XML documentation.
+- Tests for filter.
+
+## [0.7.0] - 2025-02-05
+
+### Added
+
+- Interface ITag for tags.
+- Pools class with XML documentation.
+- Tests for pools.
+- Interfaces IPool and IContains for pool and pool<T>.
+- Pools' GetEnumerator to allow using foreach loop.
+- Tests for enumeration in pools.
+
+### Changed
+
+- Store pools and pools<T> in containers by IPool interface instead of object.
+
 ## [0.6.4] - 2025-02-04
 
 ### Added
