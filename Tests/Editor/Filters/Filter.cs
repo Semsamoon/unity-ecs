@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ECS.Tests
 {
@@ -31,44 +30,13 @@ namespace ECS.Tests
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
-            var included = Array.Empty<IContains>();
-            var excluded = Array.Empty<IContains>();
 
-            filter0.Recheck(entity1x0, included, excluded);
-            filter0.Recheck(entity2x0, included, excluded);
+            filter0.Change(entity1x0, 0);
+            filter0.Change(entity2x0, 0);
 
             Assert.AreEqual(entity1x0, filter0[0]);
             Assert.AreEqual(entity2x0, filter0[1]);
             Assert.AreEqual(entity, filter0[2]);
-        }
-
-        [Test]
-        public void Recheck()
-        {
-            var filter0 = new ECS.Filter(0);
-            var filter1 = new ECS.Filter(1);
-            var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
-            var included = Array.Empty<IContains>();
-            var excluded = Array.Empty<IContains>();
-
-            filter0.Recheck(entity1x0, included, excluded);
-            filter1.Recheck(entity1x0, included, excluded);
-
-            Assert.AreEqual(1, filter0.Length);
-            Assert.AreEqual(entity1x0, filter0[0]);
-            Assert.AreEqual(0, filter1.Length);
-
-            filter0.Recheck(entity, included, excluded);
-            filter0.Recheck(entity1x0, included, excluded);
-            filter0.Recheck(entity2x0, included, excluded);
-            filter1.Recheck(entity, included, excluded);
-            filter1.Recheck(entity2x0, included, excluded);
-
-            Assert.AreEqual(2, filter0.Length);
-            Assert.AreEqual(entity2x0, filter0[1]);
-            Assert.AreEqual(0, filter1.Length);
         }
 
         [Test]
@@ -97,10 +65,8 @@ namespace ECS.Tests
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity1x1 = new ECS.Entity(1, 1);
-            var included = Array.Empty<IContains>();
-            var excluded = Array.Empty<IContains>();
 
-            filter0.Recheck(entity1x0, included, excluded);
+            filter0.Change(entity1x0, 0);
 
             Assert.True(filter0.Contains(entity1x0));
             Assert.False(filter0.Contains(entity));
@@ -111,12 +77,10 @@ namespace ECS.Tests
         public void ReadOnlySpan()
         {
             var filter0 = new ECS.Filter(0);
-            var included = Array.Empty<IContains>();
-            var excluded = Array.Empty<IContains>();
 
             for (var i = 0; i < 4; i++)
             {
-                filter0.Recheck(new ECS.Entity(i + 1, 0), included, excluded);
+                filter0.Change(new ECS.Entity(i + 1, 0), 0);
             }
 
             var span = filter0.AsReadOnlySpan();
@@ -133,12 +97,10 @@ namespace ECS.Tests
         public void Enumerable()
         {
             var filter0 = new ECS.Filter(0);
-            var included = Array.Empty<IContains>();
-            var excluded = Array.Empty<IContains>();
 
             for (var i = 0; i < 4; i++)
             {
-                filter0.Recheck(new ECS.Entity(i + 1, 0), included, excluded);
+                filter0.Change(new ECS.Entity(i + 1, 0), 0);
             }
 
             var j = 0;
