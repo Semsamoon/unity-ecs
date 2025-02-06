@@ -73,22 +73,6 @@ namespace ECS.Tests
         }
 
         [Test]
-        public void Remove()
-        {
-            var pools = new ECS.Pools();
-
-            Assert.DoesNotThrow(() => pools.Remove<int>());
-
-            pools.Add<int>();
-            pools.Add<ATag>();
-            pools.Remove<int>();
-            pools.Remove<ATag>();
-
-            Assert.False(pools.Contains<int>());
-            Assert.False(pools.Contains<ATag>());
-        }
-
-        [Test]
         public void Enumerable()
         {
             var pools = new ECS.Pools();

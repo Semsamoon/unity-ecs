@@ -94,11 +94,6 @@ namespace ECS
             return _pools.ContainsKey(typeof(T));
         }
 
-        public void Remove<T>()
-        {
-            _pools.Remove(typeof(T));
-        }
-
         public IEnumerator<IPool> GetEnumerator()
         {
             return _pools.Values.GetEnumerator();
