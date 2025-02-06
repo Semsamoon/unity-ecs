@@ -7,7 +7,7 @@ namespace ECS
     /// Filter is a container that holds entities with
     /// specified components and tags included and excluded.
     /// </summary>
-    public sealed class Filter
+    public sealed class Filter : IFilter
     {
         private readonly SparseArray<int> _counts;
         private readonly Pool _filtered;
