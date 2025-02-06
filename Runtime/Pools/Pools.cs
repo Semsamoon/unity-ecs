@@ -6,7 +6,7 @@ namespace ECS
     /// <summary>
     /// Pools is a manager for pools.
     /// </summary>
-    public sealed class Pools
+    public sealed class Pools : IPools
     {
         private const int DefaultCapacity = 64;
 
@@ -25,7 +25,7 @@ namespace ECS
             _pools = new Dictionary<Type, IPool>(capacity);
         }
 
-        public Pools Add<T>()
+        public IPools Add<T>()
         {
             _pools.TryAdd(typeof(T), typeof(ITag).IsAssignableFrom(typeof(T))
                 ? new Pool()
@@ -33,7 +33,7 @@ namespace ECS
             return this;
         }
 
-        public Pools Add<T>(int sparseCapacity, int denseCapacity)
+        public IPools Add<T>(int sparseCapacity, int denseCapacity)
         {
             _pools.TryAdd(typeof(T), typeof(ITag).IsAssignableFrom(typeof(T))
                 ? new Pool(sparseCapacity, denseCapacity)
@@ -87,6 +87,44 @@ namespace ECS
             var pool = new Pool(sparseCapacity, denseCapacity);
             _pools.Add(typeof(T), pool);
             return pool;
+        }
+
+        public IPool GetPool<T>()
+        {
+            if (_pools.TryGetValue(typeof(T), out var existing))
+            {
+                return existing;
+            }
+
+            if (typeof(T).IsAssignableFrom(typeof(ITag)))
+            {
+                var pool = new Pool();
+                _pools.Add(typeof(T), pool);
+                return pool;
+            }
+
+            var poolT = new Pool<T>();
+            _pools.Add(typeof(T), poolT);
+            return poolT;
+        }
+
+        public IPool GetPool<T>(int sparseCapacity, int denseCapacity)
+        {
+            if (_pools.TryGetValue(typeof(T), out var existing))
+            {
+                return existing;
+            }
+
+            if (typeof(T).IsAssignableFrom(typeof(ITag)))
+            {
+                var pool = new Pool(sparseCapacity, denseCapacity);
+                _pools.Add(typeof(T), pool);
+                return pool;
+            }
+
+            var poolT = new Pool<T>(sparseCapacity, denseCapacity);
+            _pools.Add(typeof(T), poolT);
+            return poolT;
         }
 
         public bool Contains<T>()
