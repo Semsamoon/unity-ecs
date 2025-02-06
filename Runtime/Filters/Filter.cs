@@ -34,44 +34,11 @@ namespace ECS
             _sum = sum;
         }
 
-        public void Recheck(Entity entity, ReadOnlySpan<IContains> included, ReadOnlySpan<IContains> excluded)
-        {
-            _counts[entity.Id] = 0;
-
-            foreach (var pool in included)
-            {
-                if (pool.Contains(entity))
-                {
-                    _counts[entity.Id]++;
-                }
-            }
-
-            foreach (var pool in excluded)
-            {
-                if (!pool.Contains(entity))
-                {
-                    _counts[entity.Id]++;
-                }
-            }
-
-            if (_counts[entity.Id] == _sum)
-            {
-                _filtered.Add(entity);
-            }
-        }
-
         public void Change(Entity entity, int difference)
         {
-            if (difference == 0)
-            {
-                return;
-            }
-
             if (_counts[entity.Id] == _sum)
             {
-                _counts[entity.Id] += difference;
                 _filtered.Remove(entity);
-                return;
             }
 
             _counts[entity.Id] += difference;
