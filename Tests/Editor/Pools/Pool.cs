@@ -177,6 +177,7 @@ namespace ECS.Tests
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
+            var entity3x0 = new ECS.Entity(3, 0);
 
             pool.Set(entity1x0, 10);
             pool.Set(entity2x0, 20);
@@ -184,6 +185,9 @@ namespace ECS.Tests
             Assert.AreEqual((entity1x0, 10), pool[0]);
             Assert.AreEqual((entity2x0, 20), pool[1]);
             Assert.AreEqual((entity, 0), pool[2]);
+            Assert.AreEqual(10, pool.Get(0));
+            Assert.AreEqual(20, pool.Get(entity2x0));
+            Assert.AreEqual(0, pool.Get(entity3x0));
         }
 
         [Test]
