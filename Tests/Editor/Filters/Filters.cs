@@ -26,8 +26,8 @@ namespace ECS.Tests
 
             world.Pools.Get<int>().Set(entity1x0, 10);
             world.Pools.Get<string>().Set(entity1x0, "10");
-            world.FiltersInternal.Create(entity1x0, typeof(int));
-            world.FiltersInternal.Create(entity1x0, typeof(string));
+            world.FiltersInternal.Record(entity1x0, typeof(int));
+            world.FiltersInternal.Record(entity1x0, typeof(string));
 
             Assert.AreEqual((1, 0), world.FiltersInternal.Length);
             Assert.True(filterInt.Contains(entity1x0));
@@ -54,9 +54,9 @@ namespace ECS.Tests
             filters.Include(filter, typeof(int));
             filters.Include(filter, typeof(string), 4);
 
-            filters.Create(entity1x0, typeof(int));
-            filters.Create(entity1x0, typeof(string));
-            filters.Create(entity2x0, typeof(int));
+            filters.Record(entity1x0, typeof(int));
+            filters.Record(entity1x0, typeof(string));
+            filters.Record(entity2x0, typeof(int));
 
             Assert.AreEqual((2, 0), filters.Length);
             Assert.True(filter.Contains(entity1x0));
@@ -74,10 +74,10 @@ namespace ECS.Tests
             filters.Exclude(filter, typeof(int));
             filters.Exclude(filter, typeof(string), 4);
 
-            filters.Remove(entity1x0, typeof(int));
-            filters.Remove(entity1x0, typeof(string));
-            filters.Create(entity2x0, typeof(int));
-            filters.Remove(entity2x0, typeof(string));
+            filters.Erase(entity1x0, typeof(int));
+            filters.Erase(entity1x0, typeof(string));
+            filters.Record(entity2x0, typeof(int));
+            filters.Erase(entity2x0, typeof(string));
 
             Assert.AreEqual((0, 2), filters.Length);
             Assert.True(filter.Contains(entity1x0));
@@ -95,10 +95,10 @@ namespace ECS.Tests
 
             filters.Include(filter, typeof(int));
 
-            filters.Create(entity, typeof(int));
-            filters.Create(entity1x0, typeof(int));
-            filters.Create(entity1x0, typeof(string));
-            filters.Create(entity2x0, typeof(string));
+            filters.Record(entity, typeof(int));
+            filters.Record(entity1x0, typeof(int));
+            filters.Record(entity1x0, typeof(string));
+            filters.Record(entity2x0, typeof(string));
 
             Assert.False(filter.Contains(entity));
             Assert.True(filter.Contains(entity1x0));
@@ -116,10 +116,10 @@ namespace ECS.Tests
 
             filters.Exclude(filter, typeof(int));
 
-            filters.Remove(entity, typeof(int));
-            filters.Remove(entity1x0, typeof(int));
-            filters.Remove(entity1x0, typeof(string));
-            filters.Remove(entity2x0, typeof(string));
+            filters.Erase(entity, typeof(int));
+            filters.Erase(entity1x0, typeof(int));
+            filters.Erase(entity1x0, typeof(string));
+            filters.Erase(entity2x0, typeof(string));
 
             Assert.False(filter.Contains(entity));
             Assert.True(filter.Contains(entity1x0));
