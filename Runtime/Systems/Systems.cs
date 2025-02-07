@@ -1,4 +1,7 @@
-﻿namespace ECS
+﻿using System;
+using System.Collections.Generic;
+
+namespace ECS
 {
     /// <summary>
     /// Systems is a manager for systems.
@@ -7,6 +10,11 @@
     {
         private readonly World _world;
         private readonly DenseArray<ISystem> _systems;
+
+        public int Capacity => _systems.Capacity;
+        public int Length => _systems.Length;
+
+        public ISystem this[int index] => _systems[index];
 
         public Systems(World world)
         {
@@ -49,6 +57,16 @@
             {
                 system.Destroy();
             }
+        }
+
+        public ReadOnlySpan<ISystem> AsReadOnlySpan()
+        {
+            return _systems.AsReadOnlySpan();
+        }
+
+        public IEnumerator<ISystem> GetEnumerator()
+        {
+            return _systems.GetEnumerator();
         }
     }
 }
