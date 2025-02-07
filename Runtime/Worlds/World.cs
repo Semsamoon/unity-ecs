@@ -27,5 +27,10 @@
             FiltersInternal = new Filters(this, filtersCapacity.included, filtersCapacity.excluded);
             SystemsInternal = new Systems(this, systemsCapacity);
         }
+
+        public void Destroy()
+        {
+            SystemsInternal.Destroy();
+        }
     }
 }

@@ -6,5 +6,7 @@
         public IPools Pools { get; }
         public IFilters Filters { get; }
         public ISystems Systems { get; }
+
+        public void Destroy();
     }
 }
