@@ -6,28 +6,41 @@ namespace ECS
     /// <summary>
     /// Filters is a manager for filters.
     /// </summary>
-    public sealed class Filters
+    public sealed class Filters : IFilters
     {
         private const int DefaultCapacity = 64;
         private const int DefaultFiltersCapacity = 8;
 
+        private readonly World _world;
         private readonly Dictionary<Type, DenseArray<Filter>> _included;
         private readonly Dictionary<Type, DenseArray<Filter>> _excluded;
 
         public (int included, int excluded) Length => (_included.Count, _excluded.Count);
 
-        public Filters()
+        public Filters(World world)
         {
+            _world = world;
             _included = new Dictionary<Type, DenseArray<Filter>>(DefaultCapacity);
             _excluded = new Dictionary<Type, DenseArray<Filter>>(DefaultCapacity);
         }
 
-        public Filters(int includedCapacity, int excludedCapacity)
+        public Filters(World world, int includedCapacity, int excludedCapacity)
         {
             includedCapacity = Math.Max(includedCapacity, 2);
             excludedCapacity = Math.Max(excludedCapacity, 2);
+            _world = world;
             _included = new Dictionary<Type, DenseArray<Filter>>(includedCapacity);
             _excluded = new Dictionary<Type, DenseArray<Filter>>(excludedCapacity);
+        }
+
+        public FilterBuilder Create()
+        {
+            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal);
+        }
+
+        public FilterBuilder Create(int included, int excluded)
+        {
+            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, included, excluded);
         }
 
         public void Include(Filter filter, Type type)
