@@ -10,34 +10,37 @@ namespace ECS
     {
         private const int DefaultCapacity = 64;
 
+        private readonly World _world;
         private readonly Dictionary<Type, IPool> _pools;
 
         public int Length => _pools.Count;
 
-        public Pools()
+        public Pools(World world)
         {
+            _world = world;
             _pools = new Dictionary<Type, IPool>(DefaultCapacity);
         }
 
-        public Pools(int capacity)
+        public Pools(World world, int capacity)
         {
             capacity = Math.Max(capacity, 2);
+            _world = world;
             _pools = new Dictionary<Type, IPool>(capacity);
         }
 
         public IPools Add<T>()
         {
             _pools.TryAdd(typeof(T), typeof(ITag).IsAssignableFrom(typeof(T))
-                ? new Pool()
-                : new Pool<T>());
+                ? new Pool(_world, typeof(T))
+                : new Pool<T>(_world));
             return this;
         }
 
         public IPools Add<T>(int sparseCapacity, int denseCapacity)
         {
             _pools.TryAdd(typeof(T), typeof(ITag).IsAssignableFrom(typeof(T))
-                ? new Pool(sparseCapacity, denseCapacity)
-                : new Pool<T>(sparseCapacity, denseCapacity));
+                ? new Pool(_world, typeof(T), sparseCapacity, denseCapacity)
+                : new Pool<T>(_world, sparseCapacity, denseCapacity));
             return this;
         }
 
@@ -48,7 +51,7 @@ namespace ECS
                 return (Pool<T>)existing;
             }
 
-            var pool = new Pool<T>();
+            var pool = new Pool<T>(_world);
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -60,7 +63,7 @@ namespace ECS
                 return (Pool<T>)existing;
             }
 
-            var pool = new Pool<T>(sparseCapacity, denseCapacity);
+            var pool = new Pool<T>(_world, sparseCapacity, denseCapacity);
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -72,7 +75,7 @@ namespace ECS
                 return (Pool)existing;
             }
 
-            var pool = new Pool();
+            var pool = new Pool(_world, typeof(T));
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -84,7 +87,7 @@ namespace ECS
                 return (Pool)existing;
             }
 
-            var pool = new Pool(sparseCapacity, denseCapacity);
+            var pool = new Pool(_world, typeof(T), sparseCapacity, denseCapacity);
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -98,12 +101,12 @@ namespace ECS
 
             if (typeof(T).IsAssignableFrom(typeof(ITag)))
             {
-                var pool = new Pool();
+                var pool = new Pool(_world, typeof(T));
                 _pools.Add(typeof(T), pool);
                 return pool;
             }
 
-            var poolT = new Pool<T>();
+            var poolT = new Pool<T>(_world);
             _pools.Add(typeof(T), poolT);
             return poolT;
         }
@@ -117,12 +120,12 @@ namespace ECS
 
             if (typeof(T).IsAssignableFrom(typeof(ITag)))
             {
-                var pool = new Pool(sparseCapacity, denseCapacity);
+                var pool = new Pool(_world, typeof(T), sparseCapacity, denseCapacity);
                 _pools.Add(typeof(T), pool);
                 return pool;
             }
 
-            var poolT = new Pool<T>(sparseCapacity, denseCapacity);
+            var poolT = new Pool<T>(_world, sparseCapacity, denseCapacity);
             _pools.Add(typeof(T), poolT);
             return poolT;
         }

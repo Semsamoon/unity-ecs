@@ -9,6 +9,8 @@ namespace ECS
     /// </summary>
     public sealed class Pool : IPool
     {
+        private readonly World _world;
+        private readonly Type _type;
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<Entity> _denseArray;
 
@@ -17,14 +19,18 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index];
 
-        public Pool()
+        public Pool(World world, Type type)
         {
+            _world = world;
+            _type = type;
             _sparseArray = new SparseArray<int>();
             _denseArray = new DenseArray<Entity>();
         }
 
-        public Pool(int sparseCapacity, int denseCapacity)
+        public Pool(World world, Type type, int sparseCapacity, int denseCapacity)
         {
+            _world = world;
+            _type = type;
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<Entity>(denseCapacity);
         }
@@ -38,6 +44,7 @@ namespace ECS
 
             _sparseArray[entity.Id] = Length;
             _denseArray.Add(entity);
+            _world.FiltersInternal.Record(entity, _type);
         }
 
         public bool Contains(Entity entity)
@@ -58,6 +65,7 @@ namespace ECS
             _sparseArray[entity.Id] = 0;
             _denseArray[index] = new Entity();
             _denseArray.RemoveAt(index);
+            _world.FiltersInternal.Erase(entity, _type);
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
@@ -77,6 +85,7 @@ namespace ECS
     /// </summary>
     public sealed class Pool<T> : IPool
     {
+        private readonly World _world;
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<(Entity Entity, T Value)> _denseArray;
 
@@ -85,14 +94,16 @@ namespace ECS
 
         public (Entity Entity, T Value) this[int index] => _denseArray[index];
 
-        public Pool()
+        public Pool(World world)
         {
+            _world = world;
             _sparseArray = new SparseArray<int>();
             _denseArray = new DenseArray<(Entity, T)>();
         }
 
-        public Pool(int sparseCapacity, int denseCapacity)
+        public Pool(World world, int sparseCapacity, int denseCapacity)
         {
+            _world = world;
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<(Entity, T)>(denseCapacity);
         }
@@ -114,6 +125,7 @@ namespace ECS
 
             _sparseArray[entity.Id] = Length;
             _denseArray.Add((entity, value));
+            _world.FiltersInternal.Record(entity, typeof(T));
         }
 
         public ref T Get(int index)
@@ -144,6 +156,7 @@ namespace ECS
             _sparseArray[entity.Id] = 0;
             _denseArray[index].Entity = new Entity();
             _denseArray.RemoveAt(index);
+            _world.FiltersInternal.Erase(entity, typeof(T));
         }
 
         public ReadOnlySpan<(Entity Entity, T Value)> AsReadOnlySpan()

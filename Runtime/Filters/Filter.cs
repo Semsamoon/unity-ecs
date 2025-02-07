@@ -21,7 +21,7 @@ namespace ECS
         public Filter(int sum)
         {
             sum = Math.Max(0, sum);
-            _filtered = new Pool();
+            _filtered = new Pool(null, null);
             _counts = new SparseArray<int>();
             _sum = sum;
         }
@@ -29,7 +29,7 @@ namespace ECS
         public Filter(int sum, int sparseCapacity, int denseCapacity)
         {
             sum = Math.Max(0, sum);
-            _filtered = new Pool(sparseCapacity, denseCapacity);
+            _filtered = new Pool(null, null, sparseCapacity, denseCapacity);
             _counts = new SparseArray<int>(sparseCapacity);
             _sum = sum;
         }

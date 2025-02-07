@@ -13,14 +13,14 @@
         public World()
         {
             EntitiesInternal = new Entities();
-            PoolsInternal = new Pools();
+            PoolsInternal = new Pools(this);
             FiltersInternal = new Filters(this);
         }
 
         public World((int sparse, int dense) entitiesCapacity, int poolsCapacity, (int included, int excluded) filtersCapacity)
         {
             EntitiesInternal = new Entities(entitiesCapacity.sparse, entitiesCapacity.dense);
-            PoolsInternal = new Pools(poolsCapacity);
+            PoolsInternal = new Pools(this, poolsCapacity);
             FiltersInternal = new Filters(this, filtersCapacity.included, filtersCapacity.excluded);
         }
     }
