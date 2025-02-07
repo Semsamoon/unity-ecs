@@ -95,7 +95,7 @@ namespace ECS
             _excluded.Add(type, filters);
         }
 
-        public void Create(Entity entity, Type type)
+        public void Record(Entity entity, Type type)
         {
             if (_included.TryGetValue(type, out var included))
             {
@@ -114,7 +114,7 @@ namespace ECS
             }
         }
 
-        public void Remove(Entity entity, Type type)
+        public void Erase(Entity entity, Type type)
         {
             if (_included.TryGetValue(type, out var included))
             {
