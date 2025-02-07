@@ -135,7 +135,18 @@ namespace ECS
 
         public ref T Get(Entity entity)
         {
-            return ref _denseArray[_sparseArray[entity.Id]].Value;
+            var index = _sparseArray[entity.Id];
+
+            if (entity.IsNull() || _denseArray[index].Entity == entity)
+            {
+                return ref _denseArray[index].Value;
+            }
+
+            _sparseArray[entity.Id] = Length;
+            _denseArray.Add((entity, default));
+            _world.FiltersInternal.Record(entity, typeof(T));
+
+            return ref _denseArray[^1].Value;
         }
 
         public bool Contains(Entity entity)
