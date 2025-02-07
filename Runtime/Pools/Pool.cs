@@ -7,7 +7,7 @@ namespace ECS
     /// Pool is a Sparse Set for entities.
     /// Use <see cref="Pool{T}"/> to store data.
     /// </summary>
-    public sealed class Pool : IPool
+    public sealed class Pool : IPool, IPoolInternal
     {
         private readonly World _world;
         private readonly Type _type;
@@ -83,7 +83,7 @@ namespace ECS
     /// Pool is a Sparse Set for entities with data.
     /// Use <see cref="Pool"/> to store entities only.
     /// </summary>
-    public sealed class Pool<T> : IPool
+    public sealed class Pool<T> : IPool<T>, IPoolInternal
     {
         private readonly World _world;
         private readonly SparseArray<int> _sparseArray;

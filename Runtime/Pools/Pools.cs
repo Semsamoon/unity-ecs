@@ -11,21 +11,21 @@ namespace ECS
         private const int DefaultCapacity = 64;
 
         private readonly World _world;
-        private readonly Dictionary<Type, IPool> _pools;
+        private readonly Dictionary<Type, IPoolInternal> _pools;
 
         public int Length => _pools.Count;
 
         public Pools(World world)
         {
             _world = world;
-            _pools = new Dictionary<Type, IPool>(DefaultCapacity);
+            _pools = new Dictionary<Type, IPoolInternal>(DefaultCapacity);
         }
 
         public Pools(World world, int capacity)
         {
             capacity = Math.Max(capacity, 2);
             _world = world;
-            _pools = new Dictionary<Type, IPool>(capacity);
+            _pools = new Dictionary<Type, IPoolInternal>(capacity);
         }
 
         public IPools Add<T>()
@@ -44,7 +44,7 @@ namespace ECS
             return this;
         }
 
-        public Pool<T> Get<T>()
+        public IPool<T> Get<T>()
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -56,7 +56,7 @@ namespace ECS
             return pool;
         }
 
-        public Pool<T> Get<T>(int sparseCapacity, int denseCapacity)
+        public IPool<T> Get<T>(int sparseCapacity, int denseCapacity)
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -68,7 +68,7 @@ namespace ECS
             return pool;
         }
 
-        public Pool GetTag<T>() where T : ITag
+        public IPool GetTag<T>() where T : ITag
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -80,7 +80,7 @@ namespace ECS
             return pool;
         }
 
-        public Pool GetTag<T>(int sparseCapacity, int denseCapacity) where T : ITag
+        public IPool GetTag<T>(int sparseCapacity, int denseCapacity) where T : ITag
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -92,7 +92,7 @@ namespace ECS
             return pool;
         }
 
-        public IPool GetPool<T>()
+        public IPoolInternal GetPool<T>()
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -111,7 +111,7 @@ namespace ECS
             return poolT;
         }
 
-        public IPool GetPool<T>(int sparseCapacity, int denseCapacity)
+        public IPoolInternal GetPool<T>(int sparseCapacity, int denseCapacity)
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -135,7 +135,7 @@ namespace ECS
             return _pools.ContainsKey(typeof(T));
         }
 
-        public IEnumerator<IPool> GetEnumerator()
+        public IEnumerator<IPoolInternal> GetEnumerator()
         {
             return _pools.Values.GetEnumerator();
         }

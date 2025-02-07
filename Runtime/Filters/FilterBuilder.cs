@@ -9,16 +9,16 @@ namespace ECS
         private readonly Filters _filters;
         private readonly Pools _pools;
         private readonly Entities _entities;
-        private readonly DenseArray<(Type, IPool)> _included;
-        private readonly DenseArray<(Type, IPool)> _excluded;
+        private readonly DenseArray<(Type, IPoolInternal)> _included;
+        private readonly DenseArray<(Type, IPoolInternal)> _excluded;
 
         public FilterBuilder(Filters filters, Pools pools, Entities entities)
         {
             _filters = filters;
             _pools = pools;
             _entities = entities;
-            _included = new DenseArray<(Type, IPool)>(DefaultCapacity);
-            _excluded = new DenseArray<(Type, IPool)>(DefaultCapacity);
+            _included = new DenseArray<(Type, IPoolInternal)>(DefaultCapacity);
+            _excluded = new DenseArray<(Type, IPoolInternal)>(DefaultCapacity);
         }
 
         public FilterBuilder(Filters filters, Pools pools, Entities entities, int included, int excluded)
@@ -26,8 +26,8 @@ namespace ECS
             _filters = filters;
             _pools = pools;
             _entities = entities;
-            _included = new DenseArray<(Type, IPool)>(included);
-            _excluded = new DenseArray<(Type, IPool)>(excluded);
+            _included = new DenseArray<(Type, IPoolInternal)>(included);
+            _excluded = new DenseArray<(Type, IPoolInternal)>(excluded);
         }
 
         public FilterBuilder Include<T>()
