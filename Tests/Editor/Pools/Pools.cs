@@ -8,9 +8,9 @@ namespace ECS.Tests
         [Test]
         public void Constructor()
         {
-            var pools = new ECS.Pools();
-            var pools10 = new ECS.Pools(10);
-            var pools_10 = new ECS.Pools(-10);
+            var pools = new ECS.Pools(null);
+            var pools10 = new ECS.Pools(null, 10);
+            var pools_10 = new ECS.Pools(null, -10);
 
             Assert.AreEqual(0, pools.Length);
             Assert.AreEqual(0, pools10.Length);
@@ -20,7 +20,7 @@ namespace ECS.Tests
         [Test]
         public void Add()
         {
-            var pools = new ECS.Pools();
+            var pools = new ECS.Pools(null);
 
             pools.Add<int>();
             pools.Add<int>(10, 10);
@@ -42,7 +42,7 @@ namespace ECS.Tests
         [Test]
         public void Get()
         {
-            var pools = new ECS.Pools();
+            var pools = new ECS.Pools(null);
 
             pools.Add<int>(10, 10);
 
@@ -61,7 +61,7 @@ namespace ECS.Tests
         [Test]
         public void Contains()
         {
-            var pools = new ECS.Pools();
+            var pools = new ECS.Pools(null);
 
             pools.Add<int>();
             pools.Add<ATag>();
@@ -75,7 +75,7 @@ namespace ECS.Tests
         [Test]
         public void Enumerable()
         {
-            var pools = new ECS.Pools();
+            var pools = new ECS.Pools(null);
 
             pools.Add<int>();
             pools.Add<ATag>();

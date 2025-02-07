@@ -7,9 +7,9 @@ namespace ECS.Tests
         [Test]
         public void Constructor()
         {
-            var pool = new ECS.Pool();
-            var pool10x10 = new ECS.Pool(10, 10);
-            var pool_10x_10 = new ECS.Pool(-10, -10);
+            var pool = new ECS.Pool(null, typeof(int));
+            var pool10x10 = new ECS.Pool(null, typeof(int), 10, 10);
+            var pool_10x_10 = new ECS.Pool(null, typeof(int), -10, -10);
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
@@ -23,7 +23,8 @@ namespace ECS.Tests
         [Test]
         public void Getter()
         {
-            var pool = new ECS.Pool();
+            var world = new World();
+            var pool = new ECS.Pool(world, typeof(int));
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
@@ -39,7 +40,8 @@ namespace ECS.Tests
         [Test]
         public void Add()
         {
-            var pool = new ECS.Pool();
+            var world = new World();
+            var pool = new ECS.Pool(world, typeof(int));
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
@@ -60,7 +62,8 @@ namespace ECS.Tests
         [Test]
         public void Contains()
         {
-            var pool = new ECS.Pool();
+            var world = new World();
+            var pool = new ECS.Pool(world, typeof(int));
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity1x1 = new ECS.Entity(1, 1);
@@ -75,7 +78,8 @@ namespace ECS.Tests
         [Test]
         public void Extending()
         {
-            var pool = new ECS.Pool(2, 2);
+            var world = new World();
+            var pool = new ECS.Pool(world, typeof(int), 2, 2);
 
             for (var i = 0; i < 33; i++)
             {
@@ -90,7 +94,8 @@ namespace ECS.Tests
         [Test]
         public void Remove()
         {
-            var pool = new ECS.Pool();
+            var world = new World();
+            var pool = new ECS.Pool(world, typeof(int));
             var entity1x0 = new ECS.Entity(1, 0);
 
             Assert.DoesNotThrow(() => pool.Remove(entity1x0));
@@ -105,7 +110,8 @@ namespace ECS.Tests
         [Test]
         public void ReadOnlySpan()
         {
-            var pool = new ECS.Pool();
+            var world = new World();
+            var pool = new ECS.Pool(world, typeof(int));
 
             for (var i = 0; i < 4; i++)
             {
@@ -125,7 +131,8 @@ namespace ECS.Tests
         [Test]
         public void Enumerable()
         {
-            var pool = new ECS.Pool();
+            var world = new World();
+            var pool = new ECS.Pool(world, typeof(int));
 
             for (var i = 0; i < 4; i++)
             {
@@ -148,9 +155,10 @@ namespace ECS.Tests
         [Test]
         public void Constructor()
         {
-            var pool = new Pool<int>();
-            var pool10x10 = new Pool<int>(10, 10);
-            var pool_10x_10 = new Pool<int>(-10, -10);
+            var world = new World();
+            var pool = new Pool<int>(world);
+            var pool10x10 = new Pool<int>(world, 10, 10);
+            var pool_10x_10 = new Pool<int>(world, -10, -10);
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
@@ -164,7 +172,8 @@ namespace ECS.Tests
         [Test]
         public void Getter()
         {
-            var pool = new Pool<int>();
+            var world = new World();
+            var pool = new Pool<int>(world);
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
@@ -180,7 +189,8 @@ namespace ECS.Tests
         [Test]
         public void Set()
         {
-            var pool = new Pool<int>();
+            var world = new World();
+            var pool = new Pool<int>(world);
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
@@ -202,7 +212,8 @@ namespace ECS.Tests
         [Test]
         public void Contains()
         {
-            var pool = new Pool<int>();
+            var world = new World();
+            var pool = new Pool<int>(world);
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity1x1 = new ECS.Entity(1, 1);
@@ -217,7 +228,8 @@ namespace ECS.Tests
         [Test]
         public void Extending()
         {
-            var pool = new Pool<int>(2, 2);
+            var world = new World();
+            var pool = new Pool<int>(world, 2, 2);
 
             for (var i = 0; i < 33; i++)
             {
@@ -232,7 +244,8 @@ namespace ECS.Tests
         [Test]
         public void Remove()
         {
-            var pool = new Pool<int>();
+            var world = new World();
+            var pool = new Pool<int>(world);
             var entity1x0 = new ECS.Entity(1, 0);
 
             Assert.DoesNotThrow(() => pool.Remove(entity1x0));
@@ -247,7 +260,8 @@ namespace ECS.Tests
         [Test]
         public void ReadOnlySpan()
         {
-            var pool = new Pool<int>();
+            var world = new World();
+            var pool = new Pool<int>(world);
 
             for (var i = 0; i < 4; i++)
             {
@@ -267,7 +281,8 @@ namespace ECS.Tests
         [Test]
         public void Enumerable()
         {
-            var pool = new Pool<int>();
+            var world = new World();
+            var pool = new Pool<int>(world);
 
             for (var i = 0; i < 4; i++)
             {
