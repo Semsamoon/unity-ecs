@@ -32,7 +32,7 @@ namespace ECS
 
         public DenseArray(int capacity)
         {
-            capacity = Math.Max(capacity, 2);
+            capacity = Math.Max(capacity, 1);
             _array = new T[capacity];
         }
 

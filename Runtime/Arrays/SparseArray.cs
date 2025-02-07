@@ -30,7 +30,7 @@ namespace ECS
 
         public SparseArray(int length)
         {
-            length = Math.Max(length, 2);
+            length = Math.Max(length, 1);
             _array = new T[length];
         }
 
