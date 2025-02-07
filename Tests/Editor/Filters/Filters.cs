@@ -26,8 +26,6 @@ namespace ECS.Tests
 
             world.Pools.Get<int>().Set(entity1x0, 10);
             world.Pools.Get<string>().Set(entity1x0, "10");
-            world.FiltersInternal.Record(entity1x0, typeof(int));
-            world.FiltersInternal.Record(entity1x0, typeof(string));
 
             Assert.AreEqual((1, 0), world.FiltersInternal.Length);
             Assert.True(filterInt.Contains(entity1x0));
