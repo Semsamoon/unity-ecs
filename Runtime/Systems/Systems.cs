@@ -1,5 +1,8 @@
 ﻿namespace ECS
 {
+    /// <summary>
+    /// Systems is a manager for systems.
+    /// </summary>
     public sealed class Systems : ISystems
     {
         private readonly World _world;
