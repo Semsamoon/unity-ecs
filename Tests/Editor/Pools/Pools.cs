@@ -27,16 +27,16 @@ namespace ECS.Tests
             pools.Add<string>(10, 10);
 
             Assert.AreEqual(2, pools.Length);
-            Assert.AreNotEqual(10, pools.Get<int>().Capacity);
-            Assert.AreEqual(10, pools.Get<string>().Capacity);
+            Assert.AreNotEqual(10, ((Pool<int>)pools.Get<int>()).Capacity);
+            Assert.AreEqual(10, pools.GetPool<string>().Capacity);
 
             pools.Add<ATag>();
             pools.Add<ATag>(10, 10);
             pools.Add<BTag>(10, 10);
 
             Assert.AreEqual(4, pools.Length);
-            Assert.AreNotEqual(10, pools.GetTag<ATag>().Capacity);
-            Assert.AreEqual(10, pools.GetTag<BTag>().Capacity);
+            Assert.AreNotEqual(10, ((ECS.Pool)pools.GetTag<ATag>()).Capacity);
+            Assert.AreEqual(10, pools.GetPool<BTag>().Capacity);
         }
 
         [Test]
@@ -46,15 +46,15 @@ namespace ECS.Tests
 
             pools.Add<int>(10, 10);
 
-            Assert.AreEqual(10, pools.Get<int>(20, 20).Capacity);
-            Assert.AreEqual(10, pools.Get<string>(10, 10).Capacity);
-            Assert.AreEqual(10, pools.Get<string>().Capacity);
+            Assert.AreEqual(10, pools.GetPool<int>(20, 20).Capacity);
+            Assert.AreEqual(10, ((Pool<string>)pools.Get<string>(10, 10)).Capacity);
+            Assert.AreEqual(10, pools.GetPool<string>().Capacity);
 
             pools.Add<ATag>(10, 10);
 
-            Assert.AreEqual(10, pools.GetTag<ATag>(20, 20).Capacity);
-            Assert.AreEqual(10, pools.GetTag<BTag>(10, 10).Capacity);
-            Assert.AreEqual(10, pools.GetTag<BTag>().Capacity);
+            Assert.AreEqual(10, pools.GetPool<ATag>(20, 20).Capacity);
+            Assert.AreEqual(10, ((ECS.Pool)pools.GetTag<BTag>(10, 10)).Capacity);
+            Assert.AreEqual(10, pools.GetPool<BTag>().Capacity);
             Assert.Throws<InvalidCastException>(() => pools.Get<ATag>());
         }
 
