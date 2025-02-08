@@ -80,7 +80,7 @@ namespace ECS
             {
                 _filters.Include(filter, type);
 
-                foreach (var entity in _entities)
+                foreach (var (entity, _) in _entities)
                 {
                     if (pool.Contains(entity))
                     {
@@ -93,7 +93,7 @@ namespace ECS
             {
                 _filters.Exclude(filter, type);
 
-                foreach (var entity in _entities)
+                foreach (var (entity, _) in _entities)
                 {
                     if (!pool.Contains(entity))
                     {
