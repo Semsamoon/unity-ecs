@@ -130,6 +130,11 @@ namespace ECS
             return poolT;
         }
 
+        public IPoolInternal GetPoolUnchecked(Type type)
+        {
+            return _pools[type];
+        }
+
         public bool Contains<T>()
         {
             return _pools.ContainsKey(typeof(T));
