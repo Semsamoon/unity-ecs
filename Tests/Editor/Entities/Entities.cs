@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace ECS.Tests
@@ -7,9 +8,9 @@ namespace ECS.Tests
         [Test]
         public void Constructor()
         {
-            var entities = new ECS.Entities();
-            var entities10x10 = new ECS.Entities(10, 10);
-            var entities_10x_10 = new ECS.Entities(-10, -10);
+            var entities = new ECS.Entities(null);
+            var entities10x10 = new ECS.Entities(null, 10, 10);
+            var entities_10x_10 = new ECS.Entities(null, -10, -10);
 
             Assert.AreEqual(10, entities10x10.Capacity);
             Assert.Positive(entities.Capacity);
@@ -23,7 +24,7 @@ namespace ECS.Tests
         [Test]
         public void Getter()
         {
-            var entities = new ECS.Entities();
+            var entities = new ECS.Entities(null);
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
@@ -31,15 +32,19 @@ namespace ECS.Tests
             entities.Create();
             entities.Create();
 
-            Assert.AreEqual(entity1x0, entities[0]);
-            Assert.AreEqual(entity2x0, entities[1]);
-            Assert.AreEqual(entity, entities[2]);
+            Assert.AreEqual(entity1x0, entities[0].Entity);
+            Assert.AreEqual(entity2x0, entities[1].Entity);
+            Assert.AreEqual(entity, entities[2].Entity);
+            Assert.IsInstanceOf<DenseArray<Type>>(entities[0].Components);
+            Assert.IsInstanceOf<DenseArray<Type>>(entities[1].Components);
+            Assert.IsNull(entities[2].Components);
         }
 
         [Test]
         public void Create()
         {
-            var entities = new ECS.Entities();
+            var world = new World();
+            var entities = new ECS.Entities(world);
             var entity1x0 = new ECS.Entity(1, 0);
             var entity1x1 = new ECS.Entity(1, 1);
             var entity2x0 = new ECS.Entity(2, 0);
@@ -47,24 +52,27 @@ namespace ECS.Tests
             entities.Create();
 
             Assert.AreEqual(1, entities.Length);
-            Assert.AreEqual(entity1x0, entities[0]);
+            Assert.AreEqual(entity1x0, entities[0].Entity);
+            Assert.AreEqual(0, entities[0].Components.Length);
 
             entities.Remove(entity1x0);
             entities.Create();
 
             Assert.AreEqual(1, entities.Length);
-            Assert.AreEqual(entity1x1, entities[0]);
+            Assert.AreEqual(entity1x1, entities[0].Entity);
+            Assert.AreEqual(0, entities[0].Components.Length);
 
             entities.Create();
 
             Assert.AreEqual(2, entities.Length);
-            Assert.AreEqual(entity2x0, entities[1]);
+            Assert.AreEqual(entity2x0, entities[1].Entity);
+            Assert.AreEqual(0, entities[1].Components.Length);
         }
 
         [Test]
         public void Contains()
         {
-            var entities = new ECS.Entities();
+            var entities = new ECS.Entities(null);
             var entity = new ECS.Entity();
             var entity1x0 = new ECS.Entity(1, 0);
             var entity1x1 = new ECS.Entity(1, 1);
@@ -79,7 +87,7 @@ namespace ECS.Tests
         [Test]
         public void Extending()
         {
-            var entities = new ECS.Entities(2, 2);
+            var entities = new ECS.Entities(null, 2, 2);
 
             for (var i = 0; i < 33; i++)
             {
@@ -87,29 +95,32 @@ namespace ECS.Tests
             }
 
             Assert.AreEqual(64, entities.Capacity);
-            Assert.AreEqual(new ECS.Entity(33, 0), entities[32]);
-            Assert.AreEqual(new ECS.Entity(), entities[33]);
+            Assert.AreEqual(new ECS.Entity(33, 0), entities[32].Entity);
+            Assert.AreEqual(new ECS.Entity(), entities[33].Entity);
         }
 
         [Test]
         public void Remove()
         {
-            var entities = new ECS.Entities();
-            var entity1x0 = new ECS.Entity(1, 0);
+            var world = new World();
+            var entities = new ECS.Entities(world);
+            var entity1x0 = world.Entities.Create();
 
             Assert.DoesNotThrow(() => entities.Remove(entity1x0));
 
             entities.Create();
+            world.PoolsInternal.Get<int>().Set(entity1x0, 10);
             entities.Remove(entity1x0);
 
             Assert.AreEqual(0, entities.Length);
+            Assert.AreEqual(0, entities[1].Components.Length);
             Assert.False(entities.Contains(entity1x0));
         }
 
         [Test]
         public void ReadOnlySpan()
         {
-            var entities = new ECS.Entities();
+            var entities = new ECS.Entities(null);
 
             for (var i = 0; i < 4; i++)
             {
@@ -122,14 +133,14 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                Assert.AreEqual(new ECS.Entity(i + 1, 0), span[i]);
+                Assert.AreEqual(new ECS.Entity(i + 1, 0), span[i].Entity);
             }
         }
 
         [Test]
         public void Enumerable()
         {
-            var entities = new ECS.Entities();
+            var entities = new ECS.Entities(null);
 
             for (var i = 0; i < 4; i++)
             {
@@ -137,9 +148,9 @@ namespace ECS.Tests
             }
 
             var j = 0;
-            foreach (var value in entities)
+            foreach (var (entity, _) in entities)
             {
-                Assert.AreEqual(new ECS.Entity(j + 1, 0), value);
+                Assert.AreEqual(new ECS.Entity(j + 1, 0), entity);
                 j++;
             }
 

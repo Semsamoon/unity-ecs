@@ -26,8 +26,8 @@ namespace ECS.Tests
             var world = new World();
             var pool = new ECS.Pool(world, typeof(int));
             var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
+            var entity1x0 = world.Entities.Create();
+            var entity2x0 = world.Entities.Create();
 
             pool.Add(entity1x0);
             pool.Add(entity2x0);
@@ -43,8 +43,8 @@ namespace ECS.Tests
             var world = new World();
             var pool = new ECS.Pool(world, typeof(int));
             var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
+            var entity1x0 = world.Entities.Create();
+            var entity2x0 = world.Entities.Create();
 
             pool.Add(entity1x0);
 
@@ -65,8 +65,8 @@ namespace ECS.Tests
             var world = new World();
             var pool = new ECS.Pool(world, typeof(int));
             var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity1x1 = new ECS.Entity(1, 1);
+            var entity1x0 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
 
             pool.Add(entity1x0);
 
@@ -83,7 +83,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 33; i++)
             {
-                pool.Add(new ECS.Entity(i + 1, 0));
+                pool.Add(world.Entities.Create());
             }
 
             Assert.AreEqual(64, pool.Capacity);
@@ -96,7 +96,7 @@ namespace ECS.Tests
         {
             var world = new World();
             var pool = new ECS.Pool(world, typeof(int));
-            var entity1x0 = new ECS.Entity(1, 0);
+            var entity1x0 = world.Entities.Create();
 
             Assert.DoesNotThrow(() => pool.Remove(entity1x0));
 
@@ -115,7 +115,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Add(new ECS.Entity(i + 1, 0));
+                pool.Add(world.Entities.Create());
             }
 
             var span = pool.AsReadOnlySpan();
@@ -136,7 +136,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Add(new ECS.Entity(i + 1, 0));
+                pool.Add(world.Entities.Create());
             }
 
             var j = 0;
@@ -175,9 +175,9 @@ namespace ECS.Tests
             var world = new World();
             var pool = new Pool<int>(world);
             var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
-            var entity3x0 = new ECS.Entity(3, 0);
+            var entity1x0 = world.Entities.Create();
+            var entity2x0 = world.Entities.Create();
+            var entity3x0 = world.Entities.Create();
 
             pool.Set(entity1x0, 10);
             pool.Set(entity2x0, 20);
@@ -196,8 +196,8 @@ namespace ECS.Tests
             var world = new World();
             var pool = new Pool<int>(world);
             var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
+            var entity1x0 = world.Entities.Create();
+            var entity2x0 = world.Entities.Create();
 
             pool.Set(entity1x0, 10);
 
@@ -219,8 +219,8 @@ namespace ECS.Tests
             var world = new World();
             var pool = new Pool<int>(world);
             var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity1x1 = new ECS.Entity(1, 1);
+            var entity1x0 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
 
             pool.Set(entity1x0, 10);
 
@@ -237,7 +237,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 33; i++)
             {
-                pool.Set(new ECS.Entity(i + 1, 0), i + 1);
+                pool.Set(world.Entities.Create(), i + 1);
             }
 
             Assert.AreEqual(64, pool.Capacity);
@@ -250,7 +250,7 @@ namespace ECS.Tests
         {
             var world = new World();
             var pool = new Pool<int>(world);
-            var entity1x0 = new ECS.Entity(1, 0);
+            var entity1x0 = world.Entities.Create();
 
             Assert.DoesNotThrow(() => pool.Remove(entity1x0));
 
@@ -269,7 +269,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Set(new ECS.Entity(i + 1, 0), i + 1);
+                pool.Set(world.Entities.Create(), i + 1);
             }
 
             var span = pool.AsReadOnlySpan();
@@ -290,7 +290,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Set(new ECS.Entity(i + 1, 0), i + 1);
+                pool.Set(world.Entities.Create(), i + 1);
             }
 
             var j = 0;
