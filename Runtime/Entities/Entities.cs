@@ -10,6 +10,7 @@ namespace ECS
     {
         private const int DefaultComponentsCapacity = 4;
 
+        private readonly World _world;
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<(Entity Entity, DenseArray<Type> Components)> _denseArray;
         private int _removed;
@@ -20,14 +21,16 @@ namespace ECS
 
         public (Entity Entity, DenseArray<Type> Components) this[int index] => _denseArray[index];
 
-        public Entities()
+        public Entities(World world)
         {
+            _world = world;
             _sparseArray = new SparseArray<int>();
             _denseArray = new DenseArray<(Entity, DenseArray<Type>)>();
         }
 
-        public Entities(int sparseCapacity, int denseCapacity)
+        public Entities(World world, int sparseCapacity, int denseCapacity)
         {
+            _world = world;
             _sparseArray = new SparseArray<int>(sparseCapacity);
             _denseArray = new DenseArray<(Entity, DenseArray<Type>)>(denseCapacity);
         }
@@ -59,15 +62,17 @@ namespace ECS
         public void Remove(Entity entity)
         {
             var index = _sparseArray[entity.Id];
+            var tuple = _denseArray[index];
 
-            if (entity.IsNull() || _denseArray[index].Entity != entity)
+            if (entity.IsNull() || tuple.Entity != entity)
             {
                 return;
             }
 
-            for (var i = _denseArray[index].Components.Length; i >= 0; i--)
+            for (var i = tuple.Components.Length - 1; i >= 0; i--)
             {
-                _denseArray[index].Components.RemoveAt(i);
+                _world.PoolsInternal.GetPoolUnchecked(tuple.Components[i]).Remove(tuple.Entity);
+                tuple.Components.RemoveAt(i);
             }
 
             _sparseArray[_denseArray[^1].Entity.Id] = index;
