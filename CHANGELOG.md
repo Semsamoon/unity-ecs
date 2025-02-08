@@ -5,6 +5,81 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.4] - 2025-02-08
+
+### Changed
+
+- Entities store entity's components together with entity itself and removes existing
+  components from pools and filters when entity is removed.
+- Entities depend on world to call the other services.
+- Update entities' and pool's tests because of new dependencies and methods.
+
+### Added
+
+- Pool's unchecked remove to delete component without calling checks and filters' update.
+- Pools' unchecked getter to return pool without calling checks.
+- Entities' unchecked record and erase to allow pool's notices about changed components.
+
+## [0.8.3] - 2025-02-07
+
+### Added
+
+- ISystem and ISystems interfaces for system and systems.
+- Systems class with XML documentation.
+- Tests for systems.
+- World's method Destroy to react on destroying.
+
+### Changed
+
+- Put systems into the world.
+
+## [0.8.2] - 2025-02-07
+
+### Changed
+
+- Pools, pool and pool<T> depend on world to call the other services.
+- Pool stores type of tags it contains.
+- Rename IPool to IPoolInternal interface.
+- Replace pool in filter to sparse and dense arrays for full control.
+- Min capacity for sparse array and length for dense array is 1.
+- Update filters', pools' and pool's tests because of new dependencies and interfaces.
+
+### Fixed
+
+- Check entity existence in pool before getting the component.
+
+### Added
+
+- New IPool and IPool<T> interfaces for external usage.
+
+## [0.8.1] - 2025-02-07
+
+### Added
+
+- World class with XML documentation.
+- Filters' and world's interfaces for external usage.
+- Filter builder.
+- Tests for filter builder.
+
+### Changed
+
+- Rename filters' Create and Remove methods to Record and Erase, because Create is used
+  for creating filter, but not adding component to the entity.
+- Filter depends on world to call the other services.
+- Update filters' tests because of renaming and new dependencies.
+
+## [0.8.0] - 2025-02-06
+
+### Changed
+
+- Remove pools' method Remove because it is difficult to maintain and hardly needed.
+- Merge IContains into IPool interface.
+
+### Added
+
+- Entities', pools' and filter's interfaces for external usage.
+- Add GetPool<T> method to return a pool from pools by IPool interface.
+
 ## [0.7.2] - 2025-02-06
 
 ### Added
