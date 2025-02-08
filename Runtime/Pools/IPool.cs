@@ -27,6 +27,6 @@ namespace ECS
         public int Length { get; }
 
         public bool Contains(Entity entity);
-        public void Remove(Entity entity);
+        public void RemoveUnchecked(Entity entity);
     }
 }

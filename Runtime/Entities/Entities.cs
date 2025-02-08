@@ -71,7 +71,8 @@ namespace ECS
 
             for (var i = tuple.Components.Length - 1; i >= 0; i--)
             {
-                _world.PoolsInternal.GetPoolUnchecked(tuple.Components[i]).Remove(tuple.Entity);
+                _world.PoolsInternal.GetPoolUnchecked(tuple.Components[i]).RemoveUnchecked(entity);
+                _world.FiltersInternal.Erase(entity, tuple.Components[i]);
                 tuple.Components.RemoveAt(i);
             }
 
@@ -80,6 +81,25 @@ namespace ECS
             _denseArray.RemoveAt(index);
             _removed++;
             (_denseArray[Length], _denseArray[Length + _removed]) = (_denseArray[Length + _removed], _denseArray[Length]);
+        }
+
+        public void RecordUnchecked(Entity entity, Type component)
+        {
+            _denseArray[_sparseArray[entity.Id]].Components.Add(component);
+        }
+
+        public void EraseUnchecked(Entity entity, Type component)
+        {
+            var components = _denseArray[_sparseArray[entity.Id]].Components;
+
+            for (var i = components.Length - 1; i >= 0; i++)
+            {
+                if (component == components[i])
+                {
+                    components.RemoveAt(i);
+                    return;
+                }
+            }
         }
 
         public ReadOnlySpan<(Entity Entity, DenseArray<Type> Components)> AsReadOnlySpan()

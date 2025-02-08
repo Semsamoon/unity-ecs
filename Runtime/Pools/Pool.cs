@@ -45,6 +45,7 @@ namespace ECS
             _sparseArray[entity.Id] = Length;
             _denseArray.Add(entity);
             _world.FiltersInternal.Record(entity, _type);
+            _world.EntitiesInternal.RecordUnchecked(entity, _type);
         }
 
         public bool Contains(Entity entity)
@@ -66,6 +67,16 @@ namespace ECS
             _denseArray[index] = new Entity();
             _denseArray.RemoveAt(index);
             _world.FiltersInternal.Erase(entity, _type);
+            _world.EntitiesInternal.EraseUnchecked(entity, _type);
+        }
+
+        public void RemoveUnchecked(Entity entity)
+        {
+            var index = _sparseArray[entity.Id];
+            _sparseArray[_denseArray[^1].Id] = index;
+            _sparseArray[entity.Id] = 0;
+            _denseArray[index] = new Entity();
+            _denseArray.RemoveAt(index);
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
@@ -126,6 +137,7 @@ namespace ECS
             _sparseArray[entity.Id] = Length;
             _denseArray.Add((entity, value));
             _world.FiltersInternal.Record(entity, typeof(T));
+            _world.EntitiesInternal.RecordUnchecked(entity, typeof(T));
         }
 
         public ref T Get(int index)
@@ -145,6 +157,7 @@ namespace ECS
             _sparseArray[entity.Id] = Length;
             _denseArray.Add((entity, default));
             _world.FiltersInternal.Record(entity, typeof(T));
+            _world.EntitiesInternal.RecordUnchecked(entity, typeof(T));
 
             return ref _denseArray[^1].Value;
         }
@@ -168,6 +181,16 @@ namespace ECS
             _denseArray[index].Entity = new Entity();
             _denseArray.RemoveAt(index);
             _world.FiltersInternal.Erase(entity, typeof(T));
+            _world.EntitiesInternal.EraseUnchecked(entity, typeof(T));
+        }
+
+        public void RemoveUnchecked(Entity entity)
+        {
+            var index = _sparseArray[entity.Id];
+            _sparseArray[_denseArray[^1].Entity.Id] = index;
+            _sparseArray[entity.Id] = 0;
+            _denseArray[index].Entity = new Entity();
+            _denseArray.RemoveAt(index);
         }
 
         public ReadOnlySpan<(Entity Entity, T Value)> AsReadOnlySpan()
