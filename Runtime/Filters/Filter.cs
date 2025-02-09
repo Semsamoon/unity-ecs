@@ -35,7 +35,12 @@ namespace ECS
 
         public void Change(Entity entity, int difference)
         {
-            if (_counts[entity.Id] == _sum)
+            if (entity.IsNull())
+            {
+                return;
+            }
+
+            if (_counts[entity.Id] == _sum && Contains(entity))
             {
                 Remove(entity);
             }
@@ -65,11 +70,6 @@ namespace ECS
 
         private void Add(Entity entity)
         {
-            if (entity.IsNull() || _denseArray[_sparseArray[entity.Id]] == entity)
-            {
-                return;
-            }
-
             _sparseArray[entity.Id] = Length;
             _denseArray.Add(entity);
         }
@@ -77,12 +77,6 @@ namespace ECS
         private void Remove(Entity entity)
         {
             var index = _sparseArray[entity.Id];
-
-            if (entity.IsNull() || _denseArray[index] != entity)
-            {
-                return;
-            }
-
             _sparseArray[_denseArray[^1].Id] = index;
             _sparseArray[entity.Id] = 0;
             _denseArray[index] = new Entity();
