@@ -52,9 +52,9 @@ namespace ECS.Tests
             filters.Include(filter, typeof(int));
             filters.Include(filter, typeof(string), 4);
 
-            filters.Record(entity1x0, typeof(int));
-            filters.Record(entity1x0, typeof(string));
-            filters.Record(entity2x0, typeof(int));
+            filters.RecordUnchecked(entity1x0, typeof(int));
+            filters.RecordUnchecked(entity1x0, typeof(string));
+            filters.RecordUnchecked(entity2x0, typeof(int));
 
             Assert.AreEqual((2, 0), filters.Length);
             Assert.True(filter.Contains(entity1x0));
@@ -72,10 +72,10 @@ namespace ECS.Tests
             filters.Exclude(filter, typeof(int));
             filters.Exclude(filter, typeof(string), 4);
 
-            filters.Erase(entity1x0, typeof(int));
-            filters.Erase(entity1x0, typeof(string));
-            filters.Record(entity2x0, typeof(int));
-            filters.Erase(entity2x0, typeof(string));
+            filters.EraseUnchecked(entity1x0, typeof(int));
+            filters.EraseUnchecked(entity1x0, typeof(string));
+            filters.RecordUnchecked(entity2x0, typeof(int));
+            filters.EraseUnchecked(entity2x0, typeof(string));
 
             Assert.AreEqual((0, 2), filters.Length);
             Assert.True(filter.Contains(entity1x0));
@@ -93,10 +93,10 @@ namespace ECS.Tests
 
             filters.Include(filter, typeof(int));
 
-            filters.Record(entity, typeof(int));
-            filters.Record(entity1x0, typeof(int));
-            filters.Record(entity1x0, typeof(string));
-            filters.Record(entity2x0, typeof(string));
+            filters.RecordUnchecked(entity, typeof(int));
+            filters.RecordUnchecked(entity1x0, typeof(int));
+            filters.RecordUnchecked(entity1x0, typeof(string));
+            filters.RecordUnchecked(entity2x0, typeof(string));
 
             Assert.False(filter.Contains(entity));
             Assert.True(filter.Contains(entity1x0));
@@ -114,10 +114,10 @@ namespace ECS.Tests
 
             filters.Exclude(filter, typeof(int));
 
-            filters.Erase(entity, typeof(int));
-            filters.Erase(entity1x0, typeof(int));
-            filters.Erase(entity1x0, typeof(string));
-            filters.Erase(entity2x0, typeof(string));
+            filters.EraseUnchecked(entity, typeof(int));
+            filters.EraseUnchecked(entity1x0, typeof(int));
+            filters.EraseUnchecked(entity1x0, typeof(string));
+            filters.EraseUnchecked(entity2x0, typeof(string));
 
             Assert.False(filter.Contains(entity));
             Assert.True(filter.Contains(entity1x0));

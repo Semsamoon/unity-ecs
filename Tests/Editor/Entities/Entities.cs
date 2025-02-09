@@ -56,16 +56,18 @@ namespace ECS.Tests
             Assert.AreEqual(0, entities[0].Components.Length);
 
             entities.Remove(entity1x0);
-            entities.Create();
+            entities.Create(10);
 
             Assert.AreEqual(1, entities.Length);
             Assert.AreEqual(entity1x1, entities[0].Entity);
+            Assert.GreaterOrEqual(entities[0].Components.Capacity, 10);
             Assert.AreEqual(0, entities[0].Components.Length);
 
-            entities.Create();
+            entities.Create(10);
 
             Assert.AreEqual(2, entities.Length);
             Assert.AreEqual(entity2x0, entities[1].Entity);
+            Assert.AreEqual(10, entities[1].Components.Capacity);
             Assert.AreEqual(0, entities[1].Components.Length);
         }
 
