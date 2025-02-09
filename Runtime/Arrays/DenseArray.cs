@@ -52,6 +52,11 @@ namespace ECS
             (_array[index], _array[Length]) = (_array[Length], _array[index]);
         }
 
+        public void Clear()
+        {
+            Length = 0;
+        }
+
         public ReadOnlySpan<T> AsReadOnlySpan()
         {
             return _array[..Length];
