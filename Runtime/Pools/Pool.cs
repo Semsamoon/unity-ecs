@@ -34,7 +34,7 @@ namespace ECS
 
         public void Add(Entity entity)
         {
-            if (entity.IsNull() || _denseArray[_sparseArray[entity.Id]] == entity)
+            if (!_world.EntitiesInternal.Contains(entity) || Contains(entity))
             {
                 return;
             }
@@ -111,16 +111,14 @@ namespace ECS
 
         public void Set(Entity entity, T value)
         {
-            if (entity.IsNull())
+            if (!_world.EntitiesInternal.Contains(entity))
             {
                 return;
             }
 
-            ref var data = ref _denseArray[_sparseArray[entity.Id]];
-
-            if (data.Entity == entity)
+            if (Contains(entity))
             {
-                data.Value = value;
+                _denseArray[_sparseArray[entity.Id]].Value = value;
                 return;
             }
 
