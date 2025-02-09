@@ -19,13 +19,14 @@ namespace ECS
         public Systems(World world)
         {
             _world = world;
-            _systems = new DenseArray<ISystem>();
+            _systems = new DenseArray<ISystem>(OptionsSystems.DefaultCapacity);
         }
 
-        public Systems(World world, int capacity)
+        public Systems(World world, OptionsSystems options)
         {
+            options = options.Validate();
             _world = world;
-            _systems = new DenseArray<ISystem>(capacity);
+            _systems = new DenseArray<ISystem>(options.Capacity);
         }
 
         public ISystems Add<T>() where T : ISystem, new()
