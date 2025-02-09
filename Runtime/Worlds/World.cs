@@ -20,9 +20,9 @@
             SystemsInternal = new Systems(this);
         }
 
-        public World((int sparse, int dense) entitiesCapacity, int poolsCapacity, (int included, int excluded) filtersCapacity, int systemsCapacity)
+        public World(OptionsEntities optionsEntities, int poolsCapacity, (int included, int excluded) filtersCapacity, int systemsCapacity)
         {
-            EntitiesInternal = new Entities(this, entitiesCapacity.sparse, entitiesCapacity.dense);
+            EntitiesInternal = new Entities(this, optionsEntities);
             PoolsInternal = new Pools(this, poolsCapacity);
             FiltersInternal = new Filters(this, filtersCapacity.included, filtersCapacity.excluded);
             SystemsInternal = new Systems(this, systemsCapacity);

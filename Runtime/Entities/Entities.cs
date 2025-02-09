@@ -8,11 +8,11 @@ namespace ECS
     /// </summary>
     public sealed class Entities : IEntities
     {
-        private const int DefaultComponentsCapacity = 4;
-
         private readonly World _world;
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<(Entity Entity, DenseArray<Type> Components)> _denseArray;
+        private readonly int _defaultComponentsCapacity;
+
         private int _removed;
         private int _id;
 
@@ -24,15 +24,18 @@ namespace ECS
         public Entities(World world)
         {
             _world = world;
-            _sparseArray = new SparseArray<int>();
-            _denseArray = new DenseArray<(Entity, DenseArray<Type>)>();
+            _sparseArray = new SparseArray<int>(OptionsEntities.DefaultCapacity);
+            _denseArray = new DenseArray<(Entity, DenseArray<Type>)>(OptionsEntities.DefaultCapacity);
+            _defaultComponentsCapacity = OptionsEntities.DefaultComponentsCapacity;
         }
 
-        public Entities(World world, int sparseCapacity, int denseCapacity)
+        public Entities(World world, OptionsEntities options)
         {
+            options = options.Validate();
             _world = world;
-            _sparseArray = new SparseArray<int>(sparseCapacity);
-            _denseArray = new DenseArray<(Entity, DenseArray<Type>)>(denseCapacity);
+            _sparseArray = new SparseArray<int>(options.Capacity);
+            _denseArray = new DenseArray<(Entity, DenseArray<Type>)>(options.Capacity);
+            _defaultComponentsCapacity = options.ComponentsCapacity;
         }
 
         public Entity Create()
@@ -50,7 +53,7 @@ namespace ECS
             _id++;
             var created = new Entity(_id, 0);
             _sparseArray[created.Id] = Length;
-            _denseArray.Add((created, new DenseArray<Type>(DefaultComponentsCapacity)));
+            _denseArray.Add((created, new DenseArray<Type>(_defaultComponentsCapacity)));
             return created;
         }
 
