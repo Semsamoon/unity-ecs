@@ -7,8 +7,8 @@ namespace ECS.Tests
         [Test]
         public void Constructor()
         {
-            var systems10 = new ECS.Systems(null, 10);
-            var systems_10 = new ECS.Systems(null, -10);
+            var systems10 = new ECS.Systems(null, new OptionsSystems(10));
+            var systems_10 = new ECS.Systems(null, new OptionsSystems(-10));
             var systems = new ECS.Systems(null);
 
             Assert.AreEqual(10, systems10.Capacity);

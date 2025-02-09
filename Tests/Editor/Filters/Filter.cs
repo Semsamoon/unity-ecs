@@ -9,8 +9,8 @@ namespace ECS.Tests
         {
             var filter10 = new ECS.Filter(10);
             var filter_10 = new ECS.Filter(-10);
-            var filter0x10x10 = new ECS.Filter(0, 10, 10);
-            var filter0x_10x_10 = new ECS.Filter(0, -10, -10);
+            var filter0x10x10 = new ECS.Filter(0, new OptionsFilter(10, 10));
+            var filter0x_10x_10 = new ECS.Filter(0, new OptionsFilter(-10, -10));
 
             Assert.Positive(filter10.Capacity);
             Assert.Positive(filter_10.Capacity);

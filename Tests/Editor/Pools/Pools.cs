@@ -9,8 +9,8 @@ namespace ECS.Tests
         public void Constructor()
         {
             var pools = new ECS.Pools(null);
-            var pools10 = new ECS.Pools(null, 10);
-            var pools_10 = new ECS.Pools(null, -10);
+            var pools10 = new ECS.Pools(null, new OptionsPools(10), OptionsPool.Default());
+            var pools_10 = new ECS.Pools(null, new OptionsPools(-10), OptionsPool.Default());
 
             Assert.AreEqual(0, pools.Length);
             Assert.AreEqual(0, pools10.Length);
@@ -23,16 +23,16 @@ namespace ECS.Tests
             var pools = new ECS.Pools(null);
 
             pools.Add<int>();
-            pools.Add<int>(10, 10);
-            pools.Add<string>(10, 10);
+            pools.Add<int>(new OptionsPool(10, 10));
+            pools.Add<string>(new OptionsPool(10, 10));
 
             Assert.AreEqual(2, pools.Length);
             Assert.AreNotEqual(10, ((Pool<int>)pools.Get<int>()).Capacity);
             Assert.AreEqual(10, pools.GetPool<string>().Capacity);
 
             pools.Add<ATag>();
-            pools.Add<ATag>(10, 10);
-            pools.Add<BTag>(10, 10);
+            pools.Add<ATag>(new OptionsPool(10, 10));
+            pools.Add<BTag>(new OptionsPool(10, 10));
 
             Assert.AreEqual(4, pools.Length);
             Assert.AreNotEqual(10, ((ECS.Pool)pools.GetTag<ATag>()).Capacity);
@@ -44,16 +44,16 @@ namespace ECS.Tests
         {
             var pools = new ECS.Pools(null);
 
-            pools.Add<int>(10, 10);
+            pools.Add<int>(new OptionsPool(10, 10));
 
-            Assert.AreEqual(10, pools.GetPool<int>(20, 20).Capacity);
-            Assert.AreEqual(10, ((Pool<string>)pools.Get<string>(10, 10)).Capacity);
+            Assert.AreEqual(10, pools.GetPool<int>(new OptionsPool(20, 20)).Capacity);
+            Assert.AreEqual(10, ((Pool<string>)pools.Get<string>(new OptionsPool(10, 10))).Capacity);
             Assert.AreEqual(10, pools.GetPool<string>().Capacity);
 
-            pools.Add<ATag>(10, 10);
+            pools.Add<ATag>(new OptionsPool(10, 10));
 
-            Assert.AreEqual(10, pools.GetPool<ATag>(20, 20).Capacity);
-            Assert.AreEqual(10, ((ECS.Pool)pools.GetTag<BTag>(10, 10)).Capacity);
+            Assert.AreEqual(10, pools.GetPool<ATag>(new OptionsPool(20, 20)).Capacity);
+            Assert.AreEqual(10, ((ECS.Pool)pools.GetTag<BTag>(new OptionsPool(10, 10))).Capacity);
             Assert.AreEqual(10, pools.GetPool<BTag>().Capacity);
             Assert.Throws<InvalidCastException>(() => pools.Get<ATag>());
         }
