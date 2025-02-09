@@ -20,12 +20,12 @@
             SystemsInternal = new Systems(this);
         }
 
-        public World(OptionsEntities optionsEntities, OptionsPools optionsPools, OptionsPool optionsPool, OptionsFilters optionsFilters, OptionsFilter optionsFilter, OptionsSystems optionsSystems)
+        public World(OptionsWorld options)
         {
-            EntitiesInternal = new Entities(this, optionsEntities);
-            PoolsInternal = new Pools(this, optionsPools, optionsPool);
-            FiltersInternal = new Filters(this, optionsFilters, optionsFilter);
-            SystemsInternal = new Systems(this, optionsSystems);
+            EntitiesInternal = new Entities(this, options.Entities);
+            PoolsInternal = new Pools(this, options.Pools, options.Pool);
+            FiltersInternal = new Filters(this, options.Filters, options.Filter);
+            SystemsInternal = new Systems(this, options.Systems);
         }
 
         public void Destroy()
