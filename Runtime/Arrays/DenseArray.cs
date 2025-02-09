@@ -62,7 +62,7 @@ namespace ECS
             return ((IEnumerable<T>)_array[..Length]).GetEnumerator();
         }
 
-        private void ExtendTo(int index)
+        public void ExtendTo(int index)
         {
             var capacity = Capacity;
 

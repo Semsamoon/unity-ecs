@@ -43,7 +43,7 @@ namespace ECS
             return ((IEnumerable<T>)_array).GetEnumerator();
         }
 
-        private void ExtendTo(int index)
+        public void ExtendTo(int index)
         {
             var length = Length;
 
