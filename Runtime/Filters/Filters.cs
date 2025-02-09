@@ -78,7 +78,7 @@ namespace ECS
             _excluded.Add(type, filters);
         }
 
-        public void Record(Entity entity, Type type)
+        public void RecordUnchecked(Entity entity, Type type)
         {
             if (_included.TryGetValue(type, out var included))
             {
@@ -91,7 +91,7 @@ namespace ECS
             }
         }
 
-        public void Erase(Entity entity, Type type)
+        public void EraseUnchecked(Entity entity, Type type)
         {
             if (_included.TryGetValue(type, out var included))
             {

@@ -41,7 +41,7 @@ namespace ECS
 
             _sparseArray[entity.Id] = Length;
             _denseArray.Add(entity);
-            _world.FiltersInternal.Record(entity, _type);
+            _world.FiltersInternal.RecordUnchecked(entity, _type);
             _world.EntitiesInternal.RecordUnchecked(entity, _type);
         }
 
@@ -58,7 +58,7 @@ namespace ECS
             }
 
             RemoveUnchecked(entity);
-            _world.FiltersInternal.Erase(entity, _type);
+            _world.FiltersInternal.EraseUnchecked(entity, _type);
             _world.EntitiesInternal.EraseUnchecked(entity, _type);
         }
 
@@ -126,7 +126,7 @@ namespace ECS
 
             _sparseArray[entity.Id] = Length;
             _denseArray.Add((entity, value));
-            _world.FiltersInternal.Record(entity, typeof(T));
+            _world.FiltersInternal.RecordUnchecked(entity, typeof(T));
             _world.EntitiesInternal.RecordUnchecked(entity, typeof(T));
         }
 
@@ -146,7 +146,7 @@ namespace ECS
 
             _sparseArray[entity.Id] = Length;
             _denseArray.Add((entity, default));
-            _world.FiltersInternal.Record(entity, typeof(T));
+            _world.FiltersInternal.RecordUnchecked(entity, typeof(T));
             _world.EntitiesInternal.RecordUnchecked(entity, typeof(T));
 
             return ref _denseArray[^1].Value;
@@ -165,7 +165,7 @@ namespace ECS
             }
 
             RemoveUnchecked(entity);
-            _world.FiltersInternal.Erase(entity, typeof(T));
+            _world.FiltersInternal.EraseUnchecked(entity, typeof(T));
             _world.EntitiesInternal.EraseUnchecked(entity, typeof(T));
         }
 

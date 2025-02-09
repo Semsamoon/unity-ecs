@@ -77,7 +77,7 @@ namespace ECS
             foreach (var component in tuple.Components)
             {
                 _world.PoolsInternal.GetPoolUnchecked(component).RemoveUnchecked(entity);
-                _world.FiltersInternal.Erase(entity, component);
+                _world.FiltersInternal.EraseUnchecked(entity, component);
             }
 
             tuple.Components.Clear();
