@@ -11,23 +11,26 @@ namespace ECS
         private readonly Entities _entities;
         private readonly DenseArray<(Type, IPoolInternal)> _included;
         private readonly DenseArray<(Type, IPoolInternal)> _excluded;
+        private readonly OptionsFilter _options;
 
-        public FilterBuilder(Filters filters, Pools pools, Entities entities)
+        public FilterBuilder(Filters filters, Pools pools, Entities entities, OptionsFilter options)
         {
             _filters = filters;
             _pools = pools;
             _entities = entities;
             _included = new DenseArray<(Type, IPoolInternal)>(DefaultCapacity);
             _excluded = new DenseArray<(Type, IPoolInternal)>(DefaultCapacity);
+            _options = options;
         }
 
-        public FilterBuilder(Filters filters, Pools pools, Entities entities, int included, int excluded)
+        public FilterBuilder(Filters filters, Pools pools, Entities entities, OptionsFilter options, int included, int excluded)
         {
             _filters = filters;
             _pools = pools;
             _entities = entities;
             _included = new DenseArray<(Type, IPoolInternal)>(included);
             _excluded = new DenseArray<(Type, IPoolInternal)>(excluded);
+            _options = options;
         }
 
         public FilterBuilder Include<T>()
@@ -74,7 +77,12 @@ namespace ECS
 
         public IFilter Build()
         {
-            var filter = new Filter(_included.Length + _excluded.Length);
+            return Build(_options);
+        }
+
+        public IFilter Build(OptionsFilter options)
+        {
+            var filter = new Filter(_included.Length + _excluded.Length, options);
 
             foreach (var (type, pool) in _included)
             {

@@ -22,18 +22,19 @@ namespace ECS
         public Filter(int sum)
         {
             sum = Math.Max(0, sum);
-            _counts = new SparseArray<int>();
-            _sparseArray = new SparseArray<int>();
-            _denseArray = new DenseArray<Entity>();
+            _counts = new SparseArray<int>(OptionsFilter.DefaultEntitiesCapacity);
+            _sparseArray = new SparseArray<int>(OptionsFilter.DefaultEntitiesCapacity);
+            _denseArray = new DenseArray<Entity>(OptionsFilter.DefaultCapacity);
             _sum = sum;
         }
 
-        public Filter(int sum, int sparseCapacity, int denseCapacity)
+        public Filter(int sum, OptionsFilter options)
         {
             sum = Math.Max(0, sum);
-            _counts = new SparseArray<int>(sparseCapacity);
-            _sparseArray = new SparseArray<int>(sparseCapacity);
-            _denseArray = new DenseArray<Entity>(denseCapacity);
+            options = options.Validate();
+            _counts = new SparseArray<int>(options.EntitiesCapacity);
+            _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
+            _denseArray = new DenseArray<Entity>(options.Capacity);
             _sum = sum;
         }
 

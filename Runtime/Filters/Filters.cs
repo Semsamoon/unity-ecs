@@ -8,39 +8,39 @@ namespace ECS
     /// </summary>
     public sealed class Filters : IFilters
     {
-        private const int DefaultCapacity = 64;
-        private const int DefaultFiltersCapacity = 8;
-
         private readonly World _world;
         private readonly Dictionary<Type, DenseArray<Filter>> _included;
         private readonly Dictionary<Type, DenseArray<Filter>> _excluded;
+        private readonly int _defaultFiltersCapacity;
+        private readonly OptionsFilter _defaultOptionsFilter;
 
         public (int included, int excluded) Length => (_included.Count, _excluded.Count);
 
         public Filters(World world)
         {
             _world = world;
-            _included = new Dictionary<Type, DenseArray<Filter>>(DefaultCapacity);
-            _excluded = new Dictionary<Type, DenseArray<Filter>>(DefaultCapacity);
+            _included = new Dictionary<Type, DenseArray<Filter>>(OptionsFilters.DefaultCapacity);
+            _excluded = new Dictionary<Type, DenseArray<Filter>>(OptionsFilters.DefaultCapacity);
         }
 
-        public Filters(World world, int includedCapacity, int excludedCapacity)
+        public Filters(World world, OptionsFilters options, OptionsFilter optionsFilter)
         {
-            includedCapacity = Math.Max(includedCapacity, 2);
-            excludedCapacity = Math.Max(excludedCapacity, 2);
+            options = options.Validate();
             _world = world;
-            _included = new Dictionary<Type, DenseArray<Filter>>(includedCapacity);
-            _excluded = new Dictionary<Type, DenseArray<Filter>>(excludedCapacity);
+            _included = new Dictionary<Type, DenseArray<Filter>>(options.Capacity);
+            _excluded = new Dictionary<Type, DenseArray<Filter>>(options.Capacity);
+            _defaultFiltersCapacity = options.FiltersCapacity;
+            _defaultOptionsFilter = optionsFilter;
         }
 
         public FilterBuilder Create()
         {
-            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal);
+            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, _defaultOptionsFilter);
         }
 
         public FilterBuilder Create(int included, int excluded)
         {
-            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, included, excluded);
+            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, _defaultOptionsFilter, included, excluded);
         }
 
         public void Include(Filter filter, Type type)
@@ -51,7 +51,7 @@ namespace ECS
                 return;
             }
 
-            var filters = new DenseArray<Filter>(DefaultFiltersCapacity);
+            var filters = new DenseArray<Filter>(_defaultFiltersCapacity);
             filters.Add(filter);
             _included.Add(type, filters);
         }
@@ -64,7 +64,7 @@ namespace ECS
                 return;
             }
 
-            var filters = new DenseArray<Filter>(capacity);
+            var filters = new DenseArray<Filter>(capacity > 0 ? capacity : _defaultFiltersCapacity);
             filters.Add(filter);
             _included.Add(type, filters);
         }
@@ -77,7 +77,7 @@ namespace ECS
                 return;
             }
 
-            var filters = new DenseArray<Filter>(DefaultFiltersCapacity);
+            var filters = new DenseArray<Filter>(_defaultFiltersCapacity);
             filters.Add(filter);
             _excluded.Add(type, filters);
         }
@@ -90,7 +90,7 @@ namespace ECS
                 return;
             }
 
-            var filters = new DenseArray<Filter>(capacity);
+            var filters = new DenseArray<Filter>(capacity > 0 ? capacity : _defaultFiltersCapacity);
             filters.Add(filter);
             _excluded.Add(type, filters);
         }

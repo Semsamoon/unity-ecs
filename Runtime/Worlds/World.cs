@@ -20,11 +20,11 @@
             SystemsInternal = new Systems(this);
         }
 
-        public World(OptionsEntities optionsEntities, OptionsPools optionsPools, OptionsPool optionsPool, (int included, int excluded) filtersCapacity, int systemsCapacity)
+        public World(OptionsEntities optionsEntities, OptionsPools optionsPools, OptionsPool optionsPool, OptionsFilters optionsFilters, OptionsFilter optionsFilter, int systemsCapacity)
         {
             EntitiesInternal = new Entities(this, optionsEntities);
             PoolsInternal = new Pools(this, optionsPools, optionsPool);
-            FiltersInternal = new Filters(this, filtersCapacity.included, filtersCapacity.excluded);
+            FiltersInternal = new Filters(this, optionsFilters, optionsFilter);
             SystemsInternal = new Systems(this, systemsCapacity);
         }
 
