@@ -23,16 +23,17 @@ namespace ECS
         {
             _world = world;
             _type = type;
-            _sparseArray = new SparseArray<int>();
-            _denseArray = new DenseArray<Entity>();
+            _sparseArray = new SparseArray<int>(OptionsPool.DefaultEntitiesCapacity);
+            _denseArray = new DenseArray<Entity>(OptionsPool.DefaultCapacity);
         }
 
-        public Pool(World world, Type type, int sparseCapacity, int denseCapacity)
+        public Pool(World world, Type type, OptionsPool options)
         {
+            options = options.Validate();
             _world = world;
             _type = type;
-            _sparseArray = new SparseArray<int>(sparseCapacity);
-            _denseArray = new DenseArray<Entity>(denseCapacity);
+            _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
+            _denseArray = new DenseArray<Entity>(options.Capacity);
         }
 
         public void Add(Entity entity)
@@ -108,15 +109,16 @@ namespace ECS
         public Pool(World world)
         {
             _world = world;
-            _sparseArray = new SparseArray<int>();
-            _denseArray = new DenseArray<(Entity, T)>();
+            _sparseArray = new SparseArray<int>(OptionsPool.DefaultEntitiesCapacity);
+            _denseArray = new DenseArray<(Entity, T)>(OptionsPool.DefaultCapacity);
         }
 
-        public Pool(World world, int sparseCapacity, int denseCapacity)
+        public Pool(World world, OptionsPool options)
         {
+            options = options.Validate();
             _world = world;
-            _sparseArray = new SparseArray<int>(sparseCapacity);
-            _denseArray = new DenseArray<(Entity, T)>(denseCapacity);
+            _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
+            _denseArray = new DenseArray<(Entity, T)>(options.Capacity);
         }
 
         public void Set(Entity entity, T value)

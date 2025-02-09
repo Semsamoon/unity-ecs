@@ -3,11 +3,11 @@
     public interface IPools
     {
         public IPools Add<T>();
-        public IPools Add<T>(int sparseCapacity, int denseCapacity);
+        public IPools Add<T>(OptionsPool options);
 
         public IPool<T> Get<T>();
-        public IPool<T> Get<T>(int sparseCapacity, int denseCapacity);
+        public IPool<T> Get<T>(OptionsPool options);
         public IPool GetTag<T>() where T : ITag;
-        public IPool GetTag<T>(int sparseCapacity, int denseCapacity) where T : ITag;
+        public IPool GetTag<T>(OptionsPool options) where T : ITag;
     }
 }
