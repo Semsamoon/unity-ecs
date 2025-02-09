@@ -21,12 +21,8 @@ namespace ECS
 
         public (Entity Entity, DenseArray<Type> Components) this[int index] => _denseArray[index];
 
-        public Entities(World world)
+        public Entities(World world) : this(world, OptionsEntities.Default())
         {
-            _world = world;
-            _sparseArray = new SparseArray<int>(OptionsEntities.DefaultCapacity);
-            _denseArray = new DenseArray<(Entity, DenseArray<Type>)>(OptionsEntities.DefaultCapacity);
-            _defaultComponentsCapacity = OptionsEntities.DefaultComponentsCapacity;
         }
 
         public Entities(World world, OptionsEntities options)

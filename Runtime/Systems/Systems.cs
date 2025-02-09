@@ -16,10 +16,8 @@ namespace ECS
 
         public ISystem this[int index] => _systems[index];
 
-        public Systems(World world)
+        public Systems(World world) : this(world, OptionsSystems.Default())
         {
-            _world = world;
-            _systems = new DenseArray<ISystem>(OptionsSystems.DefaultCapacity);
         }
 
         public Systems(World world, OptionsSystems options)
@@ -31,9 +29,7 @@ namespace ECS
 
         public ISystems Add<T>() where T : ISystem, new()
         {
-            var system = new T();
-            _systems.Add(system);
-            system.Initialize(_world);
+            Add(new T());
             return this;
         }
 

@@ -19,13 +19,8 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index];
 
-        public Filter(int sum)
+        public Filter(int sum) : this(sum, OptionsFilter.Default())
         {
-            sum = Math.Max(0, sum);
-            _counts = new SparseArray<int>(OptionsFilter.DefaultEntitiesCapacity);
-            _sparseArray = new SparseArray<int>(OptionsFilter.DefaultEntitiesCapacity);
-            _denseArray = new DenseArray<Entity>(OptionsFilter.DefaultCapacity);
-            _sum = sum;
         }
 
         public Filter(int sum, OptionsFilter options)

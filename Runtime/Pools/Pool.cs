@@ -19,12 +19,8 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index];
 
-        public Pool(World world, Type type)
+        public Pool(World world, Type type) : this(world, type, OptionsPool.Default())
         {
-            _world = world;
-            _type = type;
-            _sparseArray = new SparseArray<int>(OptionsPool.DefaultEntitiesCapacity);
-            _denseArray = new DenseArray<Entity>(OptionsPool.DefaultCapacity);
         }
 
         public Pool(World world, Type type, OptionsPool options)
@@ -56,17 +52,12 @@ namespace ECS
 
         public void Remove(Entity entity)
         {
-            var index = _sparseArray[entity.Id];
-
-            if (entity.IsNull() || _denseArray[index] != entity)
+            if (!Contains(entity))
             {
                 return;
             }
 
-            _sparseArray[_denseArray[^1].Id] = index;
-            _sparseArray[entity.Id] = 0;
-            _denseArray[index] = new Entity();
-            _denseArray.RemoveAt(index);
+            RemoveUnchecked(entity);
             _world.FiltersInternal.Erase(entity, _type);
             _world.EntitiesInternal.EraseUnchecked(entity, _type);
         }
@@ -106,11 +97,8 @@ namespace ECS
 
         public (Entity Entity, T Value) this[int index] => _denseArray[index];
 
-        public Pool(World world)
+        public Pool(World world) : this(world, OptionsPool.Default())
         {
-            _world = world;
-            _sparseArray = new SparseArray<int>(OptionsPool.DefaultEntitiesCapacity);
-            _denseArray = new DenseArray<(Entity, T)>(OptionsPool.DefaultCapacity);
         }
 
         public Pool(World world, OptionsPool options)
@@ -171,17 +159,12 @@ namespace ECS
 
         public void Remove(Entity entity)
         {
-            var index = _sparseArray[entity.Id];
-
-            if (entity.IsNull() || _denseArray[index].Entity != entity)
+            if (!Contains(entity))
             {
                 return;
             }
 
-            _sparseArray[_denseArray[^1].Entity.Id] = index;
-            _sparseArray[entity.Id] = 0;
-            _denseArray[index].Entity = new Entity();
-            _denseArray.RemoveAt(index);
+            RemoveUnchecked(entity);
             _world.FiltersInternal.Erase(entity, typeof(T));
             _world.EntitiesInternal.EraseUnchecked(entity, typeof(T));
         }

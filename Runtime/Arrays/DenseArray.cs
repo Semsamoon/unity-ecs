@@ -25,14 +25,13 @@ namespace ECS
             }
         }
 
-        public DenseArray()
+        public DenseArray() : this(DefaultCapacity)
         {
-            _array = new T[DefaultCapacity];
         }
 
         public DenseArray(int capacity)
         {
-            capacity = Math.Max(capacity, 1);
+            capacity = capacity > 0 ? capacity : DefaultCapacity;
             _array = new T[capacity];
         }
 

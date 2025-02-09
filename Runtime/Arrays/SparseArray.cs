@@ -23,14 +23,13 @@ namespace ECS
             }
         }
 
-        public SparseArray()
+        public SparseArray() : this(DefaultLength)
         {
-            _array = new T[DefaultLength];
         }
 
         public SparseArray(int length)
         {
-            length = Math.Max(length, 1);
+            length = length > 0 ? length : DefaultLength;
             _array = new T[length];
         }
 

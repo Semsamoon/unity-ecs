@@ -14,13 +14,8 @@ namespace ECS
         private readonly OptionsFilter _options;
 
         public FilterBuilder(Filters filters, Pools pools, Entities entities, OptionsFilter options)
+            : this(filters, pools, entities, options, DefaultCapacity, DefaultCapacity)
         {
-            _filters = filters;
-            _pools = pools;
-            _entities = entities;
-            _included = new DenseArray<(Type, IPoolInternal)>(DefaultCapacity);
-            _excluded = new DenseArray<(Type, IPoolInternal)>(DefaultCapacity);
-            _options = options;
         }
 
         public FilterBuilder(Filters filters, Pools pools, Entities entities, OptionsFilter options, int included, int excluded)

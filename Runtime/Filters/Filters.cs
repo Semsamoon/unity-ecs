@@ -16,11 +16,8 @@ namespace ECS
 
         public (int included, int excluded) Length => (_included.Count, _excluded.Count);
 
-        public Filters(World world)
+        public Filters(World world) : this(world, OptionsFilters.Default(), OptionsFilter.Default())
         {
-            _world = world;
-            _included = new Dictionary<Type, DenseArray<Filter>>(OptionsFilters.DefaultCapacity);
-            _excluded = new Dictionary<Type, DenseArray<Filter>>(OptionsFilters.DefaultCapacity);
         }
 
         public Filters(World world, OptionsFilters options, OptionsFilter optionsFilter)
@@ -45,15 +42,7 @@ namespace ECS
 
         public void Include(Filter filter, Type type)
         {
-            if (_included.TryGetValue(type, out var included))
-            {
-                included.Add(filter);
-                return;
-            }
-
-            var filters = new DenseArray<Filter>(_defaultFiltersCapacity);
-            filters.Add(filter);
-            _included.Add(type, filters);
+            Include(filter, type, _defaultFiltersCapacity);
         }
 
         public void Include(Filter filter, Type type, int capacity)
@@ -64,22 +53,15 @@ namespace ECS
                 return;
             }
 
-            var filters = new DenseArray<Filter>(capacity > 0 ? capacity : _defaultFiltersCapacity);
+            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
+            var filters = new DenseArray<Filter>(capacity);
             filters.Add(filter);
             _included.Add(type, filters);
         }
 
         public void Exclude(Filter filter, Type type)
         {
-            if (_excluded.TryGetValue(type, out var excluded))
-            {
-                excluded.Add(filter);
-                return;
-            }
-
-            var filters = new DenseArray<Filter>(_defaultFiltersCapacity);
-            filters.Add(filter);
-            _excluded.Add(type, filters);
+            Exclude(filter, type, _defaultFiltersCapacity);
         }
 
         public void Exclude(Filter filter, Type type, int capacity)
@@ -90,7 +72,8 @@ namespace ECS
                 return;
             }
 
-            var filters = new DenseArray<Filter>(capacity > 0 ? capacity : _defaultFiltersCapacity);
+            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
+            var filters = new DenseArray<Filter>(capacity);
             filters.Add(filter);
             _excluded.Add(type, filters);
         }
@@ -99,18 +82,12 @@ namespace ECS
         {
             if (_included.TryGetValue(type, out var included))
             {
-                foreach (var filter in included)
-                {
-                    filter.Change(entity, 1);
-                }
+                Change(included, entity, 1);
             }
 
             if (_excluded.TryGetValue(type, out var excluded))
             {
-                foreach (var filter in excluded)
-                {
-                    filter.Change(entity, -1);
-                }
+                Change(excluded, entity, -1);
             }
         }
 
@@ -118,18 +95,20 @@ namespace ECS
         {
             if (_included.TryGetValue(type, out var included))
             {
-                foreach (var filter in included)
-                {
-                    filter.Change(entity, -1);
-                }
+                Change(included, entity, -1);
             }
 
             if (_excluded.TryGetValue(type, out var excluded))
             {
-                foreach (var filter in excluded)
-                {
-                    filter.Change(entity, 1);
-                }
+                Change(excluded, entity, 1);
+            }
+        }
+
+        private static void Change(DenseArray<Filter> filters, Entity entity, int difference)
+        {
+            foreach (var filter in filters)
+            {
+                filter.Change(entity, difference);
             }
         }
     }
