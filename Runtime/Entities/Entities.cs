@@ -36,10 +36,16 @@ namespace ECS
 
         public Entity Create()
         {
+            return Create(_defaultComponentsCapacity);
+        }
+
+        public Entity Create(int componentsCapacity)
+        {
             if (_removed > 0)
             {
                 var removed = _denseArray[Length + _removed];
                 var recycled = new Entity(removed.Entity.Id, removed.Entity.Gen + 1);
+                removed.Components.ExtendTo(componentsCapacity);
                 _sparseArray[recycled.Id] = Length;
                 _denseArray.Add((recycled, removed.Components));
                 _removed--;
@@ -49,7 +55,7 @@ namespace ECS
             _id++;
             var created = new Entity(_id, 0);
             _sparseArray[created.Id] = Length;
-            _denseArray.Add((created, new DenseArray<Type>(_defaultComponentsCapacity)));
+            _denseArray.Add((created, new DenseArray<Type>(componentsCapacity)));
             return created;
         }
 
