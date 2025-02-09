@@ -74,12 +74,13 @@ namespace ECS
                 return;
             }
 
-            for (var i = tuple.Components.Length - 1; i >= 0; i--)
+            foreach (var component in tuple.Components)
             {
-                _world.PoolsInternal.GetPoolUnchecked(tuple.Components[i]).RemoveUnchecked(entity);
-                _world.FiltersInternal.Erase(entity, tuple.Components[i]);
-                tuple.Components.RemoveAt(i);
+                _world.PoolsInternal.GetPoolUnchecked(component).RemoveUnchecked(entity);
+                _world.FiltersInternal.Erase(entity, component);
             }
+
+            tuple.Components.Clear();
 
             _sparseArray[_denseArray[^1].Entity.Id] = index;
             _sparseArray[entity.Id] = 0;
