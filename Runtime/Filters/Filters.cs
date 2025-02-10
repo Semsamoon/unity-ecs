@@ -32,12 +32,12 @@ namespace ECS
 
         public IFilterBuilderEmpty Create()
         {
-            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, _defaultOptionsFilter);
+            return new FilterBuilder(_world, _defaultOptionsFilter);
         }
 
         public IFilterBuilderEmpty Create(int included, int excluded)
         {
-            return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, _defaultOptionsFilter, included, excluded);
+            return new FilterBuilder(_world, _defaultOptionsFilter, included, excluded);
         }
 
         public void Include(Filter filter, Type type)

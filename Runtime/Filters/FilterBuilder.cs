@@ -2,27 +2,22 @@
 
 namespace ECS
 {
-    public readonly struct FilterBuilder : IFilterBuilder, IFilterBuilderEmpty
+    public readonly struct FilterBuilder : IFilterBuilder
     {
         private const int DefaultCapacity = 4;
 
-        private readonly Filters _filters;
-        private readonly Pools _pools;
-        private readonly Entities _entities;
+        private readonly World _world;
         private readonly DenseArray<(Type, IPoolInternal)> _included;
         private readonly DenseArray<(Type, IPoolInternal)> _excluded;
         private readonly OptionsFilter _options;
 
-        public FilterBuilder(Filters filters, Pools pools, Entities entities, OptionsFilter options)
-            : this(filters, pools, entities, options, DefaultCapacity, DefaultCapacity)
+        public FilterBuilder(World world, OptionsFilter options) : this(world, options, DefaultCapacity, DefaultCapacity)
         {
         }
 
-        public FilterBuilder(Filters filters, Pools pools, Entities entities, OptionsFilter options, int included, int excluded)
+        public FilterBuilder(World world, OptionsFilter options, int included, int excluded)
         {
-            _filters = filters;
-            _pools = pools;
-            _entities = entities;
+            _world = world;
             _included = new DenseArray<(Type, IPoolInternal)>(included);
             _excluded = new DenseArray<(Type, IPoolInternal)>(excluded);
             _options = options;
@@ -30,43 +25,43 @@ namespace ECS
 
         public IFilterBuilder Include<T>()
         {
-            _included.Add((typeof(T), _pools.GetPool<T>()));
+            _included.Add((typeof(T), _world.PoolsInternal.GetPool<T>()));
             return this;
         }
 
         public IFilterBuilder Include<T1, T2>()
         {
-            _included.Add((typeof(T1), _pools.GetPool<T1>()));
-            _included.Add((typeof(T2), _pools.GetPool<T2>()));
+            _included.Add((typeof(T1), _world.PoolsInternal.GetPool<T1>()));
+            _included.Add((typeof(T2), _world.PoolsInternal.GetPool<T2>()));
             return this;
         }
 
         public IFilterBuilder Include<T1, T2, T3>()
         {
-            _included.Add((typeof(T1), _pools.GetPool<T1>()));
-            _included.Add((typeof(T2), _pools.GetPool<T2>()));
-            _included.Add((typeof(T3), _pools.GetPool<T3>()));
+            _included.Add((typeof(T1), _world.PoolsInternal.GetPool<T1>()));
+            _included.Add((typeof(T2), _world.PoolsInternal.GetPool<T2>()));
+            _included.Add((typeof(T3), _world.PoolsInternal.GetPool<T3>()));
             return this;
         }
 
         public IFilterBuilder Exclude<T>()
         {
-            _excluded.Add((typeof(T), _pools.GetPool<T>()));
+            _excluded.Add((typeof(T), _world.PoolsInternal.GetPool<T>()));
             return this;
         }
 
         public IFilterBuilder Exclude<T1, T2>()
         {
-            _excluded.Add((typeof(T1), _pools.GetPool<T1>()));
-            _excluded.Add((typeof(T2), _pools.GetPool<T2>()));
+            _excluded.Add((typeof(T1), _world.PoolsInternal.GetPool<T1>()));
+            _excluded.Add((typeof(T2), _world.PoolsInternal.GetPool<T2>()));
             return this;
         }
 
         public IFilterBuilder Exclude<T1, T2, T3>()
         {
-            _excluded.Add((typeof(T1), _pools.GetPool<T1>()));
-            _excluded.Add((typeof(T2), _pools.GetPool<T2>()));
-            _excluded.Add((typeof(T3), _pools.GetPool<T3>()));
+            _excluded.Add((typeof(T1), _world.PoolsInternal.GetPool<T1>()));
+            _excluded.Add((typeof(T2), _world.PoolsInternal.GetPool<T2>()));
+            _excluded.Add((typeof(T3), _world.PoolsInternal.GetPool<T3>()));
             return this;
         }
 
@@ -81,9 +76,9 @@ namespace ECS
 
             foreach (var (type, pool) in _included)
             {
-                _filters.Include(filter, type);
+                _world.FiltersInternal.Include(filter, type);
 
-                foreach (var (entity, _) in _entities)
+                foreach (var (entity, _) in _world.EntitiesInternal)
                 {
                     if (pool.Contains(entity))
                     {
@@ -94,9 +89,9 @@ namespace ECS
 
             foreach (var (type, pool) in _excluded)
             {
-                _filters.Exclude(filter, type);
+                _world.FiltersInternal.Exclude(filter, type);
 
-                foreach (var (entity, _) in _entities)
+                foreach (var (entity, _) in _world.EntitiesInternal)
                 {
                     if (!pool.Contains(entity))
                     {
