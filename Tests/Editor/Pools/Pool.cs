@@ -185,7 +185,7 @@ namespace ECS.Tests
             Assert.AreEqual((entity1x0, 10), pool[0]);
             Assert.AreEqual((entity2x0, 20), pool[1]);
             Assert.AreEqual((entity, 0), pool[2]);
-            Assert.AreEqual(10, pool.Get(0));
+            Assert.AreEqual(10, pool.GetUnchecked(0));
             Assert.AreEqual(20, pool.Get(entity2x0));
             Assert.AreEqual(0, pool.Get(entity3x0));
         }
