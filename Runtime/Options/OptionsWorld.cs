@@ -7,7 +7,6 @@
         public OptionsPool Pool { get; private set; }
         public OptionsFilters Filters { get; private set; }
         public OptionsFilter Filter { get; private set; }
-        public OptionsFilterBuilder FilterBuilder { get; private set; }
         public OptionsSystems Systems { get; private set; }
 
         public OptionsWorld With(OptionsEntities entities)
@@ -40,12 +39,6 @@
             return this;
         }
 
-        public OptionsWorld With(OptionsFilterBuilder builder)
-        {
-            FilterBuilder = builder;
-            return this;
-        }
-
         public OptionsWorld With(OptionsSystems systems)
         {
             Systems = systems;
@@ -56,8 +49,7 @@
         {
             return new OptionsWorld()
                 .With(OptionsEntities.Default()).With(OptionsPools.Default()).With(OptionsPool.Default())
-                .With(OptionsFilters.Default()).With(OptionsFilter.Default()).With(OptionsFilterBuilder.Default())
-                .With(OptionsSystems.Default());
+                .With(OptionsFilters.Default()).With(OptionsFilter.Default()).With(OptionsSystems.Default());
         }
 
         public void Validate()
@@ -67,7 +59,6 @@
             Pool = Pool.Validate();
             Filters = Filters.Validate();
             Filter = Filter.Validate();
-            FilterBuilder = FilterBuilder.Validate();
             Systems = Systems.Validate();
         }
     }
