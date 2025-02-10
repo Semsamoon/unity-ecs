@@ -182,33 +182,12 @@ namespace ECS.Tests
             pool.Get(entity1x0) = 10;
             pool.Get(entity2x0) = 20;
 
-            Assert.AreEqual((entity1x0, 10), pool[0]);
-            Assert.AreEqual((entity2x0, 20), pool[1]);
-            Assert.AreEqual((entity, 0), pool[2]);
+            Assert.AreEqual(entity1x0, pool[0]);
+            Assert.AreEqual(entity2x0, pool[1]);
+            Assert.AreEqual(entity, pool[2]);
             Assert.AreEqual(10, pool.GetUnchecked(0));
             Assert.AreEqual(20, pool.Get(entity2x0));
             Assert.AreEqual(0, pool.Get(entity3x0));
-        }
-
-        [Test]
-        public void Set()
-        {
-            var world = new World();
-            var pool = new Pool<int>(world);
-            var entity1x0 = world.Entities.Create();
-            var entity2x0 = world.Entities.Create();
-
-            pool.Get(entity1x0) = 10;
-
-            Assert.AreEqual(1, pool.Length);
-            Assert.AreEqual((entity1x0, 10), pool[0]);
-
-            pool.Get(entity1x0) = 20;
-            pool.Get(entity2x0) = 30;
-
-            Assert.AreEqual(2, pool.Length);
-            Assert.AreEqual((entity1x0, 20), pool[0]);
-            Assert.AreEqual((entity2x0, 30), pool[1]);
         }
 
         [Test]
@@ -239,8 +218,10 @@ namespace ECS.Tests
             }
 
             Assert.AreEqual(64, pool.Capacity);
-            Assert.AreEqual((new ECS.Entity(32, 1), 33), pool[32]);
-            Assert.AreEqual((new ECS.Entity(), 0), pool[33]);
+            Assert.AreEqual(new ECS.Entity(32, 1), pool[32]);
+            Assert.AreEqual(33, pool.GetUnchecked(32));
+            Assert.AreEqual(new ECS.Entity(), pool[33]);
+            Assert.AreEqual(0, pool.GetUnchecked(33));
         }
 
         [Test]
