@@ -110,7 +110,7 @@ namespace ECS
         {
             foreach (var filter in filters)
             {
-                filter.Change(entity, difference);
+                filter.ChangeUnchecked(entity, difference);
             }
         }
     }

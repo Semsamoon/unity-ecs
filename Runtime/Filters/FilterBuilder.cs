@@ -80,7 +80,7 @@ namespace ECS
                 {
                     if (pool.Contains(entity))
                     {
-                        filter.Change(entity, 1);
+                        filter.ChangeUnchecked(entity, 1);
                     }
                 }
             }
@@ -93,7 +93,7 @@ namespace ECS
                 {
                     if (!pool.Contains(entity))
                     {
-                        filter.Change(entity, 1);
+                        filter.ChangeUnchecked(entity, 1);
                     }
                 }
             }

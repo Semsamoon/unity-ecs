@@ -33,29 +33,39 @@ namespace ECS
             _sum = sum;
         }
 
-        public void Change(Entity entity, int difference)
+        public void ChangeUnchecked(Entity entity, int difference)
         {
-            if (entity == Entity.Null)
+            if (Contains(entity))
             {
-                return;
-            }
-
-            if (_counts[entity.Id] == _sum && Contains(entity))
-            {
-                Remove(entity);
+                RemoveUnchecked(entity);
             }
 
             _counts[entity.Id] += difference;
 
             if (_counts[entity.Id] == _sum)
             {
-                Add(entity);
+                AddUnchecked(entity);
             }
+        }
+
+        public void AddUnchecked(Entity entity)
+        {
+            _sparseArray[entity.Id] = Length;
+            _denseArray.Add(entity);
         }
 
         public bool Contains(Entity entity)
         {
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
+        }
+
+        public void RemoveUnchecked(Entity entity)
+        {
+            var index = _sparseArray[entity.Id];
+            _sparseArray[_denseArray[^1].Id] = index;
+            _sparseArray[entity.Id] = 0;
+            _denseArray[index] = new Entity();
+            _denseArray.RemoveAt(index);
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
@@ -66,21 +76,6 @@ namespace ECS
         public IEnumerator<Entity> GetEnumerator()
         {
             return _denseArray.GetEnumerator();
-        }
-
-        private void Add(Entity entity)
-        {
-            _sparseArray[entity.Id] = Length;
-            _denseArray.Add(entity);
-        }
-
-        private void Remove(Entity entity)
-        {
-            var index = _sparseArray[entity.Id];
-            _sparseArray[_denseArray[^1].Id] = index;
-            _sparseArray[entity.Id] = 0;
-            _denseArray[index] = new Entity();
-            _denseArray.RemoveAt(index);
         }
     }
 }
