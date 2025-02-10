@@ -2,7 +2,7 @@
 
 namespace ECS
 {
-    public readonly struct FilterBuilder
+    public readonly struct FilterBuilder : IFilterBuilder, IFilterBuilderEmpty
     {
         private const int DefaultCapacity = 4;
 
@@ -28,20 +28,20 @@ namespace ECS
             _options = options;
         }
 
-        public FilterBuilder Include<T>()
+        public IFilterBuilder Include<T>()
         {
             _included.Add((typeof(T), _pools.GetPool<T>()));
             return this;
         }
 
-        public FilterBuilder Include<T1, T2>()
+        public IFilterBuilder Include<T1, T2>()
         {
             _included.Add((typeof(T1), _pools.GetPool<T1>()));
             _included.Add((typeof(T2), _pools.GetPool<T2>()));
             return this;
         }
 
-        public FilterBuilder Include<T1, T2, T3>()
+        public IFilterBuilder Include<T1, T2, T3>()
         {
             _included.Add((typeof(T1), _pools.GetPool<T1>()));
             _included.Add((typeof(T2), _pools.GetPool<T2>()));
@@ -49,20 +49,20 @@ namespace ECS
             return this;
         }
 
-        public FilterBuilder Exclude<T>()
+        public IFilterBuilder Exclude<T>()
         {
             _excluded.Add((typeof(T), _pools.GetPool<T>()));
             return this;
         }
 
-        public FilterBuilder Exclude<T1, T2>()
+        public IFilterBuilder Exclude<T1, T2>()
         {
             _excluded.Add((typeof(T1), _pools.GetPool<T1>()));
             _excluded.Add((typeof(T2), _pools.GetPool<T2>()));
             return this;
         }
 
-        public FilterBuilder Exclude<T1, T2, T3>()
+        public IFilterBuilder Exclude<T1, T2, T3>()
         {
             _excluded.Add((typeof(T1), _pools.GetPool<T1>()));
             _excluded.Add((typeof(T2), _pools.GetPool<T2>()));

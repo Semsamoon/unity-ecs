@@ -2,7 +2,7 @@
 {
     public interface IFilters
     {
-        public FilterBuilder Create();
-        public FilterBuilder Create(int included, int excluded);
+        public IFilterBuilderEmpty Create();
+        public IFilterBuilderEmpty Create(int included, int excluded);
     }
 }

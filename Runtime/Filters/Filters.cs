@@ -30,12 +30,12 @@ namespace ECS
             _defaultOptionsFilter = optionsFilter;
         }
 
-        public FilterBuilder Create()
+        public IFilterBuilderEmpty Create()
         {
             return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, _defaultOptionsFilter);
         }
 
-        public FilterBuilder Create(int included, int excluded)
+        public IFilterBuilderEmpty Create(int included, int excluded)
         {
             return new FilterBuilder(this, _world.PoolsInternal, _world.EntitiesInternal, _defaultOptionsFilter, included, excluded);
         }
