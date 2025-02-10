@@ -87,7 +87,7 @@ namespace ECS.Tests
             }
 
             Assert.AreEqual(64, pool.Capacity);
-            Assert.AreEqual(new ECS.Entity(33, 0), pool[32]);
+            Assert.AreEqual(new ECS.Entity(32, 1), pool[32]);
             Assert.AreEqual(new ECS.Entity(), pool[33]);
         }
 
@@ -124,7 +124,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                Assert.AreEqual(new ECS.Entity(i + 1, 0), span[i]);
+                Assert.AreEqual(new ECS.Entity(i, 1), span[i]);
             }
         }
 
@@ -142,7 +142,7 @@ namespace ECS.Tests
             var j = 0;
             foreach (var value in pool)
             {
-                Assert.AreEqual(new ECS.Entity(j + 1, 0), value);
+                Assert.AreEqual(new ECS.Entity(j, 1), value);
                 j++;
             }
 
@@ -241,7 +241,7 @@ namespace ECS.Tests
             }
 
             Assert.AreEqual(64, pool.Capacity);
-            Assert.AreEqual((new ECS.Entity(33, 0), 33), pool[32]);
+            Assert.AreEqual((new ECS.Entity(32, 1), 33), pool[32]);
             Assert.AreEqual((new ECS.Entity(), 0), pool[33]);
         }
 
@@ -278,7 +278,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                Assert.AreEqual((new ECS.Entity(i + 1, 0), i + 1), span[i]);
+                Assert.AreEqual((new ECS.Entity(i, 1), i + 1), span[i]);
             }
         }
 
@@ -296,7 +296,7 @@ namespace ECS.Tests
             var j = 0;
             foreach (var value in pool)
             {
-                Assert.AreEqual((new ECS.Entity(j + 1, 0), j + 1), value);
+                Assert.AreEqual((new ECS.Entity(j, 1), j + 1), value);
                 j++;
             }
 
