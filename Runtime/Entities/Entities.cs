@@ -52,10 +52,10 @@ namespace ECS
                 return recycled;
             }
 
-            _id++;
-            var created = new Entity(_id, 0);
+            var created = new Entity(_id, 1);
             _sparseArray[created.Id] = Length;
             _denseArray.Add((created, new DenseArray<Type>(componentsCapacity)));
+            _id++;
             return created;
         }
 
