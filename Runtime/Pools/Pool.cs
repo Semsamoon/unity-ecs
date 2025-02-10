@@ -39,10 +39,15 @@ namespace ECS
                 return;
             }
 
-            _sparseArray[entity.Id] = Length;
-            _denseArray.Add(entity);
+            AddUnchecked(entity);
             _world.FiltersInternal.RecordUnchecked(entity, _type);
             _world.EntitiesInternal.RecordUnchecked(entity, _type);
+        }
+
+        public void AddUnchecked(Entity entity)
+        {
+            _sparseArray[entity.Id] = Length;
+            _denseArray.Add(entity);
         }
 
         public bool Contains(Entity entity)
@@ -109,18 +114,11 @@ namespace ECS
             _denseArray = new DenseArray<(Entity, T)>(options.Capacity);
         }
 
-        public ref T Get(int index)
-        {
-            return ref _denseArray[index].Value;
-        }
-
         public ref T Get(Entity entity)
         {
-            var index = _sparseArray[entity.Id];
-
-            if (entity == Entity.Null || _denseArray[index].Entity == entity)
+            if (entity == Entity.Null || Contains(entity))
             {
-                return ref _denseArray[index].Value;
+                return ref GetUnchecked(entity);
             }
 
             _sparseArray[entity.Id] = Length;
@@ -129,6 +127,16 @@ namespace ECS
             _world.EntitiesInternal.RecordUnchecked(entity, typeof(T));
 
             return ref _denseArray[^1].Value;
+        }
+
+        public ref T GetUnchecked(Entity entity)
+        {
+            return ref _denseArray[_sparseArray[entity.Id]].Value;
+        }
+
+        public ref T GetUnchecked(int index)
+        {
+            return ref _denseArray[index].Value;
         }
 
         public bool Contains(Entity entity)
