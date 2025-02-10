@@ -109,25 +109,6 @@ namespace ECS
             _denseArray = new DenseArray<(Entity, T)>(options.Capacity);
         }
 
-        public void Set(Entity entity, T value)
-        {
-            if (!_world.EntitiesInternal.Contains(entity))
-            {
-                return;
-            }
-
-            if (Contains(entity))
-            {
-                _denseArray[_sparseArray[entity.Id]].Value = value;
-                return;
-            }
-
-            _sparseArray[entity.Id] = Length;
-            _denseArray.Add((entity, value));
-            _world.FiltersInternal.RecordUnchecked(entity, typeof(T));
-            _world.EntitiesInternal.RecordUnchecked(entity, typeof(T));
-        }
-
         public ref T Get(int index)
         {
             return ref _denseArray[index].Value;

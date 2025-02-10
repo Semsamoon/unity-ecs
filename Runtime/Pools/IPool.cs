@@ -13,7 +13,6 @@ namespace ECS
 
     public interface IPool<T>
     {
-        public void Set(Entity entity, T value);
         public ref T Get(Entity entity);
         public bool Contains(Entity entity);
         public void Remove(Entity entity);
