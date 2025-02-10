@@ -12,12 +12,17 @@ namespace ECS
         private readonly SparseArray<int> _counts;
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<Entity> _denseArray;
-        private readonly int _sum;
+
+        public int Sum { get; set; }
 
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
 
         public Entity this[int index] => _denseArray[index];
+
+        public Filter() : this(0, OptionsFilter.Default())
+        {
+        }
 
         public Filter(int sum) : this(sum, OptionsFilter.Default())
         {
@@ -25,12 +30,11 @@ namespace ECS
 
         public Filter(int sum, OptionsFilter options)
         {
-            sum = Math.Max(0, sum);
             options = options.Validate();
             _counts = new SparseArray<int>(options.EntitiesCapacity);
             _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
             _denseArray = new DenseArray<Entity>(options.Capacity);
-            _sum = sum;
+            Sum = sum;
         }
 
         public void ChangeUnchecked(Entity entity, int difference)
@@ -42,7 +46,7 @@ namespace ECS
 
             _counts[entity.Id] += difference;
 
-            if (_counts[entity.Id] == _sum)
+            if (_counts[entity.Id] == Sum)
             {
                 AddUnchecked(entity);
             }
