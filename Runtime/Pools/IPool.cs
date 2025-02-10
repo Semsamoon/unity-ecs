@@ -25,6 +25,8 @@ namespace ECS
         public int Capacity { get; }
         public int Length { get; }
 
+        public Entity this[int index] { get; }
+
         public bool Contains(Entity entity);
         public void RemoveUnchecked(Entity entity);
     }

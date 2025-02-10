@@ -100,7 +100,7 @@ namespace ECS
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
 
-        public (Entity Entity, T Value) this[int index] => _denseArray[index];
+        public Entity this[int index] => _denseArray[index].Entity;
 
         public Pool(World world) : this(world, OptionsPool.Default())
         {
