@@ -24,8 +24,8 @@ namespace ECS.Tests
             var entity2x0 = world.Entities.Create();
             var filterInt = world.Filters.Create().Include<int>().Build();
 
-            world.Pools.Get<int>().Set(entity1x0, 10);
-            world.Pools.Get<string>().Set(entity1x0, "10");
+            world.Pools.Get<int>().Get(entity1x0) = 10;
+            world.Pools.Get<string>().Get(entity1x0) = "10";
 
             Assert.AreEqual((1, 0), world.FiltersInternal.Length);
             Assert.True(filterInt.Contains(entity1x0));

@@ -111,7 +111,7 @@ namespace ECS.Tests
             Assert.DoesNotThrow(() => entities.Remove(entity0x1));
 
             entities.Create();
-            world.PoolsInternal.Get<int>().Set(entity0x1, 10);
+            world.PoolsInternal.Get<int>().Get(entity0x1) = 10;
             entities.Remove(entity0x1);
 
             Assert.AreEqual(0, entities.Length);
