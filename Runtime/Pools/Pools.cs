@@ -57,6 +57,11 @@ namespace ECS
             return pool;
         }
 
+        public IPool<T> GetUnchecked<T>()
+        {
+            return _pools[typeof(T)] as Pool<T>;
+        }
+
         public IPool GetTag<T>() where T : ITag
         {
             return GetTag<T>(_defaultOptionsPool);
@@ -72,6 +77,11 @@ namespace ECS
             var pool = new Pool(_world, typeof(T), options);
             _pools.Add(typeof(T), pool);
             return pool;
+        }
+
+        public IPool GetTagUnchecked<T>() where T : ITag
+        {
+            return _pools[typeof(T)] as IPool;
         }
 
         public IPoolInternal GetPool<T>()
