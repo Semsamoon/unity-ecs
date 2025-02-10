@@ -36,27 +36,42 @@ namespace ECS
 
         public Entity Create()
         {
-            return Create(_defaultComponentsCapacity);
+            return _removed <= 0 ? CreateUnchecked(_defaultComponentsCapacity) : RecycleUnchecked();
         }
 
         public Entity Create(int componentsCapacity)
         {
-            if (_removed > 0)
+            if (_removed <= 0)
             {
-                var removed = _denseArray[Length + _removed];
-                var recycled = new Entity(removed.Entity.Id, removed.Entity.Gen + 1);
-                removed.Components.ExtendTo(componentsCapacity);
-                _sparseArray[recycled.Id] = Length;
-                _denseArray.Add((recycled, removed.Components));
-                _removed--;
-                return recycled;
+                return CreateUnchecked(componentsCapacity);
             }
 
-            var created = new Entity(_id, 1);
-            _sparseArray[created.Id] = Length;
-            _denseArray.Add((created, new DenseArray<Type>(componentsCapacity)));
+            var recycle = RecycleUnchecked();
+            _denseArray[_sparseArray[recycle.Id]].Components.ExtendTo(componentsCapacity);
+            return recycle;
+        }
+
+        public Entity CreateUnchecked(int componentsCapacity)
+        {
+            var entity = new Entity(_id, 1);
+
+            _sparseArray[_id] = Length;
+            _denseArray.Add((entity, new DenseArray<Type>(componentsCapacity)));
             _id++;
-            return created;
+
+            return entity;
+        }
+
+        public Entity RecycleUnchecked()
+        {
+            var recycle = _denseArray[Length + _removed];
+            var entity = new Entity(recycle.Entity.Id, recycle.Entity.Gen + 1);
+
+            _sparseArray[entity.Id] = Length;
+            _denseArray.Add((entity, recycle.Components));
+            _removed--;
+
+            return entity;
         }
 
         public bool Contains(Entity entity)
@@ -66,21 +81,26 @@ namespace ECS
 
         public void Remove(Entity entity)
         {
-            var index = _sparseArray[entity.Id];
-            var tuple = _denseArray[index];
-
-            if (entity == Entity.Null || tuple.Entity != entity)
+            if (!Contains(entity))
             {
                 return;
             }
 
-            foreach (var component in tuple.Components)
+            RemoveUnchecked(entity);
+        }
+
+        public void RemoveUnchecked(Entity entity)
+        {
+            var index = _sparseArray[entity.Id];
+            var remove = _denseArray[index];
+
+            foreach (var component in remove.Components)
             {
                 _world.PoolsInternal.GetPoolUnchecked(component).RemoveUnchecked(entity);
                 _world.FiltersInternal.EraseUnchecked(entity, component);
             }
 
-            tuple.Components.Clear();
+            remove.Components.Clear();
 
             _sparseArray[_denseArray[^1].Entity.Id] = index;
             _sparseArray[entity.Id] = 0;
@@ -98,7 +118,7 @@ namespace ECS
         {
             var components = _denseArray[_sparseArray[entity.Id]].Components;
 
-            for (var i = components.Length - 1; i >= 0; i++)
+            for (var i = 0; i < components.Length; i++)
             {
                 if (component == components[i])
                 {
