@@ -8,8 +8,8 @@ namespace ECS.Tests
         public void Constructor()
         {
             var filters = new ECS.Filters(null);
-            var filters10x10 = new ECS.Filters(null, new OptionsFilters(10, 10), OptionsFilter.Default());
-            var filters_10x_10 = new ECS.Filters(null, new OptionsFilters(-10, -10), OptionsFilter.Default());
+            var filters10x10 = new ECS.Filters(null, new OptionsFilters(10, 10), OptionsFilter.Default(), OptionsFilterBuilder.Default());
+            var filters_10x_10 = new ECS.Filters(null, new OptionsFilters(-10, -10), OptionsFilter.Default(), OptionsFilterBuilder.Default());
 
             Assert.AreEqual((0, 0), filters.Length);
             Assert.AreEqual((0, 0), filters10x10.Length);
@@ -31,8 +31,8 @@ namespace ECS.Tests
             Assert.True(filterInt.Contains(entity1x0));
             Assert.False(filterInt.Contains(entity2x0));
 
-            var filterIntString = world.Filters.Create(2, 2).Include<int, string>().Build();
-            var filter_String = world.Filters.Create(4, 4).Exclude<string>().Build(new OptionsFilter(10, 10));
+            var filterIntString = world.Filters.Create(new OptionsFilterBuilder(2, 2)).Include<int, string>().Build();
+            var filter_String = world.Filters.Create(new OptionsFilterBuilder(4, 4)).Exclude<string>().Build(new OptionsFilter(10, 10));
 
             Assert.AreEqual((2, 1), world.FiltersInternal.Length);
             Assert.True(filterIntString.Contains(entity1x0));
