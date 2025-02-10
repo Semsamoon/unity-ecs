@@ -102,11 +102,11 @@ namespace ECS
 
             remove.Components.Clear();
 
+            _removed++;
             _sparseArray[_denseArray[^1].Entity.Id] = index;
             _sparseArray[entity.Id] = 0;
             _denseArray.RemoveAt(index);
-            _removed++;
-            (_denseArray[Length], _denseArray[Length + _removed]) = (_denseArray[Length + _removed], _denseArray[Length]);
+            _denseArray.Swap(Length, Length + _removed);
         }
 
         public void RecordUnchecked(Entity entity, Type component)

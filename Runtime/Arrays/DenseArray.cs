@@ -49,12 +49,17 @@ namespace ECS
             }
 
             Length--;
-            (_array[index], _array[Length]) = (_array[Length], _array[index]);
+            Swap(index, Length);
         }
 
         public void Clear()
         {
             Length = 0;
+        }
+
+        public void Swap(int i, int j)
+        {
+            (_array[i], _array[j]) = (_array[j], _array[i]);
         }
 
         public ReadOnlySpan<T> AsReadOnlySpan()
