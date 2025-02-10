@@ -35,7 +35,7 @@ namespace ECS
 
         public void Change(Entity entity, int difference)
         {
-            if (entity.IsNull())
+            if (entity == Entity.Null)
             {
                 return;
             }
@@ -55,7 +55,7 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return !entity.IsNull() && _denseArray[_sparseArray[entity.Id]] == entity;
+            return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()

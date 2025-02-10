@@ -47,7 +47,7 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return !entity.IsNull() && _denseArray[_sparseArray[entity.Id]] == entity;
+            return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
         public void Remove(Entity entity)
@@ -137,7 +137,7 @@ namespace ECS
         {
             var index = _sparseArray[entity.Id];
 
-            if (entity.IsNull() || _denseArray[index].Entity == entity)
+            if (entity == Entity.Null || _denseArray[index].Entity == entity)
             {
                 return ref _denseArray[index].Value;
             }
@@ -152,7 +152,7 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return !entity.IsNull() && _denseArray[_sparseArray[entity.Id]].Entity == entity;
+            return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
         public void Remove(Entity entity)

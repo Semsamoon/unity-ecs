@@ -61,7 +61,7 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return !entity.IsNull() && _denseArray[_sparseArray[entity.Id]].Entity == entity;
+            return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
         public void Remove(Entity entity)
@@ -69,7 +69,7 @@ namespace ECS
             var index = _sparseArray[entity.Id];
             var tuple = _denseArray[index];
 
-            if (entity.IsNull() || tuple.Entity != entity)
+            if (entity == Entity.Null || tuple.Entity != entity)
             {
                 return;
             }

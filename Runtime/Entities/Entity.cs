@@ -3,14 +3,14 @@
 namespace ECS
 {
     /// <summary>
-    /// Entity in Entity-Component-System architecture.<br/>
-    /// <br/>
-    /// <i>Entity with <see cref="Id"/> = 0 is a NULL-entity.</i>
+    /// Entity in Entity-Component-System architecture.
     /// </summary>
     public readonly struct Entity : IEquatable<Entity>
     {
         public readonly int Id;
         public readonly int Gen;
+
+        public static Entity Null => new(0, 0);
 
         public Entity(int id, int gen)
         {
@@ -18,14 +18,6 @@ namespace ECS
             gen = Math.Max(gen, 0);
             Id = id;
             Gen = gen;
-        }
-
-        /// <summary>
-        /// <i>Use only this method to check for NULL-entity.</i>
-        /// </summary>
-        public bool IsNull()
-        {
-            return Id == 0;
         }
 
         public static bool operator ==(Entity lhs, Entity rhs)
@@ -55,7 +47,7 @@ namespace ECS
 
         public override string ToString()
         {
-            return IsNull() ? "[NULL]" : $"[{Id.ToString()}; {Gen.ToString()}]";
+            return this == Null ? "[NULL]" : $"[{Id.ToString()}; {Gen.ToString()}]";
         }
     }
 }
