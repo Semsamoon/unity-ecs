@@ -4,23 +4,21 @@ namespace ECS
 {
     public readonly struct FilterBuilder : IFilterBuilder
     {
-        private const int DefaultCapacity = 4;
-
         private readonly World _world;
         private readonly DenseArray<(Type, IPoolInternal)> _included;
         private readonly DenseArray<(Type, IPoolInternal)> _excluded;
-        private readonly OptionsFilter _options;
+        private readonly OptionsFilter _defaultOptionsFilter;
 
-        public FilterBuilder(World world, OptionsFilter options) : this(world, options, DefaultCapacity, DefaultCapacity)
+        public FilterBuilder(World world, OptionsFilter optionsFilter) : this(world, optionsFilter, OptionsFilterBuilder.Default())
         {
         }
 
-        public FilterBuilder(World world, OptionsFilter options, int included, int excluded)
+        public FilterBuilder(World world, OptionsFilter optionsFilter, OptionsFilterBuilder optionsBuilder)
         {
             _world = world;
-            _included = new DenseArray<(Type, IPoolInternal)>(included);
-            _excluded = new DenseArray<(Type, IPoolInternal)>(excluded);
-            _options = options;
+            _included = new DenseArray<(Type, IPoolInternal)>(optionsBuilder.IncludedCapacity);
+            _excluded = new DenseArray<(Type, IPoolInternal)>(optionsBuilder.ExcludedCapacity);
+            _defaultOptionsFilter = optionsFilter;
         }
 
         public IFilterBuilder Include<T>()
@@ -67,7 +65,7 @@ namespace ECS
 
         public IFilter Build()
         {
-            return Build(_options);
+            return Build(_defaultOptionsFilter);
         }
 
         public IFilter Build(OptionsFilter options)
