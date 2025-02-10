@@ -38,15 +38,15 @@ namespace ECS.Tests
         }
 
         [Test]
-        public void IsNull()
+        public void Null()
         {
             var entity = new ECS.Entity();
             var entity0x1 = new ECS.Entity(0, 1);
             var entity10x10 = new ECS.Entity(10, 10);
 
-            Assert.True(entity.IsNull());
-            Assert.True(entity0x1.IsNull());
-            Assert.False(entity10x10.IsNull());
+            Assert.True(entity == ECS.Entity.Null);
+            Assert.True(entity0x1 != ECS.Entity.Null);
+            Assert.True(entity10x10 != ECS.Entity.Null);
         }
 
         [Test]
