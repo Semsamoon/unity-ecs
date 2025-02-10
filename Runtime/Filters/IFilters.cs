@@ -3,6 +3,6 @@
     public interface IFilters
     {
         public IFilterBuilderEmpty Create();
-        public IFilterBuilderEmpty Create(OptionsFilterBuilder options);
+        public IFilterBuilderEmpty Create(OptionsFilter options);
     }
 }

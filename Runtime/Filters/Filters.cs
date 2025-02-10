@@ -13,15 +13,14 @@ namespace ECS
         private readonly Dictionary<Type, DenseArray<Filter>> _excluded;
         private readonly int _defaultFiltersCapacity;
         private readonly OptionsFilter _defaultOptionsFilter;
-        private readonly OptionsFilterBuilder _defaultOptionsBuilder;
 
         public (int included, int excluded) Length => (_included.Count, _excluded.Count);
 
-        public Filters(World world) : this(world, OptionsFilters.Default(), OptionsFilter.Default(), OptionsFilterBuilder.Default())
+        public Filters(World world) : this(world, OptionsFilters.Default(), OptionsFilter.Default())
         {
         }
 
-        public Filters(World world, OptionsFilters options, OptionsFilter optionsFilter, OptionsFilterBuilder optionsBuilder)
+        public Filters(World world, OptionsFilters options, OptionsFilter optionsFilter)
         {
             options = options.Validate();
             _world = world;
@@ -29,17 +28,16 @@ namespace ECS
             _excluded = new Dictionary<Type, DenseArray<Filter>>(options.Capacity);
             _defaultFiltersCapacity = options.FiltersCapacity;
             _defaultOptionsFilter = optionsFilter;
-            _defaultOptionsBuilder = optionsBuilder;
         }
 
         public IFilterBuilderEmpty Create()
         {
-            return new FilterBuilder(_world, _defaultOptionsFilter, _defaultOptionsBuilder);
+            return new FilterBuilder(_world, _defaultOptionsFilter);
         }
 
-        public IFilterBuilderEmpty Create(OptionsFilterBuilder options)
+        public IFilterBuilderEmpty Create(OptionsFilter options)
         {
-            return new FilterBuilder(_world, _defaultOptionsFilter, options);
+            return new FilterBuilder(_world, options);
         }
 
         public void Include(Filter filter, Type type)

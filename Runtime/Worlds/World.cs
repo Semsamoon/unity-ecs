@@ -24,7 +24,7 @@
         {
             EntitiesInternal = new Entities(this, options.Entities);
             PoolsInternal = new Pools(this, options.Pools, options.Pool);
-            FiltersInternal = new Filters(this, options.Filters, options.Filter, options.FilterBuilder);
+            FiltersInternal = new Filters(this, options.Filters, options.Filter);
             SystemsInternal = new Systems(this, options.Systems);
         }
 
