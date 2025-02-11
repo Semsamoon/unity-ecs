@@ -44,7 +44,11 @@ namespace ECS
 
         public DenseArray<T> Set(int index, T item)
         {
-            ExtendTo(index);
+            if (index >= Length)
+            {
+                return this;
+            }
+
             _array[index] = item;
             return this;
         }
