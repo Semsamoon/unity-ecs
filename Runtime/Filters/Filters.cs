@@ -54,38 +54,42 @@ namespace ECS
             return this;
         }
 
-        public void Include(Filter filter, Type type)
+        public Filters Include(Filter filter, Type type)
         {
-            Include(filter, type, _defaultFiltersCapacity);
+            return Include(filter, type, _defaultFiltersCapacity);
         }
 
-        public void Include(Filter filter, Type type, int capacity)
+        public Filters Include(Filter filter, Type type, int capacity)
         {
             capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             Add(_included, filter, type, capacity);
+            return this;
         }
 
-        public void Exclude(Filter filter, Type type)
+        public Filters Exclude(Filter filter, Type type)
         {
-            Exclude(filter, type, _defaultFiltersCapacity);
+            return Exclude(filter, type, _defaultFiltersCapacity);
         }
 
-        public void Exclude(Filter filter, Type type, int capacity)
+        public Filters Exclude(Filter filter, Type type, int capacity)
         {
             capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             Add(_excluded, filter, type, capacity);
+            return this;
         }
 
-        public void RecordUnchecked(Entity entity, Type type)
+        public Filters RecordUnchecked(Entity entity, Type type)
         {
             Change(_included, type, entity, 1);
             Change(_excluded, type, entity, -1);
+            return this;
         }
 
-        public void EraseUnchecked(Entity entity, Type type)
+        public Filters EraseUnchecked(Entity entity, Type type)
         {
             Change(_included, type, entity, -1);
             Change(_excluded, type, entity, 1);
+            return this;
         }
 
         private static void EnsureCapacity(Dictionary<Type, DenseArray<Filter>> filters, Type type, int capacity)
@@ -107,9 +111,7 @@ namespace ECS
                 return;
             }
 
-            var newArray = new DenseArray<Filter>(capacity);
-            newArray.Add(filter);
-            filters.Add(type, newArray);
+            filters.Add(type, new DenseArray<Filter>(capacity).Add(filter));
         }
 
         private static void Change(Dictionary<Type, DenseArray<Filter>> filters, Type type, Entity entity, int difference)

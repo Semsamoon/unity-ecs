@@ -33,6 +33,13 @@ namespace ECS
             _array = new T[length];
         }
 
+        public SparseArray<T> Set(int index, T value)
+        {
+            ExtendTo(index);
+            _array[index] = value;
+            return this;
+        }
+
         public ReadOnlySpan<T> AsReadOnlySpan()
         {
             return _array.AsSpan();
@@ -43,13 +50,13 @@ namespace ECS
             return ((IEnumerable<T>)_array).GetEnumerator();
         }
 
-        public void ExtendTo(int index)
+        public SparseArray<T> ExtendTo(int index)
         {
             var length = Length;
 
             if (index < length)
             {
-                return;
+                return this;
             }
 
             do
@@ -58,6 +65,7 @@ namespace ECS
             } while (index >= length);
 
             Array.Resize(ref _array, length);
+            return this;
         }
     }
 }

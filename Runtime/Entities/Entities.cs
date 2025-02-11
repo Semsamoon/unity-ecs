@@ -79,17 +79,18 @@ namespace ECS
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
-        public void Remove(Entity entity)
+        public IEntities Remove(Entity entity)
         {
             if (!Contains(entity))
             {
-                return;
+                return this;
             }
 
             RemoveUnchecked(entity);
+            return this;
         }
 
-        public void RemoveUnchecked(Entity entity)
+        public Entities RemoveUnchecked(Entity entity)
         {
             var index = _sparseArray[entity.Id];
             var remove = _denseArray[index];
@@ -103,18 +104,22 @@ namespace ECS
             remove.Components.Clear();
 
             _removed++;
-            _sparseArray[_denseArray[^1].Entity.Id] = index;
-            _sparseArray[entity.Id] = 0;
-            _denseArray.RemoveAt(index);
-            _denseArray.Swap(Length, Length + _removed);
+            _sparseArray
+                .Set(_denseArray[^1].Entity.Id, index)
+                .Set(entity.Id, 0);
+            _denseArray
+                .RemoveAt(index)
+                .Swap(Length, Length + _removed);
+            return this;
         }
 
-        public void RecordUnchecked(Entity entity, Type component)
+        public Entities RecordUnchecked(Entity entity, Type component)
         {
             _denseArray[_sparseArray[entity.Id]].Components.Add(component);
+            return this;
         }
 
-        public void EraseUnchecked(Entity entity, Type component)
+        public Entities EraseUnchecked(Entity entity, Type component)
         {
             var components = _denseArray[_sparseArray[entity.Id]].Components;
 
@@ -123,9 +128,11 @@ namespace ECS
                 if (component == components[i])
                 {
                     components.RemoveAt(i);
-                    return;
+                    return this;
                 }
             }
+
+            return this;
         }
 
         public ReadOnlySpan<(Entity Entity, DenseArray<Type> Components)> AsReadOnlySpan()

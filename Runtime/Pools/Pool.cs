@@ -32,22 +32,24 @@ namespace ECS
             _denseArray = new DenseArray<Entity>(options.Capacity);
         }
 
-        public void Add(Entity entity)
+        public IPool Add(Entity entity)
         {
             if (!_world.EntitiesInternal.Contains(entity) || Contains(entity))
             {
-                return;
+                return this;
             }
 
             AddUnchecked(entity);
             _world.FiltersInternal.RecordUnchecked(entity, _type);
             _world.EntitiesInternal.RecordUnchecked(entity, _type);
+            return this;
         }
 
-        public void AddUnchecked(Entity entity)
+        public Pool AddUnchecked(Entity entity)
         {
             _sparseArray[entity.Id] = Length;
             _denseArray.Add(entity);
+            return this;
         }
 
         public bool Contains(Entity entity)
@@ -55,25 +57,27 @@ namespace ECS
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
-        public void Remove(Entity entity)
+        public IPool Remove(Entity entity)
         {
             if (!Contains(entity))
             {
-                return;
+                return this;
             }
 
             RemoveUnchecked(entity);
             _world.FiltersInternal.EraseUnchecked(entity, _type);
             _world.EntitiesInternal.EraseUnchecked(entity, _type);
+            return this;
         }
 
-        public void RemoveUnchecked(Entity entity)
+        public IPoolInternal RemoveUnchecked(Entity entity)
         {
             var index = _sparseArray[entity.Id];
             _sparseArray[_denseArray[^1].Id] = index;
             _sparseArray[entity.Id] = 0;
             _denseArray[index] = new Entity();
             _denseArray.RemoveAt(index);
+            return this;
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
@@ -114,6 +118,18 @@ namespace ECS
             _denseArray = new DenseArray<(Entity, T)>(options.Capacity);
         }
 
+        public IPool<T> Set(Entity entity, T value)
+        {
+            Get(entity) = value;
+            return this;
+        }
+
+        public Pool<T> SetUnchecked(Entity entity, T value)
+        {
+            GetUnchecked(entity) = value;
+            return this;
+        }
+
         public ref T Get(Entity entity)
         {
             if (entity == Entity.Null || Contains(entity))
@@ -144,25 +160,27 @@ namespace ECS
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
-        public void Remove(Entity entity)
+        public IPool<T> Remove(Entity entity)
         {
             if (!Contains(entity))
             {
-                return;
+                return this;
             }
 
             RemoveUnchecked(entity);
             _world.FiltersInternal.EraseUnchecked(entity, typeof(T));
             _world.EntitiesInternal.EraseUnchecked(entity, typeof(T));
+            return this;
         }
 
-        public void RemoveUnchecked(Entity entity)
+        public IPoolInternal RemoveUnchecked(Entity entity)
         {
             var index = _sparseArray[entity.Id];
             _sparseArray[_denseArray[^1].Entity.Id] = index;
             _sparseArray[entity.Id] = 0;
             _denseArray[index].Entity = new Entity();
             _denseArray.RemoveAt(index);
+            return this;
         }
 
         public ReadOnlySpan<(Entity Entity, T Value)> AsReadOnlySpan()

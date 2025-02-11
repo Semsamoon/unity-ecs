@@ -40,12 +40,14 @@ namespace ECS
             return this;
         }
 
-        public void Update()
+        public ISystems Update()
         {
             foreach (var system in _systems)
             {
                 system.Update();
             }
+
+            return this;
         }
 
         public void Destroy()

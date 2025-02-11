@@ -35,31 +35,42 @@ namespace ECS
             _array = new T[capacity];
         }
 
-        public void Add(T item)
+        public DenseArray<T> Add(T item)
         {
             ExtendTo(Length);
             _array[Length++] = item;
+            return this;
         }
 
-        public void RemoveAt(int index)
+        public DenseArray<T> Set(int index, T item)
+        {
+            ExtendTo(index);
+            _array[index] = item;
+            return this;
+        }
+
+        public DenseArray<T> RemoveAt(int index)
         {
             if (index >= Length)
             {
-                return;
+                return this;
             }
 
             Length--;
             Swap(index, Length);
+            return this;
         }
 
-        public void Clear()
+        public DenseArray<T> Clear()
         {
             Length = 0;
+            return this;
         }
 
-        public void Swap(int i, int j)
+        public DenseArray<T> Swap(int i, int j)
         {
             (_array[i], _array[j]) = (_array[j], _array[i]);
+            return this;
         }
 
         public ReadOnlySpan<T> AsReadOnlySpan()
@@ -72,13 +83,13 @@ namespace ECS
             return ((IEnumerable<T>)_array[..Length]).GetEnumerator();
         }
 
-        public void ExtendTo(int index)
+        public DenseArray<T> ExtendTo(int index)
         {
             var capacity = Capacity;
 
             if (index < capacity)
             {
-                return;
+                return this;
             }
 
             do
@@ -87,6 +98,7 @@ namespace ECS
             } while (index >= capacity);
 
             Array.Resize(ref _array, capacity);
+            return this;
         }
     }
 }

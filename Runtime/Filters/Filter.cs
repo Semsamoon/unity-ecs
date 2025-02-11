@@ -37,7 +37,7 @@ namespace ECS
             Sum = sum;
         }
 
-        public void ChangeUnchecked(Entity entity, int difference)
+        public Filter ChangeUnchecked(Entity entity, int difference)
         {
             if (Contains(entity))
             {
@@ -50,12 +50,15 @@ namespace ECS
             {
                 AddUnchecked(entity);
             }
+
+            return this;
         }
 
-        public void AddUnchecked(Entity entity)
+        public Filter AddUnchecked(Entity entity)
         {
             _sparseArray[entity.Id] = Length;
             _denseArray.Add(entity);
+            return this;
         }
 
         public bool Contains(Entity entity)
@@ -63,13 +66,14 @@ namespace ECS
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
-        public void RemoveUnchecked(Entity entity)
+        public Filter RemoveUnchecked(Entity entity)
         {
             var index = _sparseArray[entity.Id];
             _sparseArray[_denseArray[^1].Id] = index;
             _sparseArray[entity.Id] = 0;
             _denseArray[index] = new Entity();
             _denseArray.RemoveAt(index);
+            return this;
         }
 
         public ReadOnlySpan<Entity> AsReadOnlySpan()
