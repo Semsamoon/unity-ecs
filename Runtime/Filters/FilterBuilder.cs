@@ -15,7 +15,12 @@
             _filter = new Filter(0, optionsFilter);
         }
 
-        public IFilterBuilder Include<T>()
+        IFilterBuilder IFilterBuilderEmpty.Include<T>()
+        {
+            return Include<T>();
+        }
+
+        public FilterBuilder Include<T>()
         {
             var pool = _world.PoolsInternal.GetPool<T>();
             _filter.Sum++;
@@ -29,22 +34,32 @@
             return this;
         }
 
-        public IFilterBuilder Include<T1, T2>()
+        IFilterBuilder IFilterBuilderEmpty.Include<T1, T2>()
         {
-            Include<T1>();
-            Include<T2>();
-            return this;
+            return Include<T1>().Include<T2>();
         }
 
-        public IFilterBuilder Include<T1, T2, T3>()
+        public FilterBuilder Include<T1, T2>()
         {
-            Include<T1>();
-            Include<T2>();
-            Include<T3>();
-            return this;
+            return Include<T1>().Include<T2>();
         }
 
-        public IFilterBuilder Exclude<T>()
+        IFilterBuilder IFilterBuilderEmpty.Include<T1, T2, T3>()
+        {
+            return Include<T1>().Include<T2>().Include<T3>();
+        }
+
+        public FilterBuilder Include<T1, T2, T3>()
+        {
+            return Include<T1>().Include<T2>().Include<T3>();
+        }
+
+        IFilterBuilder IFilterBuilderEmpty.Exclude<T>()
+        {
+            return Exclude<T>();
+        }
+
+        public FilterBuilder Exclude<T>()
         {
             var pool = _world.PoolsInternal.GetPool<T>();
             _world.FiltersInternal.Exclude(_filter, typeof(T));
@@ -61,22 +76,32 @@
             return this;
         }
 
-        public IFilterBuilder Exclude<T1, T2>()
+        IFilterBuilder IFilterBuilderEmpty.Exclude<T1, T2>()
         {
-            Exclude<T1>();
-            Exclude<T2>();
-            return this;
+            return Exclude<T1>().Exclude<T2>();
         }
 
-        public IFilterBuilder Exclude<T1, T2, T3>()
+        public FilterBuilder Exclude<T1, T2>()
         {
-            Exclude<T1>();
-            Exclude<T2>();
-            Exclude<T3>();
-            return this;
+            return Exclude<T1>().Exclude<T2>();
         }
 
-        public IFilter Build()
+        IFilterBuilder IFilterBuilderEmpty.Exclude<T1, T2, T3>()
+        {
+            return Exclude<T1>().Exclude<T2>().Exclude<T3>();
+        }
+
+        public FilterBuilder Exclude<T1, T2, T3>()
+        {
+            return Exclude<T1>().Exclude<T2>().Exclude<T3>();
+        }
+
+        IFilter IFilterBuilder.Build()
+        {
+            return Build();
+        }
+
+        public Filter Build()
         {
             for (var i = _filter.Length - 1; i >= 0; i--)
             {

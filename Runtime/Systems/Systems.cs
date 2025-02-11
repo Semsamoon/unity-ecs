@@ -27,20 +27,34 @@ namespace ECS
             _systems = new DenseArray<ISystem>(options.Capacity);
         }
 
-        public ISystems Add<T>() where T : ISystem, new()
+        ISystems ISystems.Add<T>()
         {
-            Add(new T());
-            return this;
+            return Add(new T());
         }
 
-        public ISystems Add(ISystem system)
+        public Systems Add<T>() where T : ISystem, new()
+        {
+            return Add(new T());
+        }
+
+        ISystems ISystems.Add(ISystem system)
+        {
+            return Add(system);
+        }
+
+        public Systems Add(ISystem system)
         {
             _systems.Add(system);
             system.Initialize(_world);
             return this;
         }
 
-        public ISystems Update()
+        ISystems ISystems.Update()
+        {
+            return Update();
+        }
+
+        public Systems Update()
         {
             foreach (var system in _systems)
             {

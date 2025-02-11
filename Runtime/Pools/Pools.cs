@@ -26,13 +26,22 @@ namespace ECS
             _defaultOptionsPool = optionsPool;
         }
 
-        public IPools Add<T>()
+        IPools IPools.Add<T>()
         {
-            Add<T>(_defaultOptionsPool);
-            return this;
+            return Add<T>(_defaultOptionsPool);
         }
 
-        public IPools Add<T>(OptionsPool options)
+        public Pools Add<T>()
+        {
+            return Add<T>(_defaultOptionsPool);
+        }
+
+        IPools IPools.Add<T>(OptionsPool options)
+        {
+            return Add<T>(options);
+        }
+
+        public Pools Add<T>(OptionsPool options)
         {
             _pools.TryAdd(typeof(T), typeof(ITag).IsAssignableFrom(typeof(T))
                 ? new Pool(_world, typeof(T), options)
@@ -40,12 +49,22 @@ namespace ECS
             return this;
         }
 
-        public IPool<T> Get<T>()
+        IPool<T> IPools.Get<T>()
         {
             return Get<T>(_defaultOptionsPool);
         }
 
-        public IPool<T> Get<T>(OptionsPool options)
+        public Pool<T> Get<T>()
+        {
+            return Get<T>(_defaultOptionsPool);
+        }
+
+        IPool<T> IPools.Get<T>(OptionsPool options)
+        {
+            return Get<T>(options);
+        }
+
+        public Pool<T> Get<T>(OptionsPool options)
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -57,17 +76,27 @@ namespace ECS
             return pool;
         }
 
-        public IPool<T> GetUnchecked<T>()
+        public Pool<T> GetUnchecked<T>()
         {
-            return _pools[typeof(T)] as Pool<T>;
+            return (Pool<T>)_pools[typeof(T)];
         }
 
-        public IPool GetTag<T>() where T : ITag
+        IPool IPools.GetTag<T>()
         {
             return GetTag<T>(_defaultOptionsPool);
         }
 
-        public IPool GetTag<T>(OptionsPool options) where T : ITag
+        public Pool GetTag<T>() where T : ITag
+        {
+            return GetTag<T>(_defaultOptionsPool);
+        }
+
+        IPool IPools.GetTag<T>(OptionsPool options)
+        {
+            return GetTag<T>(options);
+        }
+
+        public Pool GetTag<T>(OptionsPool options) where T : ITag
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -79,9 +108,9 @@ namespace ECS
             return pool;
         }
 
-        public IPool GetTagUnchecked<T>() where T : ITag
+        public Pool GetTagUnchecked<T>() where T : ITag
         {
-            return _pools[typeof(T)] as IPool;
+            return (Pool)_pools[typeof(T)];
         }
 
         public IPoolInternal GetPool<T>()

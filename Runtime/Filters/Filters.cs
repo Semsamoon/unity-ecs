@@ -30,24 +30,44 @@ namespace ECS
             _defaultOptionsFilter = optionsFilter;
         }
 
-        public IFilterBuilderEmpty Create()
+        IFilterBuilderEmpty IFilters.Create()
+        {
+            return Create();
+        }
+
+        public FilterBuilder Create()
         {
             return new FilterBuilder(_world, _defaultOptionsFilter);
         }
 
-        public IFilterBuilderEmpty Create(OptionsFilter options)
+        IFilterBuilderEmpty IFilters.Create(OptionsFilter options)
+        {
+            return Create(options);
+        }
+
+        public FilterBuilder Create(OptionsFilter options)
         {
             return new FilterBuilder(_world, options);
         }
 
-        public IFilters IncludeCapacity<T>(int capacity)
+        IFilters IFilters.IncludeCapacity<T>(int capacity)
+        {
+            return IncludeCapacity<T>(capacity);
+        }
+
+        public Filters IncludeCapacity<T>(int capacity)
         {
             capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             EnsureCapacity(_included, typeof(T), capacity);
             return this;
         }
 
-        public IFilters ExcludeCapacity<T>(int capacity)
+        IFilters IFilters.ExcludeCapacity<T>(int capacity)
+        {
+            return ExcludeCapacity<T>(capacity);
+        }
+
+        public Filters ExcludeCapacity<T>(int capacity)
         {
             capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             EnsureCapacity(_excluded, typeof(T), capacity);

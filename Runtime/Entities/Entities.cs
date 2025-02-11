@@ -79,7 +79,12 @@ namespace ECS
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
-        public IEntities Remove(Entity entity)
+        IEntities IEntities.Remove(Entity entity)
+        {
+            return Remove(entity);
+        }
+
+        public Entities Remove(Entity entity)
         {
             if (!Contains(entity))
             {

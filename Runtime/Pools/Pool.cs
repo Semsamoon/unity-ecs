@@ -32,7 +32,12 @@ namespace ECS
             _denseArray = new DenseArray<Entity>(options.Capacity);
         }
 
-        public IPool Add(Entity entity)
+        IPool IPool.Add(Entity entity)
+        {
+            return Add(entity);
+        }
+
+        public Pool Add(Entity entity)
         {
             if (!_world.EntitiesInternal.Contains(entity) || Contains(entity))
             {
@@ -57,7 +62,12 @@ namespace ECS
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
-        public IPool Remove(Entity entity)
+        IPool IPool.Remove(Entity entity)
+        {
+            return Remove(entity);
+        }
+
+        public Pool Remove(Entity entity)
         {
             if (!Contains(entity))
             {
@@ -70,7 +80,12 @@ namespace ECS
             return this;
         }
 
-        public IPoolInternal RemoveUnchecked(Entity entity)
+        IPoolInternal IPoolInternal.RemoveUnchecked(Entity entity)
+        {
+            return RemoveUnchecked(entity);
+        }
+
+        public Pool RemoveUnchecked(Entity entity)
         {
             var index = _sparseArray[entity.Id];
             _sparseArray[_denseArray[^1].Id] = index;
@@ -118,7 +133,13 @@ namespace ECS
             _denseArray = new DenseArray<(Entity, T)>(options.Capacity);
         }
 
-        public IPool<T> Set(Entity entity, T value)
+        IPool<T> IPool<T>.Set(Entity entity, T value)
+        {
+            Get(entity) = value;
+            return this;
+        }
+
+        public Pool<T> Set(Entity entity, T value)
         {
             Get(entity) = value;
             return this;
@@ -160,7 +181,12 @@ namespace ECS
             return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
-        public IPool<T> Remove(Entity entity)
+        IPool<T> IPool<T>.Remove(Entity entity)
+        {
+            return Remove(entity);
+        }
+
+        public Pool<T> Remove(Entity entity)
         {
             if (!Contains(entity))
             {
@@ -173,7 +199,12 @@ namespace ECS
             return this;
         }
 
-        public IPoolInternal RemoveUnchecked(Entity entity)
+        IPoolInternal IPoolInternal.RemoveUnchecked(Entity entity)
+        {
+            return RemoveUnchecked(entity);
+        }
+
+        public Pool<T> RemoveUnchecked(Entity entity)
         {
             var index = _sparseArray[entity.Id];
             _sparseArray[_denseArray[^1].Entity.Id] = index;
