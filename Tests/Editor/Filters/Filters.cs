@@ -49,12 +49,12 @@ namespace ECS.Tests
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
 
-            filters.Include(filter, typeof(int));
-            filters.Include(filter, typeof(string), 4);
-
-            filters.RecordUnchecked(entity1x0, typeof(int));
-            filters.RecordUnchecked(entity1x0, typeof(string));
-            filters.RecordUnchecked(entity2x0, typeof(int));
+            filters
+                .Include(filter, typeof(int))
+                .Include(filter, typeof(string), 4)
+                .RecordUnchecked(entity1x0, typeof(int))
+                .RecordUnchecked(entity1x0, typeof(string))
+                .RecordUnchecked(entity2x0, typeof(int));
 
             Assert.AreEqual((2, 0), filters.Length);
             Assert.True(filter.Contains(entity1x0));
@@ -69,13 +69,13 @@ namespace ECS.Tests
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
 
-            filters.Exclude(filter, typeof(int));
-            filters.Exclude(filter, typeof(string), 4);
-
-            filters.EraseUnchecked(entity1x0, typeof(int));
-            filters.EraseUnchecked(entity1x0, typeof(string));
-            filters.RecordUnchecked(entity2x0, typeof(int));
-            filters.EraseUnchecked(entity2x0, typeof(string));
+            filters
+                .Exclude(filter, typeof(int))
+                .Exclude(filter, typeof(string), 4)
+                .EraseUnchecked(entity1x0, typeof(int))
+                .EraseUnchecked(entity1x0, typeof(string))
+                .RecordUnchecked(entity2x0, typeof(int))
+                .EraseUnchecked(entity2x0, typeof(string));
 
             Assert.AreEqual((0, 2), filters.Length);
             Assert.True(filter.Contains(entity1x0));
@@ -91,12 +91,12 @@ namespace ECS.Tests
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
 
-            filters.Include(filter, typeof(int));
-
-            filters.RecordUnchecked(entity, typeof(int));
-            filters.RecordUnchecked(entity1x0, typeof(int));
-            filters.RecordUnchecked(entity1x0, typeof(string));
-            filters.RecordUnchecked(entity2x0, typeof(string));
+            filters
+                .Include(filter, typeof(int))
+                .RecordUnchecked(entity, typeof(int))
+                .RecordUnchecked(entity1x0, typeof(int))
+                .RecordUnchecked(entity1x0, typeof(string))
+                .RecordUnchecked(entity2x0, typeof(string));
 
             Assert.False(filter.Contains(entity));
             Assert.True(filter.Contains(entity1x0));
@@ -112,12 +112,12 @@ namespace ECS.Tests
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
 
-            filters.Exclude(filter, typeof(int));
-
-            filters.EraseUnchecked(entity, typeof(int));
-            filters.EraseUnchecked(entity1x0, typeof(int));
-            filters.EraseUnchecked(entity1x0, typeof(string));
-            filters.EraseUnchecked(entity2x0, typeof(string));
+            filters
+                .Exclude(filter, typeof(int))
+                .EraseUnchecked(entity, typeof(int))
+                .EraseUnchecked(entity1x0, typeof(int))
+                .EraseUnchecked(entity1x0, typeof(string))
+                .EraseUnchecked(entity2x0, typeof(string));
 
             Assert.False(filter.Contains(entity));
             Assert.True(filter.Contains(entity1x0));

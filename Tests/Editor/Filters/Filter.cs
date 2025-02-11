@@ -31,8 +31,9 @@ namespace ECS.Tests
             var entity1x0 = new ECS.Entity(1, 0);
             var entity2x0 = new ECS.Entity(2, 0);
 
-            filter0.ChangeUnchecked(entity1x0, 0);
-            filter0.ChangeUnchecked(entity2x0, 0);
+            filter0
+                .ChangeUnchecked(entity1x0, 0)
+                .ChangeUnchecked(entity2x0, 0);
 
             Assert.AreEqual(entity1x0, filter0[0]);
             Assert.AreEqual(entity2x0, filter0[1]);
@@ -51,8 +52,9 @@ namespace ECS.Tests
             Assert.AreEqual(1, filter1.Length);
             Assert.AreEqual(entity1x0, filter1[0]);
 
-            filter1.ChangeUnchecked(entity1x0, -1);
-            filter1.ChangeUnchecked(entity2x0, 1);
+            filter1
+                .ChangeUnchecked(entity1x0, -1)
+                .ChangeUnchecked(entity2x0, 1);
 
             Assert.AreEqual(1, filter1.Length);
             Assert.AreEqual(entity2x0, filter1[0]);

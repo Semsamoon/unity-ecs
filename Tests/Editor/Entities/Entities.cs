@@ -55,8 +55,9 @@ namespace ECS.Tests
             Assert.AreEqual(entity0x1, entities[0].Entity);
             Assert.AreEqual(0, entities[0].Components.Length);
 
-            entities.Remove(entity0x1);
-            entities.Create(10);
+            entities
+                .Remove(entity0x1)
+                .Create(10);
 
             Assert.AreEqual(1, entities.Length);
             Assert.AreEqual(entity0x2, entities[0].Entity);

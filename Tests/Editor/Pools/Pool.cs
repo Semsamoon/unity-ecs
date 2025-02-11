@@ -29,8 +29,9 @@ namespace ECS.Tests
             var entity1x0 = world.Entities.Create();
             var entity2x0 = world.Entities.Create();
 
-            pool.Add(entity1x0);
-            pool.Add(entity2x0);
+            pool
+                .Add(entity1x0)
+                .Add(entity2x0);
 
             Assert.AreEqual(entity1x0, pool[0]);
             Assert.AreEqual(entity2x0, pool[1]);
@@ -51,9 +52,10 @@ namespace ECS.Tests
             Assert.AreEqual(1, pool.Length);
             Assert.AreEqual(entity1x0, pool[0]);
 
-            pool.Add(entity1x0);
-            pool.Add(entity2x0);
-            pool.Add(entity);
+            pool
+                .Add(entity1x0)
+                .Add(entity2x0)
+                .Add(entity);
 
             Assert.AreEqual(2, pool.Length);
             Assert.AreEqual(entity2x0, pool[1]);
@@ -100,8 +102,9 @@ namespace ECS.Tests
 
             Assert.DoesNotThrow(() => pool.Remove(entity1x0));
 
-            pool.Add(entity1x0);
-            pool.Remove(entity1x0);
+            pool
+                .Add(entity1x0)
+                .Remove(entity1x0);
 
             Assert.AreEqual(0, pool.Length);
             Assert.False(pool.Contains(entity1x0));
@@ -233,8 +236,9 @@ namespace ECS.Tests
 
             Assert.DoesNotThrow(() => pool.Remove(entity1x0));
 
-            pool.Get(entity1x0) = 10;
-            pool.Remove(entity1x0);
+            pool
+                .Set(entity1x0, 10)
+                .Remove(entity1x0);
 
             Assert.AreEqual(0, pool.Length);
             Assert.False(pool.Contains(entity1x0));

@@ -22,20 +22,22 @@ namespace ECS.Tests
         {
             var pools = new ECS.Pools(null);
 
-            pools.Add<int>();
-            pools.Add<int>(new OptionsPool(10, 10));
-            pools.Add<string>(new OptionsPool(10, 10));
+            pools
+                .Add<int>()
+                .Add<int>(new OptionsPool(10, 10))
+                .Add<string>(new OptionsPool(10, 10));
 
             Assert.AreEqual(2, pools.Length);
             Assert.AreNotEqual(10, ((Pool<int>)pools.Get<int>()).Capacity);
             Assert.AreEqual(10, pools.GetPool<string>().Capacity);
 
-            pools.Add<ATag>();
-            pools.Add<ATag>(new OptionsPool(10, 10));
-            pools.Add<BTag>(new OptionsPool(10, 10));
+            pools
+                .Add<ATag>()
+                .Add<ATag>(new OptionsPool(10, 10))
+                .Add<BTag>(new OptionsPool(10, 10));
 
             Assert.AreEqual(4, pools.Length);
-            Assert.AreNotEqual(10, ((ECS.Pool)pools.GetTag<ATag>()).Capacity);
+            Assert.AreNotEqual(10, pools.GetPool<ATag>().Capacity);
             Assert.AreEqual(10, pools.GetPool<BTag>().Capacity);
         }
 
@@ -63,8 +65,9 @@ namespace ECS.Tests
         {
             var pools = new ECS.Pools(null);
 
-            pools.Add<int>();
-            pools.Add<ATag>();
+            pools
+                .Add<int>()
+                .Add<ATag>();
 
             Assert.True(pools.Contains<int>());
             Assert.True(pools.Contains<ATag>());
@@ -77,8 +80,9 @@ namespace ECS.Tests
         {
             var pools = new ECS.Pools(null);
 
-            pools.Add<int>();
-            pools.Add<ATag>();
+            pools
+                .Add<int>()
+                .Add<ATag>();
 
             var j = 0;
             foreach (var pool in pools)

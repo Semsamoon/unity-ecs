@@ -71,8 +71,9 @@ namespace ECS.Tests
 
             Assert.DoesNotThrow(() => denseArray.RemoveAt(0));
 
-            denseArray.Add(10);
-            denseArray.RemoveAt(0);
+            denseArray
+                .Add(10)
+                .RemoveAt(0);
 
             Assert.AreEqual(0, denseArray.Length);
         }
@@ -82,10 +83,11 @@ namespace ECS.Tests
         {
             var denseArray = new DenseArray<int>();
 
-            denseArray.Add(10);
-            denseArray.Add(20);
-            denseArray.Add(30);
-            denseArray.RemoveAt(0);
+            denseArray
+                .Add(10)
+                .Add(20)
+                .Add(30)
+                .RemoveAt(0);
 
             Assert.AreEqual(30, denseArray[0]);
             Assert.AreEqual(10, denseArray[2]);

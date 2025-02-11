@@ -38,7 +38,9 @@ namespace ECS.Tests
             var systems = new ECS.Systems(null);
             var systemA = new ASystem();
 
-            systems.Add(systemA).Add<BSystem>();
+            systems
+                .Add(systemA)
+                .Add<BSystem>();
 
             Assert.AreEqual(2, systems.Length);
             Assert.AreEqual(systemA, systems[0]);
@@ -53,8 +55,10 @@ namespace ECS.Tests
             var systems = new ECS.Systems(null);
             var systemA = new ASystem();
 
-            systems.Add(systemA).Add<BSystem>();
-            systems.Update();
+            systems
+                .Add(systemA)
+                .Add<BSystem>()
+                .Update();
 
             Assert.AreEqual(1, systemA.UpdateCount);
             Assert.AreEqual(1, ((BSystem)systems[1]).UpdateCount);
@@ -71,7 +75,9 @@ namespace ECS.Tests
             var systems = new ECS.Systems(null);
             var systemA = new ASystem();
 
-            systems.Add(systemA).Add<BSystem>();
+            systems
+                .Add(systemA)
+                .Add<BSystem>();
             systems.Destroy();
 
             Assert.True(systemA.Destroyed);
