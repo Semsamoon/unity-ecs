@@ -40,6 +40,20 @@ namespace ECS
             return new FilterBuilder(_world, options);
         }
 
+        public IFilters IncludeCapacity<T>(int capacity)
+        {
+            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
+            EnsureCapacity(_included, typeof(T), capacity);
+            return this;
+        }
+
+        public IFilters ExcludeCapacity<T>(int capacity)
+        {
+            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
+            EnsureCapacity(_excluded, typeof(T), capacity);
+            return this;
+        }
+
         public void Include(Filter filter, Type type)
         {
             Include(filter, type, _defaultFiltersCapacity);
@@ -102,6 +116,17 @@ namespace ECS
             {
                 Change(excluded, entity, 1);
             }
+        }
+
+        private static void EnsureCapacity(Dictionary<Type, DenseArray<Filter>> filters, Type type, int capacity)
+        {
+            if (filters.TryGetValue(type, out var array))
+            {
+                array.ExtendTo(capacity);
+                return;
+            }
+
+            filters.Add(type, new DenseArray<Filter>(capacity));
         }
 
         private static void Change(DenseArray<Filter> filters, Entity entity, int difference)
