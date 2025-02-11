@@ -17,28 +17,38 @@ namespace ECS.Tests
         }
 
         [Test]
-        public void Build()
+        public void Create()
         {
             var world = new World();
-            var entity1x0 = world.Entities.Create();
-            var entity2x0 = world.Entities.Create();
-            var filterInt = world.Filters.Create().Include<int>().Build();
+            var filters = world.FiltersInternal;
+            var entity0x1 = world.EntitiesInternal.Create();
+            var entity1x1 = world.EntitiesInternal.Create();
+            var filterInt = filters.Create().Include<int>().Build();
 
-            world.Pools.Get<int>().Get(entity1x0) = 10;
-            world.Pools.Get<string>().Get(entity1x0) = "10";
+            world.PoolsInternal.Get<int>().Get(entity0x1) = 10;
+            world.PoolsInternal.Get<string>().Get(entity0x1) = "10";
 
-            Assert.AreEqual((1, 0), world.FiltersInternal.Length);
-            Assert.True(filterInt.Contains(entity1x0));
-            Assert.False(filterInt.Contains(entity2x0));
+            Assert.AreEqual((1, 0), filters.Length);
+            Assert.True(filterInt.Contains(entity0x1));
+            Assert.False(filterInt.Contains(entity1x1));
 
-            var filterIntString = world.Filters.Create().Include<int, string>().Build();
-            var filter_String = world.Filters.Create(new OptionsFilter(10, 10)).Exclude<string>().Build();
+            var filterIntString = filters.Create().Include<int, string>().Build();
+            var filter_String = filters.Create(new OptionsFilter(10, 10)).Exclude<string>().Build();
 
-            Assert.AreEqual((2, 1), world.FiltersInternal.Length);
-            Assert.True(filterIntString.Contains(entity1x0));
-            Assert.False(filterIntString.Contains(entity2x0));
-            Assert.False(filter_String.Contains(entity1x0));
-            Assert.True(filter_String.Contains(entity2x0));
+            Assert.AreEqual((2, 1), filters.Length);
+            Assert.True(filterIntString.Contains(entity0x1));
+            Assert.False(filterIntString.Contains(entity1x1));
+            Assert.False(filter_String.Contains(entity0x1));
+            Assert.True(filter_String.Contains(entity1x1));
+        }
+
+        [Test]
+        public void Capacity()
+        {
+            var world = new World();
+            var filters = world.FiltersInternal;
+
+            Assert.DoesNotThrow(() => filters.IncludeCapacity<int>(10).ExcludeCapacity<int>(-10));
         }
 
         [Test]
@@ -46,19 +56,19 @@ namespace ECS.Tests
         {
             var filters = new ECS.Filters(null);
             var filter = new ECS.Filter(2);
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
+            var entity0x1 = new ECS.Entity(0, 1);
+            var entity1x1 = new ECS.Entity(1, 1);
 
             filters
                 .Include(filter, typeof(int))
                 .Include(filter, typeof(string), 4)
-                .RecordUnchecked(entity1x0, typeof(int))
-                .RecordUnchecked(entity1x0, typeof(string))
-                .RecordUnchecked(entity2x0, typeof(int));
+                .RecordUnchecked(entity0x1, typeof(int))
+                .RecordUnchecked(entity0x1, typeof(string))
+                .RecordUnchecked(entity1x1, typeof(int));
 
             Assert.AreEqual((2, 0), filters.Length);
-            Assert.True(filter.Contains(entity1x0));
-            Assert.False(filter.Contains(entity2x0));
+            Assert.True(filter.Contains(entity0x1));
+            Assert.False(filter.Contains(entity1x1));
         }
 
         [Test]
@@ -66,62 +76,56 @@ namespace ECS.Tests
         {
             var filters = new ECS.Filters(null);
             var filter = new ECS.Filter(2);
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
+            var entity0x1 = new ECS.Entity(0, 1);
+            var entity1x1 = new ECS.Entity(1, 1);
 
             filters
                 .Exclude(filter, typeof(int))
                 .Exclude(filter, typeof(string), 4)
-                .EraseUnchecked(entity1x0, typeof(int))
-                .EraseUnchecked(entity1x0, typeof(string))
-                .RecordUnchecked(entity2x0, typeof(int))
-                .EraseUnchecked(entity2x0, typeof(string));
+                .EraseUnchecked(entity0x1, typeof(int))
+                .EraseUnchecked(entity0x1, typeof(string))
+                .RecordUnchecked(entity1x1, typeof(int))
+                .EraseUnchecked(entity1x1, typeof(string));
 
             Assert.AreEqual((0, 2), filters.Length);
-            Assert.True(filter.Contains(entity1x0));
-            Assert.False(filter.Contains(entity2x0));
+            Assert.True(filter.Contains(entity0x1));
+            Assert.False(filter.Contains(entity1x1));
         }
 
         [Test]
-        public void Create()
+        public void Record()
         {
             var filters = new ECS.Filters(null);
             var filter = new ECS.Filter(1);
-            var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
+            var entity0x1 = new ECS.Entity(0, 1);
+            var entity1x1 = new ECS.Entity(1, 1);
 
             filters
                 .Include(filter, typeof(int))
-                .RecordUnchecked(entity, typeof(int))
-                .RecordUnchecked(entity1x0, typeof(int))
-                .RecordUnchecked(entity1x0, typeof(string))
-                .RecordUnchecked(entity2x0, typeof(string));
+                .RecordUnchecked(entity0x1, typeof(int))
+                .RecordUnchecked(entity0x1, typeof(string))
+                .RecordUnchecked(entity1x1, typeof(string));
 
-            Assert.False(filter.Contains(entity));
-            Assert.True(filter.Contains(entity1x0));
-            Assert.False(filter.Contains(entity2x0));
+            Assert.True(filter.Contains(entity0x1));
+            Assert.False(filter.Contains(entity1x1));
         }
 
         [Test]
-        public void Remove()
+        public void Erase()
         {
             var filters = new ECS.Filters(null);
             var filter = new ECS.Filter(1);
-            var entity = new ECS.Entity();
-            var entity1x0 = new ECS.Entity(1, 0);
-            var entity2x0 = new ECS.Entity(2, 0);
+            var entity0x1 = new ECS.Entity(0, 1);
+            var entity1x1 = new ECS.Entity(1, 1);
 
             filters
                 .Exclude(filter, typeof(int))
-                .EraseUnchecked(entity, typeof(int))
-                .EraseUnchecked(entity1x0, typeof(int))
-                .EraseUnchecked(entity1x0, typeof(string))
-                .EraseUnchecked(entity2x0, typeof(string));
+                .EraseUnchecked(entity0x1, typeof(int))
+                .EraseUnchecked(entity0x1, typeof(string))
+                .EraseUnchecked(entity1x1, typeof(string));
 
-            Assert.False(filter.Contains(entity));
-            Assert.True(filter.Contains(entity1x0));
-            Assert.False(filter.Contains(entity2x0));
+            Assert.True(filter.Contains(entity0x1));
+            Assert.False(filter.Contains(entity1x1));
         }
     }
 }

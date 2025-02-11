@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace ECS.Tests
@@ -28,7 +29,7 @@ namespace ECS.Tests
                 .Add<string>(new OptionsPool(10, 10));
 
             Assert.AreEqual(2, pools.Length);
-            Assert.AreNotEqual(10, ((Pool<int>)pools.Get<int>()).Capacity);
+            Assert.AreNotEqual(10, pools.Get<int>().Capacity);
             Assert.AreEqual(10, pools.GetPool<string>().Capacity);
 
             pools
@@ -37,7 +38,7 @@ namespace ECS.Tests
                 .Add<BTag>(new OptionsPool(10, 10));
 
             Assert.AreEqual(4, pools.Length);
-            Assert.AreNotEqual(10, pools.GetPool<ATag>().Capacity);
+            Assert.AreNotEqual(10, pools.GetTag<ATag>().Capacity);
             Assert.AreEqual(10, pools.GetPool<BTag>().Capacity);
         }
 
@@ -49,15 +50,19 @@ namespace ECS.Tests
             pools.Add<int>(new OptionsPool(10, 10));
 
             Assert.AreEqual(10, pools.GetPool<int>(new OptionsPool(20, 20)).Capacity);
-            Assert.AreEqual(10, ((Pool<string>)pools.Get<string>(new OptionsPool(10, 10))).Capacity);
-            Assert.AreEqual(10, pools.GetPool<string>().Capacity);
+            Assert.AreEqual(10, pools.Get<int>().Capacity);
+            Assert.AreEqual(10, pools.Get<string>(new OptionsPool(10, 10)).Capacity);
+            Assert.AreEqual(10, pools.GetUnchecked<string>().Capacity);
 
             pools.Add<ATag>(new OptionsPool(10, 10));
 
-            Assert.AreEqual(10, pools.GetPool<ATag>(new OptionsPool(20, 20)).Capacity);
-            Assert.AreEqual(10, ((ECS.Pool)pools.GetTag<BTag>(new OptionsPool(10, 10))).Capacity);
-            Assert.AreEqual(10, pools.GetPool<BTag>().Capacity);
+            Assert.AreEqual(10, pools.GetPool<ATag>().Capacity);
+            Assert.AreEqual(10, pools.GetTag<ATag>().Capacity);
+            Assert.AreEqual(10, pools.GetTag<BTag>(new OptionsPool(10, 10)).Capacity);
+            Assert.AreEqual(10, pools.GetTagUnchecked<BTag>().Capacity);
+
             Assert.Throws<InvalidCastException>(() => pools.Get<ATag>());
+            Assert.Throws<KeyNotFoundException>(() => pools.GetPoolUnchecked(typeof(char)));
         }
 
         [Test]

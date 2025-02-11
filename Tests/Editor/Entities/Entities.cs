@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 
 namespace ECS.Tests
@@ -35,8 +34,8 @@ namespace ECS.Tests
             Assert.AreEqual(entity0x1, entities[0].Entity);
             Assert.AreEqual(entity1x1, entities[1].Entity);
             Assert.AreEqual(entity, entities[2].Entity);
-            Assert.IsInstanceOf<DenseArray<Type>>(entities[0].Components);
-            Assert.IsInstanceOf<DenseArray<Type>>(entities[1].Components);
+            Assert.AreEqual(0, entities[0].Components.Length);
+            Assert.AreEqual(0, entities[1].Components.Length);
             Assert.IsNull(entities[2].Components);
         }
 
@@ -47,7 +46,8 @@ namespace ECS.Tests
             var entities = new ECS.Entities(world);
             var entity0x1 = new ECS.Entity(0, 1);
             var entity0x2 = new ECS.Entity(0, 2);
-            var entity1x0 = new ECS.Entity(1, 1);
+            var entity1x1 = new ECS.Entity(1, 1);
+            var entity1x2 = new ECS.Entity(1, 2);
 
             entities.Create();
 
@@ -64,10 +64,19 @@ namespace ECS.Tests
             Assert.GreaterOrEqual(entities[0].Components.Capacity, 10);
             Assert.AreEqual(0, entities[0].Components.Length);
 
-            entities.Create(10);
+            entities.CreateUnchecked(10);
 
             Assert.AreEqual(2, entities.Length);
-            Assert.AreEqual(entity1x0, entities[1].Entity);
+            Assert.AreEqual(entity1x1, entities[1].Entity);
+            Assert.AreEqual(10, entities[1].Components.Capacity);
+            Assert.AreEqual(0, entities[1].Components.Length);
+
+            entities
+                .Remove(entity1x1)
+                .RecycleUnchecked();
+
+            Assert.AreEqual(2, entities.Length);
+            Assert.AreEqual(entity1x2, entities[1].Entity);
             Assert.AreEqual(10, entities[1].Components.Capacity);
             Assert.AreEqual(0, entities[1].Components.Length);
         }
@@ -106,8 +115,9 @@ namespace ECS.Tests
         public void Remove()
         {
             var world = new World();
-            var entities = new ECS.Entities(world);
-            var entity0x1 = world.Entities.Create();
+            var entities = world.EntitiesInternal;
+            var entity0x1 = new ECS.Entity(0, 1);
+            var entity1x1 = new ECS.Entity(1, 1);
 
             Assert.DoesNotThrow(() => entities.Remove(entity0x1));
 
@@ -118,6 +128,39 @@ namespace ECS.Tests
             Assert.AreEqual(0, entities.Length);
             Assert.AreEqual(0, entities[1].Components.Length);
             Assert.False(entities.Contains(entity0x1));
+
+            entities.Create();
+            entities.RemoveUnchecked(entity1x1);
+
+            Assert.AreEqual(0, entities.Length);
+            Assert.False(entities.Contains(entity1x1));
+        }
+
+        [Test]
+        public void Record()
+        {
+            var world = new World();
+            var entities = world.EntitiesInternal;
+            var entity0x1 = entities.Create();
+
+            entities.RecordUnchecked(entity0x1, typeof(int));
+
+            Assert.AreEqual(1, entities[0].Components.Length);
+            Assert.AreEqual(typeof(int), entities[0].Components[0]);
+        }
+
+        [Test]
+        public void Erase()
+        {
+            var world = new World();
+            var entities = world.EntitiesInternal;
+            var entity0x1 = entities.Create();
+
+            entities
+                .RecordUnchecked(entity0x1, typeof(int))
+                .EraseUnchecked(entity0x1, typeof(int));
+
+            Assert.AreEqual(0, entities[0].Components.Length);
         }
 
         [Test]

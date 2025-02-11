@@ -77,8 +77,8 @@ namespace ECS.Tests
 
             systems
                 .Add(systemA)
-                .Add<BSystem>();
-            systems.Destroy();
+                .Add<BSystem>()
+                .Destroy();
 
             Assert.True(systemA.Destroyed);
             Assert.True(((BSystem)systems[1]).Destroyed);

@@ -30,28 +30,45 @@ namespace ECS.Tests
         }
 
         [Test]
+        public void Set()
+        {
+            var sparseArray = new SparseArray<int>();
+
+            sparseArray
+                .Set(0, 10)
+                .Set(4, 20);
+
+            Assert.AreEqual(10, sparseArray[0]);
+            Assert.AreEqual(20, sparseArray[4]);
+        }
+
+        [Test]
         public void Extending()
         {
-            var sparseArray = new SparseArray<int>(2);
+            var sparseArray2 = new SparseArray<int>(2);
 
-            sparseArray[32] = 10;
+            sparseArray2[32] = 10;
 
-            Assert.AreEqual(64, sparseArray.Length);
-            Assert.AreEqual(10, sparseArray[32]);
-            Assert.AreEqual(0, sparseArray[33]);
+            Assert.AreEqual(64, sparseArray2.Length);
+            Assert.AreEqual(10, sparseArray2[32]);
+            Assert.AreEqual(0, sparseArray2[33]);
+
+            sparseArray2.ExtendTo(256);
+
+            Assert.AreEqual(512, sparseArray2.Length);
         }
 
         [Test]
         public void ReadOnlySpan()
         {
-            var sparseArray = new SparseArray<int>(8);
+            var sparseArray8 = new SparseArray<int>(8);
 
             for (var i = 0; i < 4; i++)
             {
-                sparseArray[i] = i + 1;
+                sparseArray8[i] = i + 1;
             }
 
-            var span = sparseArray.AsReadOnlySpan();
+            var span = sparseArray8.AsReadOnlySpan();
 
             Assert.AreEqual(8, span.Length);
 
@@ -69,15 +86,15 @@ namespace ECS.Tests
         [Test]
         public void Enumerable()
         {
-            var sparseArray = new SparseArray<int>(4);
+            var sparseArray4 = new SparseArray<int>(4);
 
             for (var i = 0; i < 4; i++)
             {
-                sparseArray[i] = 10;
+                sparseArray4[i] = 10;
             }
 
             var j = 0;
-            foreach (var value in sparseArray)
+            foreach (var value in sparseArray4)
             {
                 Assert.AreEqual(10, value);
                 j++;

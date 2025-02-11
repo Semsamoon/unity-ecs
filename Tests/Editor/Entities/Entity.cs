@@ -31,10 +31,9 @@ namespace ECS.Tests
             Assert.True(entity10x10_1.Equals(entity10x10_2));
             Assert.True(entity10x10_1.Equals((object)entity10x10_2));
 
-            // NULL-entities are not equal if their generation numbers are different
+            var entity0x0 = new ECS.Entity(0, 0);
             var entity0x1 = new ECS.Entity(0, 1);
-            var entity0x2 = new ECS.Entity(0, 2);
-            Assert.False(entity0x1 == entity0x2);
+            Assert.True(entity0x0 != entity0x1);
         }
 
         [Test]
