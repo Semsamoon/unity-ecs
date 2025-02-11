@@ -118,7 +118,7 @@ namespace ECS
         {
             var components = _denseArray[_sparseArray[entity.Id]].Components;
 
-            for (var i = 0; i < components.Length; i++)
+            for (var i = components.Length - 1; i >= 0; i--)
             {
                 if (component == components[i])
                 {
