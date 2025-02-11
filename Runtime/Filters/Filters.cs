@@ -61,16 +61,8 @@ namespace ECS
 
         public void Include(Filter filter, Type type, int capacity)
         {
-            if (_included.TryGetValue(type, out var included))
-            {
-                included.Add(filter);
-                return;
-            }
-
             capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
-            var filters = new DenseArray<Filter>(capacity);
-            filters.Add(filter);
-            _included.Add(type, filters);
+            Add(_included, filter, type, capacity);
         }
 
         public void Exclude(Filter filter, Type type)
@@ -80,42 +72,20 @@ namespace ECS
 
         public void Exclude(Filter filter, Type type, int capacity)
         {
-            if (_excluded.TryGetValue(type, out var excluded))
-            {
-                excluded.Add(filter);
-                return;
-            }
-
             capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
-            var filters = new DenseArray<Filter>(capacity);
-            filters.Add(filter);
-            _excluded.Add(type, filters);
+            Add(_excluded, filter, type, capacity);
         }
 
         public void RecordUnchecked(Entity entity, Type type)
         {
-            if (_included.TryGetValue(type, out var included))
-            {
-                Change(included, entity, 1);
-            }
-
-            if (_excluded.TryGetValue(type, out var excluded))
-            {
-                Change(excluded, entity, -1);
-            }
+            Change(_included, type, entity, 1);
+            Change(_excluded, type, entity, -1);
         }
 
         public void EraseUnchecked(Entity entity, Type type)
         {
-            if (_included.TryGetValue(type, out var included))
-            {
-                Change(included, entity, -1);
-            }
-
-            if (_excluded.TryGetValue(type, out var excluded))
-            {
-                Change(excluded, entity, 1);
-            }
+            Change(_included, type, entity, -1);
+            Change(_excluded, type, entity, 1);
         }
 
         private static void EnsureCapacity(Dictionary<Type, DenseArray<Filter>> filters, Type type, int capacity)
@@ -129,11 +99,27 @@ namespace ECS
             filters.Add(type, new DenseArray<Filter>(capacity));
         }
 
-        private static void Change(DenseArray<Filter> filters, Entity entity, int difference)
+        private static void Add(Dictionary<Type, DenseArray<Filter>> filters, Filter filter, Type type, int capacity)
         {
-            foreach (var filter in filters)
+            if (filters.TryGetValue(type, out var array))
             {
-                filter.ChangeUnchecked(entity, difference);
+                array.Add(filter);
+                return;
+            }
+
+            var newArray = new DenseArray<Filter>(capacity);
+            newArray.Add(filter);
+            filters.Add(type, newArray);
+        }
+
+        private static void Change(Dictionary<Type, DenseArray<Filter>> filters, Type type, Entity entity, int difference)
+        {
+            if (filters.TryGetValue(type, out var array))
+            {
+                foreach (var filter in array)
+                {
+                    filter.ChangeUnchecked(entity, difference);
+                }
             }
         }
     }
