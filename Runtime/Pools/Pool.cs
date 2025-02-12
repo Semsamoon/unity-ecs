@@ -34,16 +34,13 @@ namespace ECS
 
         IPool IPool.Add(Entity entity)
         {
+            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityNotInPool(entity, this, _type);
             return Add(entity);
         }
 
         public Pool Add(Entity entity)
         {
-            if (!_world.EntitiesInternal.Contains(entity) || Contains(entity))
-            {
-                return this;
-            }
-
             AddUnchecked(entity);
             _world.FiltersInternal.RecordUnchecked(entity, _type);
             _world.EntitiesInternal.RecordUnchecked(entity, _type);
@@ -59,21 +56,19 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
+            Verifier.EntityNotNull(entity);
+            return _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
         IPool IPool.Remove(Entity entity)
         {
+            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityInPool(entity, this, _type);
             return Remove(entity);
         }
 
         public Pool Remove(Entity entity)
         {
-            if (!Contains(entity))
-            {
-                return this;
-            }
-
             RemoveUnchecked(entity);
             _world.FiltersInternal.EraseUnchecked(entity, _type);
             _world.EntitiesInternal.EraseUnchecked(entity, _type);
@@ -135,6 +130,7 @@ namespace ECS
 
         IPool<T> IPool<T>.Set(Entity entity, T value)
         {
+            Verifier.EntityExists(entity, _world.EntitiesInternal);
             Get(entity) = value;
             return this;
         }
@@ -153,7 +149,9 @@ namespace ECS
 
         public ref T Get(Entity entity)
         {
-            if (entity == Entity.Null || Contains(entity))
+            Verifier.EntityExists(entity, _world.EntitiesInternal);
+
+            if (Contains(entity))
             {
                 return ref GetUnchecked(entity);
             }
@@ -178,21 +176,19 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]].Entity == entity;
+            Verifier.EntityNotNull(entity);
+            return _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
         IPool<T> IPool<T>.Remove(Entity entity)
         {
+            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityInPool(entity, this, typeof(T));
             return Remove(entity);
         }
 
         public Pool<T> Remove(Entity entity)
         {
-            if (!Contains(entity))
-            {
-                return this;
-            }
-
             RemoveUnchecked(entity);
             _world.FiltersInternal.EraseUnchecked(entity, typeof(T));
             _world.EntitiesInternal.EraseUnchecked(entity, typeof(T));

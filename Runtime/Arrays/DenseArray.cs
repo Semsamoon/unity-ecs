@@ -31,7 +31,6 @@ namespace ECS
 
         public DenseArray(int capacity)
         {
-            capacity = capacity > 0 ? capacity : DefaultCapacity;
             _array = new T[capacity];
         }
 
@@ -44,22 +43,14 @@ namespace ECS
 
         public DenseArray<T> Set(int index, T item)
         {
-            if (index >= Length)
-            {
-                return this;
-            }
-
+            Verifier.ArgumentError(nameof(index), index < Length, $"must be less than Length {Length}.");
             _array[index] = item;
             return this;
         }
 
         public DenseArray<T> RemoveAt(int index)
         {
-            if (index >= Length)
-            {
-                return this;
-            }
-
+            Verifier.ArgumentError(nameof(index), index < Length, $"must be less than Length {Length}.");
             Length--;
             Swap(index, Length);
             return this;

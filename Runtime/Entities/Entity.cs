@@ -14,8 +14,8 @@ namespace ECS
 
         public Entity(int id, int gen)
         {
-            id = Math.Max(id, 0);
-            gen = Math.Max(gen, 0);
+            Verifier.ArgumentError(nameof(id), id >= 0, "must be non-negative.");
+            Verifier.ArgumentWarning(nameof(gen), gen >= 0, "should be non-negative.");
             Id = id;
             Gen = gen;
         }

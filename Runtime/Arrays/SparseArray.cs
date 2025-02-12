@@ -29,7 +29,6 @@ namespace ECS
 
         public SparseArray(int length)
         {
-            length = length > 0 ? length : DefaultLength;
             _array = new T[length];
         }
 

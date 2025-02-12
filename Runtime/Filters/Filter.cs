@@ -63,7 +63,8 @@ namespace ECS
 
         public bool Contains(Entity entity)
         {
-            return entity != Entity.Null && _denseArray[_sparseArray[entity.Id]] == entity;
+            Verifier.EntityNotNull(entity);
+            return _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
         public Filter RemoveUnchecked(Entity entity)

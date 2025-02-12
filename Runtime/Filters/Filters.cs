@@ -57,7 +57,6 @@ namespace ECS
 
         public Filters IncludeCapacity<T>(int capacity)
         {
-            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             EnsureCapacity(_included, typeof(T), capacity);
             return this;
         }
@@ -69,7 +68,6 @@ namespace ECS
 
         public Filters ExcludeCapacity<T>(int capacity)
         {
-            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             EnsureCapacity(_excluded, typeof(T), capacity);
             return this;
         }
@@ -81,7 +79,6 @@ namespace ECS
 
         public Filters Include(Filter filter, Type type, int capacity)
         {
-            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             Add(_included, filter, type, capacity);
             return this;
         }
@@ -93,7 +90,6 @@ namespace ECS
 
         public Filters Exclude(Filter filter, Type type, int capacity)
         {
-            capacity = capacity > 0 ? capacity : _defaultFiltersCapacity;
             Add(_excluded, filter, type, capacity);
             return this;
         }
