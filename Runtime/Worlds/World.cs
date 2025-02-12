@@ -23,8 +23,8 @@
         public World(OptionsWorld options)
         {
             EntitiesInternal = new Entities(this, options.Entities);
-            PoolsInternal = new Pools(this, options.Pools, options.Pool);
-            FiltersInternal = new Filters(this, options.Filters, options.Filter);
+            PoolsInternal = new Pools(this, options.Pools, options.Pool, options.Entities);
+            FiltersInternal = new Filters(this, options.Filters, options.Filter, options.Entities);
             SystemsInternal = new Systems(this, options.Systems);
         }
 

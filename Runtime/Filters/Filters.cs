@@ -12,41 +12,43 @@ namespace ECS
         private readonly Dictionary<Type, DenseArray<Filter>> _included;
         private readonly Dictionary<Type, DenseArray<Filter>> _excluded;
         private readonly int _defaultFiltersCapacity;
-        private readonly OptionsFilter _defaultOptionsFilter;
+        private readonly OptionsFilter _defaultFilterOptions;
+        private readonly OptionsEntities _entitiesOptions;
 
         public (int included, int excluded) Length => (_included.Count, _excluded.Count);
 
-        public Filters(World world) : this(world, OptionsFilters.Default, OptionsFilter.Default)
+        public Filters(World world) : this(world, OptionsFilters.Default, OptionsFilter.Default, OptionsEntities.Default)
         {
         }
 
-        public Filters(World world, OptionsFilters options, OptionsFilter optionsFilter)
+        public Filters(World world, OptionsFilters filtersOptions, OptionsFilter filterOptions, OptionsEntities entitiesOptions)
         {
             _world = world;
-            _included = new Dictionary<Type, DenseArray<Filter>>(options.Capacity);
-            _excluded = new Dictionary<Type, DenseArray<Filter>>(options.Capacity);
-            _defaultFiltersCapacity = options.FiltersCapacity;
-            _defaultOptionsFilter = optionsFilter;
+            _included = new Dictionary<Type, DenseArray<Filter>>(filtersOptions.Capacity);
+            _excluded = new Dictionary<Type, DenseArray<Filter>>(filtersOptions.Capacity);
+            _defaultFiltersCapacity = filtersOptions.FiltersCapacity;
+            _defaultFilterOptions = filterOptions;
+            _entitiesOptions = entitiesOptions;
         }
 
         IFilterBuilderEmpty IFilters.Create()
         {
-            return new FilterBuilder(_world, _defaultOptionsFilter);
+            return new FilterBuilder(_world, _defaultFilterOptions, _entitiesOptions);
         }
 
         public FilterBuilder Create()
         {
-            return new FilterBuilder(_world, _defaultOptionsFilter);
+            return new FilterBuilder(_world, _defaultFilterOptions, _entitiesOptions);
         }
 
         IFilterBuilderEmpty IFilters.Create(OptionsFilter options)
         {
-            return new FilterBuilder(_world, options);
+            return new FilterBuilder(_world, options, _entitiesOptions);
         }
 
         public FilterBuilder Create(OptionsFilter options)
         {
-            return new FilterBuilder(_world, options);
+            return new FilterBuilder(_world, options, _entitiesOptions);
         }
 
         IFilters IFilters.IncludeCapacity<T>(int capacity)

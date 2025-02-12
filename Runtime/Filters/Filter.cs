@@ -20,19 +20,19 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index];
 
-        public Filter() : this(0, OptionsFilter.Default)
+        public Filter() : this(0, OptionsFilter.Default, OptionsEntities.Default)
         {
         }
 
-        public Filter(int sum) : this(sum, OptionsFilter.Default)
+        public Filter(int sum) : this(sum, OptionsFilter.Default, OptionsEntities.Default)
         {
         }
 
-        public Filter(int sum, OptionsFilter options)
+        public Filter(int sum, OptionsFilter filterOptions, OptionsEntities entitiesOptions)
         {
-            _counts = new SparseArray<int>(options.EntitiesCapacity);
-            _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
-            _denseArray = new DenseArray<Entity>(options.Capacity);
+            _counts = new SparseArray<int>(entitiesOptions.Capacity);
+            _sparseArray = new SparseArray<int>(entitiesOptions.Capacity);
+            _denseArray = new DenseArray<Entity>(filterOptions.Capacity);
             Sum = sum;
         }
 

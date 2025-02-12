@@ -10,29 +10,31 @@ namespace ECS
     {
         private readonly World _world;
         private readonly Dictionary<Type, IPoolInternal> _pools;
-        private readonly OptionsPool _defaultOptionsPool;
+        private readonly OptionsPool _defaultPoolOptions;
+        private readonly OptionsEntities _entitiesOptions;
 
         public int Length => _pools.Count;
 
-        public Pools(World world) : this(world, OptionsPools.Default, OptionsPool.Default)
+        public Pools(World world) : this(world, OptionsPools.Default, OptionsPool.Default, OptionsEntities.Default)
         {
         }
 
-        public Pools(World world, OptionsPools options, OptionsPool optionsPool)
+        public Pools(World world, OptionsPools poolsOptions, OptionsPool poolOptions, OptionsEntities entitiesOptions)
         {
             _world = world;
-            _pools = new Dictionary<Type, IPoolInternal>(options.Capacity);
-            _defaultOptionsPool = optionsPool;
+            _pools = new Dictionary<Type, IPoolInternal>(poolsOptions.Capacity);
+            _defaultPoolOptions = poolOptions;
+            _entitiesOptions = entitiesOptions;
         }
 
         IPools IPools.Add<T>()
         {
-            return Add<T>(_defaultOptionsPool);
+            return Add<T>(_defaultPoolOptions);
         }
 
         public Pools Add<T>()
         {
-            return Add<T>(_defaultOptionsPool);
+            return Add<T>(_defaultPoolOptions);
         }
 
         IPools IPools.Add<T>(OptionsPool options)
@@ -49,22 +51,22 @@ namespace ECS
 
             if (typeof(ITag).IsAssignableFrom(typeof(T)))
             {
-                _pools.Add(typeof(T), new Pool(_world, typeof(T), options));
+                _pools.Add(typeof(T), new Pool(_world, typeof(T), options, _entitiesOptions));
                 return this;
             }
 
-            _pools.Add(typeof(T), new Pool<T>(_world, options));
+            _pools.Add(typeof(T), new Pool<T>(_world, options, _entitiesOptions));
             return this;
         }
 
         IPool<T> IPools.Get<T>()
         {
-            return Get<T>(_defaultOptionsPool);
+            return Get<T>(_defaultPoolOptions);
         }
 
         public Pool<T> Get<T>()
         {
-            return Get<T>(_defaultOptionsPool);
+            return Get<T>(_defaultPoolOptions);
         }
 
         IPool<T> IPools.Get<T>(OptionsPool options)
@@ -79,7 +81,7 @@ namespace ECS
                 return (Pool<T>)existing;
             }
 
-            var pool = new Pool<T>(_world, options);
+            var pool = new Pool<T>(_world, options, _entitiesOptions);
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -91,12 +93,12 @@ namespace ECS
 
         IPool IPools.GetTag<T>()
         {
-            return GetTag<T>(_defaultOptionsPool);
+            return GetTag<T>(_defaultPoolOptions);
         }
 
         public Pool GetTag<T>() where T : ITag
         {
-            return GetTag<T>(_defaultOptionsPool);
+            return GetTag<T>(_defaultPoolOptions);
         }
 
         IPool IPools.GetTag<T>(OptionsPool options)
@@ -111,7 +113,7 @@ namespace ECS
                 return (Pool)existing;
             }
 
-            var pool = new Pool(_world, typeof(T), options);
+            var pool = new Pool(_world, typeof(T), options, _entitiesOptions);
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -123,7 +125,7 @@ namespace ECS
 
         public IPoolInternal GetPool<T>()
         {
-            return GetPool<T>(_defaultOptionsPool);
+            return GetPool<T>(_defaultPoolOptions);
         }
 
         public IPoolInternal GetPool<T>(OptionsPool options)
@@ -135,12 +137,12 @@ namespace ECS
 
             if (typeof(T).IsAssignableFrom(typeof(ITag)))
             {
-                var pool = new Pool(_world, typeof(T), options);
+                var pool = new Pool(_world, typeof(T), options, _entitiesOptions);
                 _pools.Add(typeof(T), pool);
                 return pool;
             }
 
-            var poolT = new Pool<T>(_world, options);
+            var poolT = new Pool<T>(_world, options, _entitiesOptions);
             _pools.Add(typeof(T), poolT);
             return poolT;
         }
