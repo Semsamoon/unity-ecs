@@ -10,7 +10,7 @@
 
         public static OptionsEntities Default => new(DefaultCapacity, DefaultComponentsCapacity);
 
-        public OptionsEntities(int capacity, int componentsCapacity)
+        public OptionsEntities(int capacity = DefaultCapacity, int componentsCapacity = DefaultComponentsCapacity)
         {
             Capacity = capacity;
             ComponentsCapacity = componentsCapacity;

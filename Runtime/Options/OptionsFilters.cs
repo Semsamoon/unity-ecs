@@ -10,7 +10,7 @@
 
         public static OptionsFilters Default => new(DefaultCapacity, DefaultFiltersCapacity);
 
-        public OptionsFilters(int capacity, int filtersCapacity)
+        public OptionsFilters(int capacity = DefaultCapacity, int filtersCapacity = DefaultFiltersCapacity)
         {
             Capacity = capacity;
             FiltersCapacity = filtersCapacity;

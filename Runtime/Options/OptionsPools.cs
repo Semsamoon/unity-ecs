@@ -8,7 +8,7 @@
 
         public static OptionsPools Default => new(DefaultCapacity);
 
-        public OptionsPools(int capacity)
+        public OptionsPools(int capacity = DefaultCapacity)
         {
             Capacity = capacity;
         }

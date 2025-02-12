@@ -10,7 +10,7 @@
 
         public static OptionsPool Default => new(DefaultEntitiesCapacity, DefaultCapacity);
 
-        public OptionsPool(int entitiesCapacity, int capacity)
+        public OptionsPool(int entitiesCapacity = DefaultEntitiesCapacity, int capacity = DefaultCapacity)
         {
             EntitiesCapacity = entitiesCapacity;
             Capacity = capacity;

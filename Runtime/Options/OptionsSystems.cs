@@ -8,7 +8,7 @@
 
         public static OptionsSystems Default => new(DefaultCapacity);
 
-        public OptionsSystems(int capacity)
+        public OptionsSystems(int capacity = DefaultCapacity)
         {
             Capacity = capacity;
         }
