@@ -32,7 +32,7 @@ namespace ECS
 
         IFilterBuilderEmpty IFilters.Create()
         {
-            return Create();
+            return new FilterBuilder(_world, _defaultOptionsFilter);
         }
 
         public FilterBuilder Create()
@@ -42,7 +42,7 @@ namespace ECS
 
         IFilterBuilderEmpty IFilters.Create(OptionsFilter options)
         {
-            return Create(options);
+            return new FilterBuilder(_world, options);
         }
 
         public FilterBuilder Create(OptionsFilter options)
@@ -52,7 +52,8 @@ namespace ECS
 
         IFilters IFilters.IncludeCapacity<T>(int capacity)
         {
-            return IncludeCapacity<T>(capacity);
+            EnsureCapacity(_included, typeof(T), capacity);
+            return this;
         }
 
         public Filters IncludeCapacity<T>(int capacity)
@@ -63,7 +64,8 @@ namespace ECS
 
         IFilters IFilters.ExcludeCapacity<T>(int capacity)
         {
-            return ExcludeCapacity<T>(capacity);
+            EnsureCapacity(_excluded, typeof(T), capacity);
+            return this;
         }
 
         public Filters ExcludeCapacity<T>(int capacity)
@@ -74,7 +76,8 @@ namespace ECS
 
         public Filters Include(Filter filter, Type type)
         {
-            return Include(filter, type, _defaultFiltersCapacity);
+            Add(_included, filter, type, _defaultFiltersCapacity);
+            return this;
         }
 
         public Filters Include(Filter filter, Type type, int capacity)
@@ -85,7 +88,8 @@ namespace ECS
 
         public Filters Exclude(Filter filter, Type type)
         {
-            return Exclude(filter, type, _defaultFiltersCapacity);
+            Add(_excluded, filter, type, _defaultFiltersCapacity);
+            return this;
         }
 
         public Filters Exclude(Filter filter, Type type, int capacity)
