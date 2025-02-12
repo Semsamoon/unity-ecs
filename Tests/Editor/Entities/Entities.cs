@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace ECS.Tests
@@ -36,7 +37,8 @@ namespace ECS.Tests
             Assert.AreEqual(entity, entities[2].Entity);
             Assert.AreEqual(0, entities[0].Components.Length);
             Assert.AreEqual(0, entities[1].Components.Length);
-            Assert.IsNull(entities[2].Components);
+
+            Assert.Throws<NullReferenceException>(() => entities[2].Components.GetEnumerator());
         }
 
         [Test]
