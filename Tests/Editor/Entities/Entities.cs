@@ -41,8 +41,8 @@ namespace ECS.Tests
         [Test]
         public void Create()
         {
-            var world = new World();
-            var entities = new ECS.Entities(world);
+            var world = (World)World.Create();
+            var entities = world.EntitiesInternal;
             var entity0x1 = new ECS.Entity(0, 1);
             var entity0x2 = new ECS.Entity(0, 2);
             var entity1x1 = new ECS.Entity(1, 1);
@@ -111,7 +111,7 @@ namespace ECS.Tests
         [Test]
         public void Remove()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var entities = world.EntitiesInternal;
             var entity0x1 = new ECS.Entity(0, 1);
 
@@ -127,7 +127,7 @@ namespace ECS.Tests
         [Test]
         public void Record()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var entities = world.EntitiesInternal;
             var entity0x1 = entities.Create();
 
@@ -140,7 +140,7 @@ namespace ECS.Tests
         [Test]
         public void Erase()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var entities = world.EntitiesInternal;
             var entity0x1 = entities.Create();
 

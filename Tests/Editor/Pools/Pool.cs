@@ -20,7 +20,7 @@ namespace ECS.Tests
         [Test]
         public void Getter()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.GetTag<ATag>();
             var entity = new ECS.Entity();
             var entity0x1 = world.EntitiesInternal.Create();
@@ -38,7 +38,7 @@ namespace ECS.Tests
         [Test]
         public void Add()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.GetTag<ATag>();
             var entity0x1 = world.EntitiesInternal.Create();
             var entity1x1 = world.EntitiesInternal.Create();
@@ -57,7 +57,7 @@ namespace ECS.Tests
         [Test]
         public void Contains()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.GetTag<ATag>();
             var entity0x1 = world.EntitiesInternal.Create();
             var entity1x1 = world.EntitiesInternal.Create();
@@ -71,7 +71,7 @@ namespace ECS.Tests
         [Test]
         public void Extending()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool2x2 = world.PoolsInternal.GetTag<ATag>(new OptionsPool(2));
 
             for (var i = 0; i < 33; i++)
@@ -87,7 +87,7 @@ namespace ECS.Tests
         [Test]
         public void Remove()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.GetTag<ATag>();
             var entity0x1 = world.EntitiesInternal.Create();
 
@@ -109,7 +109,7 @@ namespace ECS.Tests
         [Test]
         public void ReadOnlySpan()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = new ECS.Pool(world, typeof(int));
 
             for (var i = 0; i < 4; i++)
@@ -130,7 +130,7 @@ namespace ECS.Tests
         [Test]
         public void Enumerable()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = new ECS.Pool(world, typeof(int));
 
             for (var i = 0; i < 4; i++)
@@ -171,7 +171,7 @@ namespace ECS.Tests
         [Test]
         public void Getter()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.Get<int>();
             var entity0x1 = world.EntitiesInternal.Create();
             var entity1x1 = world.EntitiesInternal.Create();
@@ -190,7 +190,7 @@ namespace ECS.Tests
         [Test]
         public void Set()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.Get<int>();
             var entity0x1 = world.EntitiesInternal.Create();
             var entity1x1 = world.EntitiesInternal.Create();
@@ -209,7 +209,7 @@ namespace ECS.Tests
         [Test]
         public void Contains()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.Get<int>();
             var entity0x1 = world.EntitiesInternal.Create();
             var entity1x1 = world.EntitiesInternal.Create();
@@ -223,7 +223,7 @@ namespace ECS.Tests
         [Test]
         public void Extending()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool2x2 = world.PoolsInternal.Get<int>(new OptionsPool(2));
 
             for (var i = 0; i < 33; i++)
@@ -241,7 +241,7 @@ namespace ECS.Tests
         [Test]
         public void Remove()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = world.PoolsInternal.Get<int>();
             var entity0x1 = world.EntitiesInternal.Create();
 
@@ -263,7 +263,7 @@ namespace ECS.Tests
         [Test]
         public void ReadOnlySpan()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = new Pool<int>(world);
 
             for (var i = 0; i < 4; i++)
@@ -284,7 +284,7 @@ namespace ECS.Tests
         [Test]
         public void Enumerable()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var pool = new Pool<int>(world);
 
             for (var i = 0; i < 4; i++)

@@ -17,7 +17,7 @@ namespace ECS.Tests
         [Test]
         public void Create()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var filters = world.FiltersInternal;
             var entity0x1 = world.EntitiesInternal.Create();
             var entity1x1 = world.EntitiesInternal.Create();
@@ -43,7 +43,7 @@ namespace ECS.Tests
         [Test]
         public void Capacity()
         {
-            var world = new World();
+            var world = (World)World.Create();
             var filters = world.FiltersInternal;
 
             Assert.DoesNotThrow(() => filters.IncludeCapacity<int>(10).ExcludeCapacity<int>(10));
