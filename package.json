@@ -2,7 +2,7 @@
   "name": "com.semsamoon.unity-ecs",
   "version": "0.9.6",
   "displayName": "Semsamoon ECS",
-  "description": "Entity-Component-System Framework for Unity Engine. It is designed to be as simple as possible and easy to extend.",
+  "description": "Entity-Component-System framework for Unity Engine. It is designed to be simple and high performance.",
   "unity": "6000.0",
   "unityRelease": "0f1",
   "documentationUrl": "https://github.com/Semsamoon/unity-ecs/blob/master/README.md",
