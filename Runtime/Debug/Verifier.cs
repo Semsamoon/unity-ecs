@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace ECS
 {
     public static class Verifier
     {
+        [Conditional("ECS_ENABLE_VERIFY")]
         public static void ArgumentWarning(string name, bool succeed, string message)
         {
             if (!succeed)
@@ -12,6 +14,7 @@ namespace ECS
             }
         }
 
+        [Conditional("ECS_ENABLE_VERIFY")]
         public static void ArgumentError(string name, bool succeed, string message)
         {
             if (!succeed)
@@ -20,6 +23,7 @@ namespace ECS
             }
         }
 
+        [Conditional("ECS_ENABLE_VERIFY")]
         public static void EntityNotNull(Entity entity)
         {
             if (entity == Entity.Null)
@@ -28,6 +32,7 @@ namespace ECS
             }
         }
 
+        [Conditional("ECS_ENABLE_VERIFY")]
         public static void EntityExists(Entity entity, Entities entities)
         {
             if (!entities.Contains(entity))
@@ -36,6 +41,7 @@ namespace ECS
             }
         }
 
+        [Conditional("ECS_ENABLE_VERIFY")]
         public static void EntityInPool(Entity entity, IPoolInternal pool, Type type)
         {
             if (!pool.Contains(entity))
@@ -44,6 +50,7 @@ namespace ECS
             }
         }
 
+        [Conditional("ECS_ENABLE_VERIFY")]
         public static void EntityNotInPool(Entity entity, IPoolInternal pool, Type type)
         {
             if (pool.Contains(entity))
