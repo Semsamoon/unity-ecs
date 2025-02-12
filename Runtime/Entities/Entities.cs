@@ -10,7 +10,8 @@ namespace ECS
     {
         private readonly World _world;
         private readonly SparseArray<int> _sparseArray;
-        private readonly DenseArray<(Entity Entity, DenseArray<Type> Components)> _denseArray;
+        private readonly DenseArray<(Entity Entity, ReadOnlyDenseArray<Type> Components)> _denseArray;
+        private readonly DenseArray<DenseArray<Type>> _components;
         private readonly int _defaultComponentsCapacity;
 
         private int _removed;
@@ -19,7 +20,7 @@ namespace ECS
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
 
-        public (Entity Entity, DenseArray<Type> Components) this[int index] => _denseArray[index];
+        public (Entity Entity, ReadOnlyDenseArray<Type> Components) this[int index] => _denseArray[index];
 
         public Entities(World world) : this(world, OptionsEntities.Default())
         {
@@ -30,7 +31,8 @@ namespace ECS
             options = options.Validate();
             _world = world;
             _sparseArray = new SparseArray<int>(options.Capacity);
-            _denseArray = new DenseArray<(Entity, DenseArray<Type>)>(options.Capacity);
+            _denseArray = new DenseArray<(Entity, ReadOnlyDenseArray<Type>)>(options.Capacity);
+            _components = new DenseArray<DenseArray<Type>>(options.Capacity);
             _defaultComponentsCapacity = options.ComponentsCapacity;
         }
 
@@ -47,16 +49,18 @@ namespace ECS
             }
 
             var recycle = RecycleUnchecked();
-            _denseArray[_sparseArray[recycle.Id]].Components.ExtendTo(componentsCapacity);
+            _components[_sparseArray[recycle.Id]].ExtendTo(componentsCapacity);
             return recycle;
         }
 
         public Entity CreateUnchecked(int componentsCapacity)
         {
             var entity = new Entity(_id, 1);
+            var denseArray = new DenseArray<Type>(componentsCapacity);
 
             _sparseArray[_id] = Length;
-            _denseArray.Add((entity, new DenseArray<Type>(componentsCapacity)));
+            _components.Add(denseArray);
+            _denseArray.Add((entity, denseArray.AsReadOnly()));
             _id++;
 
             return entity;
@@ -64,11 +68,13 @@ namespace ECS
 
         public Entity RecycleUnchecked()
         {
-            var recycle = _denseArray[Length + _removed];
-            var entity = new Entity(recycle.Entity.Id, recycle.Entity.Gen + 1);
+            var recycle = _denseArray[Length + _removed].Entity;
+            var entity = new Entity(recycle.Id, recycle.Gen + 1);
+            var components = _components[Length + _removed];
 
             _sparseArray[entity.Id] = Length;
-            _denseArray.Add((entity, recycle.Components));
+            _components.Add(components);
+            _denseArray.Add((entity, components.AsReadOnly()));
             _removed--;
 
             return entity;
@@ -97,7 +103,7 @@ namespace ECS
                 _world.FiltersInternal.EraseUnchecked(entity, component);
             }
 
-            remove.Components.Clear();
+            _components[index].Clear();
 
             _removed++;
             _sparseArray
@@ -106,18 +112,21 @@ namespace ECS
             _denseArray
                 .RemoveAt(index)
                 .Swap(Length, Length + _removed);
+            _components
+                .RemoveAt(index)
+                .Swap(Length, Length + _removed);
             return this;
         }
 
         public Entities RecordUnchecked(Entity entity, Type component)
         {
-            _denseArray[_sparseArray[entity.Id]].Components.Add(component);
+            _components[_sparseArray[entity.Id]].Add(component);
             return this;
         }
 
         public Entities EraseUnchecked(Entity entity, Type component)
         {
-            var components = _denseArray[_sparseArray[entity.Id]].Components;
+            var components = _components[_sparseArray[entity.Id]];
 
             for (var i = components.Length - 1; i >= 0; i--)
             {
@@ -131,12 +140,12 @@ namespace ECS
             return this;
         }
 
-        public ReadOnlySpan<(Entity Entity, DenseArray<Type> Components)> AsReadOnlySpan()
+        public ReadOnlySpan<(Entity Entity, ReadOnlyDenseArray<Type> Components)> AsReadOnlySpan()
         {
             return _denseArray.AsReadOnlySpan();
         }
 
-        public IEnumerator<(Entity Entity, DenseArray<Type> Components)> GetEnumerator()
+        public IEnumerator<(Entity Entity, ReadOnlyDenseArray<Type> Components)> GetEnumerator()
         {
             return _denseArray.GetEnumerator();
         }

@@ -10,7 +10,7 @@ namespace ECS
         public bool Contains(Entity entity);
         public IEntities Remove(Entity entity);
 
-        public ReadOnlySpan<(Entity Entity, DenseArray<Type> Components)> AsReadOnlySpan();
-        public IEnumerator<(Entity Entity, DenseArray<Type> Components)> GetEnumerator();
+        public ReadOnlySpan<(Entity Entity, ReadOnlyDenseArray<Type> Components)> AsReadOnlySpan();
+        public IEnumerator<(Entity Entity, ReadOnlyDenseArray<Type> Components)> GetEnumerator();
     }
 }
