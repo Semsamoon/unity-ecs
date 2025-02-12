@@ -5,6 +5,124 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.6] - 2025-02-12
+
+### Changed
+
+- Add span and index getters to entities' filter's, pool's and pool<T>'s interfaces.
+- Update package description because this ECS is not fully open for extensions.
+- Add constants to options' constructors to allow skipping arguments in constructors.
+- Replace options' validations with verifier calls.
+- Make verifier conditional for 'ECS_ENABLE_VERIFY'. Disabling increases performance.
+- Remove obsolete asserts in tests.
+- Options' Default method to property.
+- World options' properties to fields.
+- Pass options with 'in' keyword to avoid copying.
+- Create world only via static method Create to return interface instead of object.
+- Update tests for options and static world constructor.
+
+### Added
+
+- Read only dense array structure that protects array.
+
+### Fixed
+
+- Replace returning dense array of entities' components with read only dense array.
+
+## [0.9.5] - 2025-02-12
+
+### Added
+
+- Logger class to debug messages properly.
+- Verifier class that makes asserts. It logs errors and does not throw exceptions.
+
+### Changed
+
+- Replace checks with verifier calls.
+- Rename dense array's Swap method's arguments from 'i' and 'j' to 'a' and 'b'.
+- Reduce overloads calls for small methods to improve their performance.
+- Create pool to add only when it does not exist in pools.
+- Remove obsolete asserts in tests.
+
+## [0.9.4] - 2025-02-11
+
+### Changed
+
+- Reverse loop in searching component to remove because it is more probable that removing
+  component was added recently, so it is placed close to the array's end.
+- Extract filters' repeated logic into static methods.
+- Make all the classes to use fluent interface pattern.
+- Use fluent interfaces in tests and add missing ones.
+
+### Added
+
+- Filters' methods to specify capacity for internal include and exclude arrays.
+
+### Fixed
+
+- Do not extend dense array in Set method. Ignore if index is bigger than its length.
+
+## [0.9.3] - 2025-02-10
+
+### Changed
+
+- NULL-entity is an entity [0; 0] only. Entities [0; gen > 0] are correct.
+- Entities starts creating from entity [id; 1]. The first identifier is 0.
+- Remove entity test's asserts for obsolete NULL-entity definition. Update numbering
+  entities because the new creating rules.
+- Remove setter in pool<T> because it does the same as reference-getter.
+- Make index getter in pool<T> to return only the entity for uniformity.
+- Make filter's sum public to optimize filter building process so there is no need to store
+  included and excluded components in builder's arrays.
+- Remove options for filter builder.
+- Update tests with changed methods and constructors.
+
+### Added
+
+- Entities', pools', pool's and filter's unchecked methods for high performance calls.
+- Dense array's Swap method to reduce code.
+
+## [0.9.2] - 2025-02-10
+
+### Added
+
+- Interfaces for filter builder that prevents creating empty filter.
+- Options structure for filter builder.
+
+### Changed
+
+- Access to pools from filter builder using world, not direct reference.
+- Update filter builder's tests to use options.
+
+## [0.9.1] - 2025-02-09
+
+### Changed
+
+- Use methods' overloads to reduce code.
+- Make method ExtendTo of sparse and dense arrays public to allow creating entity with
+  specified components' capacity. If internal array already exists, it is extended.
+- Mark some unsafe methods in entities, filters and pool with Unchecked in their names.
+- Clear entity's components array instead of removing each element.
+- Simplify checks in filter's Change method.
+
+### Added
+
+- Dense array's Clear method.
+
+### Fixed
+
+- Add check of entity existence in the world for pool's Add and pool<T>'s Set methods.
+
+## [0.9.0] - 2025-02-09
+
+### Added
+
+- Options structures for entities, pool, pools, filter, filters, systems and world.
+
+### Changed
+
+- Update tests to use options.
+
 ## [0.8.4] - 2025-02-08
 
 ### Changed
