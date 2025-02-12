@@ -12,20 +12,16 @@
         public IFilters Filters => FiltersInternal;
         public ISystems Systems => SystemsInternal;
 
-        public World()
+        public World() : this(OptionsWorld.Default)
         {
-            EntitiesInternal = new Entities(this);
-            PoolsInternal = new Pools(this);
-            FiltersInternal = new Filters(this);
-            SystemsInternal = new Systems(this);
         }
 
         public World(OptionsWorld options)
         {
-            EntitiesInternal = new Entities(this, options.Entities);
-            PoolsInternal = new Pools(this, options.Pools, options.Pool, options.Entities);
-            FiltersInternal = new Filters(this, options.Filters, options.Filter, options.Entities);
-            SystemsInternal = new Systems(this, options.Systems);
+            EntitiesInternal = new Entities(this, in options.Entities);
+            PoolsInternal = new Pools(this, in options.Pools, in options.Pool, in options.Entities);
+            FiltersInternal = new Filters(this, in options.Filters, in options.Filter, in options.Entities);
+            SystemsInternal = new Systems(this, in options.Systems);
         }
 
         public void Destroy()

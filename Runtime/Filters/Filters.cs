@@ -21,7 +21,7 @@ namespace ECS
         {
         }
 
-        public Filters(World world, OptionsFilters filtersOptions, OptionsFilter filterOptions, OptionsEntities entitiesOptions)
+        public Filters(World world, in OptionsFilters filtersOptions, in OptionsFilter filterOptions, in OptionsEntities entitiesOptions)
         {
             _world = world;
             _included = new Dictionary<Type, DenseArray<Filter>>(filtersOptions.Capacity);
@@ -33,22 +33,22 @@ namespace ECS
 
         IFilterBuilderEmpty IFilters.Create()
         {
-            return new FilterBuilder(_world, _defaultFilterOptions, _entitiesOptions);
+            return new FilterBuilder(_world, in _defaultFilterOptions, in _entitiesOptions);
         }
 
         public FilterBuilder Create()
         {
-            return new FilterBuilder(_world, _defaultFilterOptions, _entitiesOptions);
+            return new FilterBuilder(_world, in _defaultFilterOptions, in _entitiesOptions);
         }
 
-        IFilterBuilderEmpty IFilters.Create(OptionsFilter options)
+        IFilterBuilderEmpty IFilters.Create(in OptionsFilter options)
         {
-            return new FilterBuilder(_world, options, _entitiesOptions);
+            return new FilterBuilder(_world, in options, in _entitiesOptions);
         }
 
-        public FilterBuilder Create(OptionsFilter options)
+        public FilterBuilder Create(in OptionsFilter options)
         {
-            return new FilterBuilder(_world, options, _entitiesOptions);
+            return new FilterBuilder(_world, in options, in _entitiesOptions);
         }
 
         IFilters IFilters.IncludeCapacity<T>(int capacity)

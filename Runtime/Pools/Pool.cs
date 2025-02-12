@@ -23,7 +23,7 @@ namespace ECS
         {
         }
 
-        public Pool(World world, Type type, OptionsPool poolOptions, OptionsEntities entitiesOptions)
+        public Pool(World world, Type type, in OptionsPool poolOptions, in OptionsEntities entitiesOptions)
         {
             _world = world;
             _type = type;
@@ -119,7 +119,7 @@ namespace ECS
         {
         }
 
-        public Pool(World world, OptionsPool poolOptions, OptionsEntities entitiesOptions)
+        public Pool(World world, in OptionsPool poolOptions, in OptionsEntities entitiesOptions)
         {
             _world = world;
             _sparseArray = new SparseArray<int>(entitiesOptions.Capacity);

@@ -17,37 +17,37 @@
             .With(OptionsFilter.Default)
             .With(OptionsSystems.Default);
 
-        public OptionsWorld With(OptionsEntities entities)
+        public OptionsWorld With(in OptionsEntities entities)
         {
             Entities = entities;
             return this;
         }
 
-        public OptionsWorld With(OptionsPools pools)
+        public OptionsWorld With(in OptionsPools pools)
         {
             Pools = pools;
             return this;
         }
 
-        public OptionsWorld With(OptionsPool pool)
+        public OptionsWorld With(in OptionsPool pool)
         {
             Pool = pool;
             return this;
         }
 
-        public OptionsWorld With(OptionsFilters filters)
+        public OptionsWorld With(in OptionsFilters filters)
         {
             Filters = filters;
             return this;
         }
 
-        public OptionsWorld With(OptionsFilter filter)
+        public OptionsWorld With(in OptionsFilter filter)
         {
             Filter = filter;
             return this;
         }
 
-        public OptionsWorld With(OptionsSystems systems)
+        public OptionsWorld With(in OptionsSystems systems)
         {
             Systems = systems;
             return this;

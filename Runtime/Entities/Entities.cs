@@ -26,7 +26,7 @@ namespace ECS
         {
         }
 
-        public Entities(World world, OptionsEntities options)
+        public Entities(World world, in OptionsEntities options)
         {
             _world = world;
             _sparseArray = new SparseArray<int>(options.Capacity);

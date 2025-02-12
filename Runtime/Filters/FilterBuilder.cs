@@ -9,7 +9,7 @@
         {
         }
 
-        public FilterBuilder(World world, OptionsFilter filterOptions, OptionsEntities entitiesOptions)
+        public FilterBuilder(World world, in OptionsFilter filterOptions, in OptionsEntities entitiesOptions)
         {
             _world = world;
             _filter = new Filter(0, filterOptions, entitiesOptions);

@@ -20,7 +20,7 @@ namespace ECS
         {
         }
 
-        public Systems(World world, OptionsSystems options)
+        public Systems(World world, in OptionsSystems options)
         {
             _world = world;
             _systems = new DenseArray<ISystem>(options.Capacity);

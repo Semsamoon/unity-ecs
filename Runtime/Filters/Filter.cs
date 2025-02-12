@@ -28,7 +28,7 @@ namespace ECS
         {
         }
 
-        public Filter(int sum, OptionsFilter filterOptions, OptionsEntities entitiesOptions)
+        public Filter(int sum, in OptionsFilter filterOptions, in OptionsEntities entitiesOptions)
         {
             _counts = new SparseArray<int>(entitiesOptions.Capacity);
             _sparseArray = new SparseArray<int>(entitiesOptions.Capacity);
