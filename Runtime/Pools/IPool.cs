@@ -5,6 +5,10 @@ namespace ECS
 {
     public interface IPool
     {
+        public int Length { get; }
+
+        public Entity this[int index] { get; }
+
         public IPool Add(Entity entity);
         public bool Contains(Entity entity);
         public IPool Remove(Entity entity);
@@ -15,6 +19,10 @@ namespace ECS
 
     public interface IPool<T>
     {
+        public int Length { get; }
+
+        public Entity this[int index] { get; }
+
         public IPool<T> Set(Entity entity, T value);
         public ref T Get(Entity entity);
         public bool Contains(Entity entity);

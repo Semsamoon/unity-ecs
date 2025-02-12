@@ -5,6 +5,10 @@ namespace ECS
 {
     public interface IFilter
     {
+        public int Length { get; }
+
+        public Entity this[int index] { get; }
+
         public bool Contains(Entity entity);
 
         public ReadOnlySpan<Entity> AsReadOnlySpan();

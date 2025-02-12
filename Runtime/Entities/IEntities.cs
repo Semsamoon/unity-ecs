@@ -5,6 +5,10 @@ namespace ECS
 {
     public interface IEntities
     {
+        public int Length { get; }
+
+        public (Entity Entity, ReadOnlyDenseArray<Type> Components) this[int index] { get; }
+
         public Entity Create();
         public Entity Create(int componentsCapacity);
         public bool Contains(Entity entity);
