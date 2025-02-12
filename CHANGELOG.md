@@ -123,7 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Simplify arguments' checks in entities' constructor.
-- String format for entity is [NULL] and [id, gen].
+- String format for entity is [NULL] and [id; gen].
 - Reduce documentation of entity.
 - Improve entity, sparse array, dense array, pool, pool<T> and entities tests.
 
