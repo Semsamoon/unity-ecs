@@ -62,9 +62,9 @@ namespace ECS
             return this;
         }
 
-        public DenseArray<T> Swap(int i, int j)
+        public DenseArray<T> Swap(int a, int b)
         {
-            (_array[i], _array[j]) = (_array[j], _array[i]);
+            (_array[a], _array[b]) = (_array[b], _array[a]);
             return this;
         }
 
