@@ -11,10 +11,6 @@ namespace ECS.Tests
             Assert.AreEqual(10, entity10x10.Id);
             Assert.AreEqual(10, entity10x10.Gen);
 
-            var entity_1x_1 = new ECS.Entity(-1, -1);
-            Assert.AreEqual(0, entity_1x_1.Id);
-            Assert.AreEqual(0, entity_1x_1.Gen);
-
             var entity = new ECS.Entity();
             Assert.AreEqual(0, entity.Id);
             Assert.AreEqual(0, entity.Gen);

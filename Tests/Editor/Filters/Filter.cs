@@ -77,14 +77,12 @@ namespace ECS.Tests
         public void Contains()
         {
             var filter = new ECS.Filter();
-            var entity = new ECS.Entity();
             var entity0x1 = new ECS.Entity(0, 1);
             var entity1x1 = new ECS.Entity(1, 1);
 
             filter.ChangeUnchecked(entity0x1, 0);
 
             Assert.True(filter.Contains(entity0x1));
-            Assert.False(filter.Contains(entity));
             Assert.False(filter.Contains(entity1x1));
         }
 

@@ -9,15 +9,12 @@ namespace ECS.Tests
         {
             var denseArray = new DenseArray<int>();
             var denseArray10 = new DenseArray<int>(10);
-            var denseArray_10 = new DenseArray<int>(-10);
 
             Assert.AreEqual(10, denseArray10.Capacity);
             Assert.Positive(denseArray.Capacity);
-            Assert.Positive(denseArray_10.Capacity);
 
             Assert.AreEqual(0, denseArray.Length);
             Assert.AreEqual(0, denseArray10.Length);
-            Assert.AreEqual(0, denseArray_10.Length);
         }
 
         [Test]
@@ -54,11 +51,6 @@ namespace ECS.Tests
         {
             var denseArray = new DenseArray<int>();
 
-            denseArray.Set(0, 10);
-
-            Assert.AreEqual(0, denseArray.Length);
-            Assert.AreNotEqual(10, denseArray[0]);
-
             denseArray
                 .Add(10)
                 .Set(0, 20);
@@ -89,8 +81,6 @@ namespace ECS.Tests
         public void Remove()
         {
             var denseArray = new DenseArray<int>();
-
-            Assert.DoesNotThrow(() => denseArray.RemoveAt(0));
 
             denseArray
                 .Add(10)

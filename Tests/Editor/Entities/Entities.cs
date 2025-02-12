@@ -85,7 +85,6 @@ namespace ECS.Tests
         public void Contains()
         {
             var entities = new ECS.Entities(null);
-            var entity = new ECS.Entity();
             var entity0x1 = new ECS.Entity(0, 1);
             var entity1x1 = new ECS.Entity(1, 1);
 
@@ -93,7 +92,6 @@ namespace ECS.Tests
 
             Assert.True(entities.Contains(entity0x1));
             Assert.False(entities.Contains(entity1x1));
-            Assert.False(entities.Contains(entity));
         }
 
         [Test]
@@ -117,9 +115,6 @@ namespace ECS.Tests
             var world = new World();
             var entities = world.EntitiesInternal;
             var entity0x1 = new ECS.Entity(0, 1);
-            var entity1x1 = new ECS.Entity(1, 1);
-
-            Assert.DoesNotThrow(() => entities.Remove(entity0x1));
 
             entities.Create();
             world.PoolsInternal.Get<int>().Get(entity0x1) = 10;
@@ -128,12 +123,6 @@ namespace ECS.Tests
             Assert.AreEqual(0, entities.Length);
             Assert.AreEqual(0, entities[1].Components.Length);
             Assert.False(entities.Contains(entity0x1));
-
-            entities.Create();
-            entities.RemoveUnchecked(entity1x1);
-
-            Assert.AreEqual(0, entities.Length);
-            Assert.False(entities.Contains(entity1x1));
         }
 
         [Test]

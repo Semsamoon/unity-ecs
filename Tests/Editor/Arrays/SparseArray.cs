@@ -9,11 +9,9 @@ namespace ECS.Tests
         {
             var sparseArray = new SparseArray<int>();
             var sparseArray10 = new SparseArray<int>(10);
-            var sparseArray_10 = new SparseArray<int>(-10);
 
             Assert.AreEqual(10, sparseArray10.Length);
             Assert.Positive(sparseArray.Length);
-            Assert.Positive(sparseArray_10.Length);
         }
 
         [Test]

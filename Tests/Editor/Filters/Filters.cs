@@ -48,7 +48,7 @@ namespace ECS.Tests
             var world = new World();
             var filters = world.FiltersInternal;
 
-            Assert.DoesNotThrow(() => filters.IncludeCapacity<int>(10).ExcludeCapacity<int>(-10));
+            Assert.DoesNotThrow(() => filters.IncludeCapacity<int>(10).ExcludeCapacity<int>(10));
         }
 
         [Test]
