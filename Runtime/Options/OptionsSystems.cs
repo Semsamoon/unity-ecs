@@ -10,12 +10,8 @@
 
         public OptionsSystems(int capacity = DefaultCapacity)
         {
+            Verifier.ArgumentWarning(nameof(capacity), capacity > 0, "should be greater than 0.");
             Capacity = capacity;
-        }
-
-        public OptionsSystems Validate()
-        {
-            return new OptionsSystems(Capacity > 0 ? Capacity : DefaultCapacity);
         }
     }
 }

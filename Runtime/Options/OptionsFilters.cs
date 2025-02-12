@@ -12,15 +12,10 @@
 
         public OptionsFilters(int capacity = DefaultCapacity, int filtersCapacity = DefaultFiltersCapacity)
         {
+            Verifier.ArgumentWarning(nameof(capacity), capacity > 0, "should be greater than 0.");
+            Verifier.ArgumentWarning(nameof(filtersCapacity), filtersCapacity > 0, "should be greater than 0.");
             Capacity = capacity;
             FiltersCapacity = filtersCapacity;
-        }
-
-        public OptionsFilters Validate()
-        {
-            return new OptionsFilters(
-                Capacity > 0 ? Capacity : DefaultCapacity,
-                FiltersCapacity > 0 ? FiltersCapacity : DefaultFiltersCapacity);
         }
     }
 }

@@ -22,7 +22,6 @@ namespace ECS
 
         public Systems(World world, OptionsSystems options)
         {
-            options = options.Validate();
             _world = world;
             _systems = new DenseArray<ISystem>(options.Capacity);
         }

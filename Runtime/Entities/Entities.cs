@@ -28,7 +28,6 @@ namespace ECS
 
         public Entities(World world, OptionsEntities options)
         {
-            options = options.Validate();
             _world = world;
             _sparseArray = new SparseArray<int>(options.Capacity);
             _denseArray = new DenseArray<(Entity, ReadOnlyDenseArray<Type>)>(options.Capacity);

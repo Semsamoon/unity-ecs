@@ -25,7 +25,6 @@ namespace ECS
 
         public Pool(World world, Type type, OptionsPool options)
         {
-            options = options.Validate();
             _world = world;
             _type = type;
             _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
@@ -122,7 +121,6 @@ namespace ECS
 
         public Pool(World world, OptionsPool options)
         {
-            options = options.Validate();
             _world = world;
             _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
             _denseArray = new DenseArray<(Entity, T)>(options.Capacity);

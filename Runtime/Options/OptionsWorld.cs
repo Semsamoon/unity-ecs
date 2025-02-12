@@ -52,15 +52,5 @@
             Systems = systems;
             return this;
         }
-
-        public void Validate()
-        {
-            Entities = Entities.Validate();
-            Pools = Pools.Validate();
-            Pool = Pool.Validate();
-            Filters = Filters.Validate();
-            Filter = Filter.Validate();
-            Systems = Systems.Validate();
-        }
     }
 }

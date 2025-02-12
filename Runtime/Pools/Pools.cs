@@ -20,7 +20,6 @@ namespace ECS
 
         public Pools(World world, OptionsPools options, OptionsPool optionsPool)
         {
-            options = options.Validate();
             _world = world;
             _pools = new Dictionary<Type, IPoolInternal>(options.Capacity);
             _defaultOptionsPool = optionsPool;

@@ -12,15 +12,10 @@
 
         public OptionsEntities(int capacity = DefaultCapacity, int componentsCapacity = DefaultComponentsCapacity)
         {
+            Verifier.ArgumentWarning(nameof(capacity), capacity > 0, "should be greater than 0.");
+            Verifier.ArgumentWarning(nameof(componentsCapacity), componentsCapacity > 0, "should be greater than 0.");
             Capacity = capacity;
             ComponentsCapacity = componentsCapacity;
-        }
-
-        public OptionsEntities Validate()
-        {
-            return new OptionsEntities(
-                Capacity > 1 ? Capacity : DefaultCapacity,
-                ComponentsCapacity > 0 ? ComponentsCapacity : DefaultComponentsCapacity);
         }
     }
 }

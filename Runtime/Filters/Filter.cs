@@ -30,7 +30,6 @@ namespace ECS
 
         public Filter(int sum, OptionsFilter options)
         {
-            options = options.Validate();
             _counts = new SparseArray<int>(options.EntitiesCapacity);
             _sparseArray = new SparseArray<int>(options.EntitiesCapacity);
             _denseArray = new DenseArray<Entity>(options.Capacity);

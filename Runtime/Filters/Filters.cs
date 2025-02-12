@@ -22,7 +22,6 @@ namespace ECS
 
         public Filters(World world, OptionsFilters options, OptionsFilter optionsFilter)
         {
-            options = options.Validate();
             _world = world;
             _included = new Dictionary<Type, DenseArray<Filter>>(options.Capacity);
             _excluded = new Dictionary<Type, DenseArray<Filter>>(options.Capacity);

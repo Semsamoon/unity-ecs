@@ -10,12 +10,8 @@
 
         public OptionsPools(int capacity = DefaultCapacity)
         {
+            Verifier.ArgumentWarning(nameof(capacity), capacity > 0, "should be greater than 0.");
             Capacity = capacity;
-        }
-
-        public OptionsPools Validate()
-        {
-            return new OptionsPools(Capacity > 0 ? Capacity : DefaultCapacity);
         }
     }
 }
