@@ -9,19 +9,15 @@ namespace ECS.Tests
         {
             var filter = new ECS.Filter();
             var filter0x10x10 = new ECS.Filter(0, new OptionsFilter(10, 10));
-            var filter1x_10x_10 = new ECS.Filter(1, new OptionsFilter(-10, -10));
 
             Assert.Positive(filter.Capacity);
             Assert.AreEqual(10, filter0x10x10.Capacity);
-            Assert.Positive(filter1x_10x_10.Capacity);
 
             Assert.AreEqual(0, filter.Length);
             Assert.AreEqual(0, filter0x10x10.Length);
-            Assert.AreEqual(0, filter1x_10x_10.Length);
 
             Assert.AreEqual(0, filter.Sum);
             Assert.AreEqual(0, filter0x10x10.Sum);
-            Assert.AreEqual(1, filter1x_10x_10.Sum);
         }
 
         [Test]

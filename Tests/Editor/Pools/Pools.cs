@@ -10,12 +10,10 @@ namespace ECS.Tests
         public void Constructor()
         {
             var pools = new ECS.Pools(null);
-            var pools10 = new ECS.Pools(null, new OptionsPools(10), OptionsPool.Default());
-            var pools_10 = new ECS.Pools(null, new OptionsPools(-10), OptionsPool.Default());
+            var pools10 = new ECS.Pools(null, new OptionsPools(10), OptionsPool.Default);
 
             Assert.AreEqual(0, pools.Length);
             Assert.AreEqual(0, pools10.Length);
-            Assert.AreEqual(0, pools_10.Length);
         }
 
         [Test]

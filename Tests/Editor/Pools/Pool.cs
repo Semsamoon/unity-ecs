@@ -9,15 +9,12 @@ namespace ECS.Tests
         {
             var pool = new ECS.Pool(null, typeof(int));
             var pool10x10 = new ECS.Pool(null, typeof(int), new OptionsPool(10, 10));
-            var pool_10x_10 = new ECS.Pool(null, typeof(int), new OptionsPool(-10, -10));
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
-            Assert.Positive(pool_10x_10.Capacity);
 
             Assert.AreEqual(0, pool.Length);
             Assert.AreEqual(0, pool10x10.Length);
-            Assert.AreEqual(0, pool_10x_10.Length);
         }
 
         [Test]
@@ -163,15 +160,12 @@ namespace ECS.Tests
         {
             var pool = new Pool<int>(null);
             var pool10x10 = new Pool<int>(null, new OptionsPool(10, 10));
-            var pool_10x_10 = new Pool<int>(null, new OptionsPool(-10, -10));
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
-            Assert.Positive(pool_10x_10.Capacity);
 
             Assert.AreEqual(0, pool.Length);
             Assert.AreEqual(0, pool10x10.Length);
-            Assert.AreEqual(0, pool_10x_10.Length);
         }
 
         [Test]

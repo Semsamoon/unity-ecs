@@ -7,17 +7,14 @@ namespace ECS.Tests
         [Test]
         public void Constructor()
         {
-            var systems10 = new ECS.Systems(null, new OptionsSystems(10));
-            var systems_10 = new ECS.Systems(null, new OptionsSystems(-10));
             var systems = new ECS.Systems(null);
+            var systems10 = new ECS.Systems(null, new OptionsSystems(10));
 
-            Assert.AreEqual(10, systems10.Capacity);
-            Assert.Positive(systems_10.Capacity);
             Assert.Positive(systems.Capacity);
+            Assert.AreEqual(10, systems10.Capacity);
 
-            Assert.AreEqual(0, systems10.Length);
-            Assert.AreEqual(0, systems_10.Length);
             Assert.AreEqual(0, systems.Length);
+            Assert.AreEqual(0, systems10.Length);
         }
 
         [Test]

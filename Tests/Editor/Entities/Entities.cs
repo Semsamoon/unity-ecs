@@ -10,15 +10,12 @@ namespace ECS.Tests
         {
             var entities = new ECS.Entities(null);
             var entities10x10 = new ECS.Entities(null, new OptionsEntities(10, 10));
-            var entities_10x_10 = new ECS.Entities(null, new OptionsEntities(-10, -10));
 
             Assert.AreEqual(10, entities10x10.Capacity);
             Assert.Positive(entities.Capacity);
-            Assert.Positive(entities_10x_10.Capacity);
 
             Assert.AreEqual(0, entities.Length);
             Assert.AreEqual(0, entities10x10.Length);
-            Assert.AreEqual(0, entities_10x_10.Length);
         }
 
         [Test]

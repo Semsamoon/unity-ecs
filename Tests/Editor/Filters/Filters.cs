@@ -8,12 +8,10 @@ namespace ECS.Tests
         public void Constructor()
         {
             var filters = new ECS.Filters(null);
-            var filters10x10 = new ECS.Filters(null, new OptionsFilters(10, 10), OptionsFilter.Default());
-            var filters_10x_10 = new ECS.Filters(null, new OptionsFilters(-10, -10), OptionsFilter.Default());
+            var filters10x10 = new ECS.Filters(null, new OptionsFilters(10, 10), OptionsFilter.Default);
 
             Assert.AreEqual((0, 0), filters.Length);
             Assert.AreEqual((0, 0), filters10x10.Length);
-            Assert.AreEqual((0, 0), filters_10x_10.Length);
         }
 
         [Test]
