@@ -12,11 +12,17 @@
         public IFilters Filters => FiltersInternal;
         public ISystems Systems => SystemsInternal;
 
-        public World() : this(OptionsWorld.Default)
+        public static IWorld Create()
         {
+            return new World(OptionsWorld.Default);
         }
 
-        public World(OptionsWorld options)
+        public static IWorld Create(OptionsWorld world)
+        {
+            return new World(world);
+        }
+
+        private World(OptionsWorld options)
         {
             EntitiesInternal = new Entities(this, in options.Entities);
             PoolsInternal = new Pools(this, in options.Pools, in options.Pool, in options.Entities);
