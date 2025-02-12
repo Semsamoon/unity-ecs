@@ -22,7 +22,7 @@ namespace ECS
 
         public (Entity Entity, ReadOnlyDenseArray<Type> Components) this[int index] => _denseArray[index];
 
-        public Entities(World world) : this(world, OptionsEntities.Default())
+        public Entities(World world) : this(world, OptionsEntities.Default)
         {
         }
 

@@ -19,7 +19,7 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index];
 
-        public Pool(World world, Type type) : this(world, type, OptionsPool.Default())
+        public Pool(World world, Type type) : this(world, type, OptionsPool.Default)
         {
         }
 
@@ -116,7 +116,7 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index].Entity;
 
-        public Pool(World world) : this(world, OptionsPool.Default())
+        public Pool(World world) : this(world, OptionsPool.Default)
         {
         }
 

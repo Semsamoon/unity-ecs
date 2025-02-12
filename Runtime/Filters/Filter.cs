@@ -20,11 +20,11 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index];
 
-        public Filter() : this(0, OptionsFilter.Default())
+        public Filter() : this(0, OptionsFilter.Default)
         {
         }
 
-        public Filter(int sum) : this(sum, OptionsFilter.Default())
+        public Filter(int sum) : this(sum, OptionsFilter.Default)
         {
         }
 

@@ -16,7 +16,7 @@ namespace ECS
 
         public ISystem this[int index] => _systems[index];
 
-        public Systems(World world) : this(world, OptionsSystems.Default())
+        public Systems(World world) : this(world, OptionsSystems.Default)
         {
         }
 

@@ -14,7 +14,7 @@ namespace ECS
 
         public int Length => _pools.Count;
 
-        public Pools(World world) : this(world, OptionsPools.Default(), OptionsPool.Default())
+        public Pools(World world) : this(world, OptionsPools.Default, OptionsPool.Default)
         {
         }
 

@@ -6,14 +6,11 @@
 
         public readonly int Capacity;
 
+        public static OptionsPools Default => new(DefaultCapacity);
+
         public OptionsPools(int capacity)
         {
             Capacity = capacity;
-        }
-
-        public static OptionsPools Default()
-        {
-            return new OptionsPools(DefaultCapacity);
         }
 
         public OptionsPools Validate()

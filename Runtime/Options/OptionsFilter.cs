@@ -8,15 +8,12 @@
         public readonly int EntitiesCapacity;
         public readonly int Capacity;
 
+        public static OptionsFilter Default => new(DefaultEntitiesCapacity, DefaultCapacity);
+
         public OptionsFilter(int entitiesCapacity, int capacity)
         {
             EntitiesCapacity = entitiesCapacity;
             Capacity = capacity;
-        }
-
-        public static OptionsFilter Default()
-        {
-            return new OptionsFilter(DefaultEntitiesCapacity, DefaultCapacity);
         }
 
         public OptionsFilter Validate()

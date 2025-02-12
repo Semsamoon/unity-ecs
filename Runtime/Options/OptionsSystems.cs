@@ -6,14 +6,11 @@
 
         public readonly int Capacity;
 
+        public static OptionsSystems Default => new(DefaultCapacity);
+
         public OptionsSystems(int capacity)
         {
             Capacity = capacity;
-        }
-
-        public static OptionsSystems Default()
-        {
-            return new OptionsSystems(DefaultCapacity);
         }
 
         public OptionsSystems Validate()

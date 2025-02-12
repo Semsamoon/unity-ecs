@@ -8,15 +8,12 @@
         public readonly int Capacity;
         public readonly int ComponentsCapacity;
 
+        public static OptionsEntities Default => new(DefaultCapacity, DefaultComponentsCapacity);
+
         public OptionsEntities(int capacity, int componentsCapacity)
         {
             Capacity = capacity;
             ComponentsCapacity = componentsCapacity;
-        }
-
-        public static OptionsEntities Default()
-        {
-            return new OptionsEntities(DefaultCapacity, DefaultComponentsCapacity);
         }
 
         public OptionsEntities Validate()

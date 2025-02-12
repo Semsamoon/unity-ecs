@@ -9,6 +9,14 @@
         public OptionsFilter Filter { get; private set; }
         public OptionsSystems Systems { get; private set; }
 
+        public static OptionsWorld Default => new OptionsWorld()
+            .With(OptionsEntities.Default)
+            .With(OptionsPools.Default)
+            .With(OptionsPool.Default)
+            .With(OptionsFilters.Default)
+            .With(OptionsFilter.Default)
+            .With(OptionsSystems.Default);
+
         public OptionsWorld With(OptionsEntities entities)
         {
             Entities = entities;
@@ -43,13 +51,6 @@
         {
             Systems = systems;
             return this;
-        }
-
-        public static OptionsWorld Default()
-        {
-            return new OptionsWorld()
-                .With(OptionsEntities.Default()).With(OptionsPools.Default()).With(OptionsPool.Default())
-                .With(OptionsFilters.Default()).With(OptionsFilter.Default()).With(OptionsSystems.Default());
         }
 
         public void Validate()

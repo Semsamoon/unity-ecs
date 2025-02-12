@@ -5,7 +5,7 @@
         private readonly World _world;
         private readonly Filter _filter;
 
-        public FilterBuilder(World world) : this(world, OptionsFilter.Default())
+        public FilterBuilder(World world) : this(world, OptionsFilter.Default)
         {
         }
 

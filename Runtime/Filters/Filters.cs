@@ -16,7 +16,7 @@ namespace ECS
 
         public (int included, int excluded) Length => (_included.Count, _excluded.Count);
 
-        public Filters(World world) : this(world, OptionsFilters.Default(), OptionsFilter.Default())
+        public Filters(World world) : this(world, OptionsFilters.Default, OptionsFilter.Default)
         {
         }
 

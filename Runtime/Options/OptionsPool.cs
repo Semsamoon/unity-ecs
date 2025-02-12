@@ -8,15 +8,12 @@
         public readonly int EntitiesCapacity;
         public readonly int Capacity;
 
+        public static OptionsPool Default => new(DefaultEntitiesCapacity, DefaultCapacity);
+
         public OptionsPool(int entitiesCapacity, int capacity)
         {
             EntitiesCapacity = entitiesCapacity;
             Capacity = capacity;
-        }
-
-        public static OptionsPool Default()
-        {
-            return new OptionsPool(DefaultEntitiesCapacity, DefaultCapacity);
         }
 
         public OptionsPool Validate()
