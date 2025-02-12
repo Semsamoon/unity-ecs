@@ -43,9 +43,18 @@ namespace ECS
 
         public Pools Add<T>(OptionsPool options)
         {
-            _pools.TryAdd(typeof(T), typeof(ITag).IsAssignableFrom(typeof(T))
-                ? new Pool(_world, typeof(T), options)
-                : new Pool<T>(_world, options));
+            if (_pools.ContainsKey(typeof(T)))
+            {
+                return this;
+            }
+
+            if (typeof(ITag).IsAssignableFrom(typeof(T)))
+            {
+                _pools.Add(typeof(T), new Pool(_world, typeof(T), options));
+                return this;
+            }
+
+            _pools.Add(typeof(T), new Pool<T>(_world, options));
             return this;
         }
 
