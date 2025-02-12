@@ -68,6 +68,11 @@ namespace ECS
             return this;
         }
 
+        public ReadOnlyDenseArray<T> AsReadOnly()
+        {
+            return new ReadOnlyDenseArray<T>(this);
+        }
+
         public ReadOnlySpan<T> AsReadOnlySpan()
         {
             return _array[..Length];
