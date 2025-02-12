@@ -2,12 +2,12 @@
 {
     public struct OptionsWorld
     {
-        public OptionsEntities Entities { get; private set; }
-        public OptionsPools Pools { get; private set; }
-        public OptionsPool Pool { get; private set; }
-        public OptionsFilters Filters { get; private set; }
-        public OptionsFilter Filter { get; private set; }
-        public OptionsSystems Systems { get; private set; }
+        public OptionsEntities Entities;
+        public OptionsPools Pools;
+        public OptionsPool Pool;
+        public OptionsFilters Filters;
+        public OptionsFilter Filter;
+        public OptionsSystems Systems;
 
         public static OptionsWorld Default => new OptionsWorld()
             .With(OptionsEntities.Default)
