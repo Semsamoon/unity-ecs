@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ECS
 {
@@ -8,6 +9,7 @@ namespace ECS
         public bool Contains(Entity entity);
         public IPool Remove(Entity entity);
 
+        public ReadOnlySpan<Entity> AsReadOnlySpan();
         public IEnumerator<Entity> GetEnumerator();
     }
 
@@ -18,6 +20,7 @@ namespace ECS
         public bool Contains(Entity entity);
         public IPool<T> Remove(Entity entity);
 
+        public ReadOnlySpan<(Entity Entity, T Value)> AsReadOnlySpan();
         public IEnumerator<(Entity Entity, T Value)> GetEnumerator();
     }
 

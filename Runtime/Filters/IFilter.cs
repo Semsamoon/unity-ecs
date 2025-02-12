@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ECS
 {
@@ -6,6 +7,7 @@ namespace ECS
     {
         public bool Contains(Entity entity);
 
+        public ReadOnlySpan<Entity> AsReadOnlySpan();
         public IEnumerator<Entity> GetEnumerator();
     }
 }
