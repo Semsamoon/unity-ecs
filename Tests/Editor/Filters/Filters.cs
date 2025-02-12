@@ -8,7 +8,7 @@ namespace ECS.Tests
         public void Constructor()
         {
             var filters = new ECS.Filters(null);
-            var filters10x10 = new ECS.Filters(null, new OptionsFilters(10, 10), OptionsFilter.Default);
+            var filters10x10 = new ECS.Filters(null, new OptionsFilters(10, 10), OptionsFilter.Default, OptionsEntities.Default);
 
             Assert.AreEqual((0, 0), filters.Length);
             Assert.AreEqual((0, 0), filters10x10.Length);
@@ -31,7 +31,7 @@ namespace ECS.Tests
             Assert.False(filterInt.Contains(entity1x1));
 
             var filterIntString = filters.Create().Include<int, string>().Build();
-            var filter_String = filters.Create(new OptionsFilter(10, 10)).Exclude<string>().Build();
+            var filter_String = filters.Create(new OptionsFilter(10)).Exclude<string>().Build();
 
             Assert.AreEqual((2, 1), filters.Length);
             Assert.True(filterIntString.Contains(entity0x1));

@@ -8,7 +8,7 @@ namespace ECS.Tests
         public void Constructor()
         {
             var pool = new ECS.Pool(null, typeof(int));
-            var pool10x10 = new ECS.Pool(null, typeof(int), new OptionsPool(10, 10));
+            var pool10x10 = new ECS.Pool(null, typeof(int), new OptionsPool(10), OptionsEntities.Default);
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
@@ -72,7 +72,7 @@ namespace ECS.Tests
         public void Extending()
         {
             var world = new World();
-            var pool2x2 = world.PoolsInternal.GetTag<ATag>(new OptionsPool(2, 2));
+            var pool2x2 = world.PoolsInternal.GetTag<ATag>(new OptionsPool(2));
 
             for (var i = 0; i < 33; i++)
             {
@@ -159,7 +159,7 @@ namespace ECS.Tests
         public void Constructor()
         {
             var pool = new Pool<int>(null);
-            var pool10x10 = new Pool<int>(null, new OptionsPool(10, 10));
+            var pool10x10 = new Pool<int>(null, new OptionsPool(10), OptionsEntities.Default);
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
@@ -224,7 +224,7 @@ namespace ECS.Tests
         public void Extending()
         {
             var world = new World();
-            var pool2x2 = world.PoolsInternal.Get<int>(new OptionsPool(2, 2));
+            var pool2x2 = world.PoolsInternal.Get<int>(new OptionsPool(2));
 
             for (var i = 0; i < 33; i++)
             {
