@@ -182,7 +182,7 @@ namespace ECS.Tests
 
             Assert.AreEqual(entity0x1, pool[0]);
             Assert.AreEqual(entity1x1, pool[1]);
-            Assert.AreEqual(10, pool.GetUnchecked(0));
+            Assert.AreEqual(10, pool.Get(0));
             Assert.AreEqual(20, pool.GetUnchecked(entity1x1));
             Assert.AreEqual(0, pool.Get(entity2x1));
         }
@@ -201,9 +201,9 @@ namespace ECS.Tests
                 .Set(entity1x1, 30);
 
             Assert.AreEqual(entity0x1, pool[0]);
-            Assert.AreEqual(20, pool.GetUnchecked(0));
+            Assert.AreEqual(20, pool.Get(0));
             Assert.AreEqual(entity1x1, pool[1]);
-            Assert.AreEqual(30, pool.GetUnchecked(1));
+            Assert.AreEqual(30, pool.Get(1));
         }
 
         [Test]
@@ -233,9 +233,9 @@ namespace ECS.Tests
 
             Assert.AreEqual(64, pool2x2.Capacity);
             Assert.AreEqual(new ECS.Entity(32, 1), pool2x2[32]);
-            Assert.AreEqual(33, pool2x2.GetUnchecked(32));
+            Assert.AreEqual(33, pool2x2.Get(32));
             Assert.AreEqual(new ECS.Entity(), pool2x2[33]);
-            Assert.AreEqual(0, pool2x2.GetUnchecked(33));
+            Assert.AreEqual(0, pool2x2.Get(33));
         }
 
         [Test]
