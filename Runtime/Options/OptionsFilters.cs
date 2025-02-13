@@ -2,7 +2,7 @@
 {
     public readonly struct OptionsFilters
     {
-        public const int DefaultCapacity = 32;
+        public const int DefaultCapacity = 64;
         public const int DefaultFiltersCapacity = 8;
 
         public readonly int Capacity;

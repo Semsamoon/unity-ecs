@@ -2,7 +2,7 @@
 {
     public readonly struct OptionsPools
     {
-        public const int DefaultCapacity = 32;
+        public const int DefaultCapacity = 64;
 
         public readonly int Capacity;
 

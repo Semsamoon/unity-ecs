@@ -2,7 +2,7 @@
 {
     public readonly struct OptionsEntities
     {
-        public const int DefaultCapacity = 64;
+        public const int DefaultCapacity = 128;
         public const int DefaultComponentsCapacity = 8;
 
         public readonly int Capacity;

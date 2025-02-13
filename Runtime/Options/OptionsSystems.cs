@@ -2,7 +2,7 @@
 {
     public readonly struct OptionsSystems
     {
-        public const int DefaultCapacity = 16;
+        public const int DefaultCapacity = 64;
 
         public readonly int Capacity;
 
