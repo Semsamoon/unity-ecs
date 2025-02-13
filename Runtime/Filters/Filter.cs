@@ -18,6 +18,15 @@ namespace ECS
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
 
+        Entity IFilter.this[int index]
+        {
+            get
+            {
+                Verifier.ArgumentError(nameof(index), index < Length, $"must be less than Length {Length}.");
+                return _denseArray[index];
+            }
+        }
+
         public Entity this[int index] => _denseArray[index];
 
         public Filter() : this(0, OptionsFilter.Default, OptionsEntities.Default)
@@ -60,9 +69,14 @@ namespace ECS
             return this;
         }
 
-        public bool Contains(Entity entity)
+        bool IFilter.Contains(Entity entity)
         {
             Verifier.EntityNotNull(entity);
+            return _denseArray[_sparseArray[entity.Id]] == entity;
+        }
+
+        public bool Contains(Entity entity)
+        {
             return _denseArray[_sparseArray[entity.Id]] == entity;
         }
 

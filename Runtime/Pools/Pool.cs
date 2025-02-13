@@ -17,6 +17,15 @@ namespace ECS
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
 
+        Entity IPool.this[int index]
+        {
+            get
+            {
+                Verifier.ArgumentError(nameof(index), index < Length, $"must be less than Length {Length}.");
+                return _denseArray[index];
+            }
+        }
+
         public Entity this[int index] => _denseArray[index];
 
         public Pool(World world, Type type) : this(world, type, OptionsPool.Default, OptionsEntities.Default)
@@ -53,9 +62,14 @@ namespace ECS
             return this;
         }
 
-        public bool Contains(Entity entity)
+        bool IPool.Contains(Entity entity)
         {
             Verifier.EntityNotNull(entity);
+            return _denseArray[_sparseArray[entity.Id]] == entity;
+        }
+
+        public bool Contains(Entity entity)
+        {
             return _denseArray[_sparseArray[entity.Id]] == entity;
         }
 
@@ -112,6 +126,15 @@ namespace ECS
 
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
+
+        Entity IPool<T>.this[int index]
+        {
+            get
+            {
+                Verifier.ArgumentError(nameof(index), index < Length, $"must be less than Length {Length}.");
+                return _denseArray[index].Entity;
+            }
+        }
 
         public Entity this[int index] => _denseArray[index].Entity;
 
@@ -182,9 +205,14 @@ namespace ECS
             return ref _denseArray[index].Value;
         }
 
-        public bool Contains(Entity entity)
+        bool IPool<T>.Contains(Entity entity)
         {
             Verifier.EntityNotNull(entity);
+            return _denseArray[_sparseArray[entity.Id]].Entity == entity;
+        }
+
+        public bool Contains(Entity entity)
+        {
             return _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 

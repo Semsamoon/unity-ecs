@@ -20,6 +20,15 @@ namespace ECS
         public int Capacity => _denseArray.Capacity;
         public int Length => _denseArray.Length;
 
+        (Entity Entity, ReadOnlyDenseArray<Type> Components) IEntities.this[int index]
+        {
+            get
+            {
+                Verifier.ArgumentError(nameof(index), index < Length, $"must be less than Length {Length}.");
+                return _denseArray[index];
+            }
+        }
+
         public (Entity Entity, ReadOnlyDenseArray<Type> Components) this[int index] => _denseArray[index];
 
         public Entities(World world) : this(world, OptionsEntities.Default)
@@ -79,9 +88,14 @@ namespace ECS
             return entity;
         }
 
-        public bool Contains(Entity entity)
+        bool IEntities.Contains(Entity entity)
         {
             Verifier.EntityNotNull(entity);
+            return _denseArray[_sparseArray[entity.Id]].Entity == entity;
+        }
+
+        public bool Contains(Entity entity)
+        {
             return _denseArray[_sparseArray[entity.Id]].Entity == entity;
         }
 
