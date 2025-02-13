@@ -145,10 +145,14 @@ namespace ECS
             return this;
         }
 
-        public ref T Get(Entity entity)
+        ref T IPool<T>.Get(Entity entity)
         {
             Verifier.EntityExists(entity, _world.EntitiesInternal);
+            return ref Get(entity);
+        }
 
+        public ref T Get(Entity entity)
+        {
             if (Contains(entity))
             {
                 return ref GetUnchecked(entity);
@@ -167,7 +171,13 @@ namespace ECS
             return ref _denseArray[_sparseArray[entity.Id]].Value;
         }
 
-        public ref T GetUnchecked(int index)
+        ref T IPool<T>.Get(int index)
+        {
+            Verifier.ArgumentError(nameof(index), index < Length, $"must be less than Length {Length}.");
+            return ref _denseArray[index].Value;
+        }
+
+        public ref T Get(int index)
         {
             return ref _denseArray[index].Value;
         }

@@ -25,6 +25,7 @@ namespace ECS
 
         public IPool<T> Set(Entity entity, T value);
         public ref T Get(Entity entity);
+        public ref T Get(int index);
         public bool Contains(Entity entity);
         public IPool<T> Remove(Entity entity);
 
