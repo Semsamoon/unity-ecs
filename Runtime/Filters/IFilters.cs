@@ -19,12 +19,12 @@
         /// Sets the specified capacity for internal array of filters with included component of type <typeparamref name="T"/>.
         /// If the internal array does not exist, it will be created.
         /// </summary>
-        public IFilters IncludeCapacity<T>(int capacity);
+        public IFilters IncludeCapacity<T>(int filtersWithSameComponentCapacity);
 
         /// <summary>
         /// Sets the specified capacity for internal array of filters with excluded component of type <typeparamref name="T"/>.
         /// If the internal array does not exist, it will be created.
         /// </summary>
-        public IFilters ExcludeCapacity<T>(int capacity);
+        public IFilters ExcludeCapacity<T>(int filterWithSameComponentCapacity);
     }
 }

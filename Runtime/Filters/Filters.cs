@@ -53,27 +53,27 @@ namespace ECS
             return new FilterBuilder(_world, _entitiesCapacity, filterEntitiesCapacity);
         }
 
-        IFilters IFilters.IncludeCapacity<T>(int capacity)
+        IFilters IFilters.IncludeCapacity<T>(int filtersWithSameComponentCapacity)
         {
-            EnsureCapacity(_included, typeof(T), capacity);
+            EnsureCapacity(_included, typeof(T), filtersWithSameComponentCapacity);
             return this;
         }
 
-        public Filters IncludeCapacity<T>(int capacity)
+        public Filters IncludeCapacity<T>(int filtersWithSameComponentCapacity)
         {
-            EnsureCapacity(_included, typeof(T), capacity);
+            EnsureCapacity(_included, typeof(T), filtersWithSameComponentCapacity);
             return this;
         }
 
-        IFilters IFilters.ExcludeCapacity<T>(int capacity)
+        IFilters IFilters.ExcludeCapacity<T>(int filterWithSameComponentCapacity)
         {
-            EnsureCapacity(_excluded, typeof(T), capacity);
+            EnsureCapacity(_excluded, typeof(T), filterWithSameComponentCapacity);
             return this;
         }
 
-        public Filters ExcludeCapacity<T>(int capacity)
+        public Filters ExcludeCapacity<T>(int filterWithSameComponentCapacity)
         {
-            EnsureCapacity(_excluded, typeof(T), capacity);
+            EnsureCapacity(_excluded, typeof(T), filterWithSameComponentCapacity);
             return this;
         }
 
