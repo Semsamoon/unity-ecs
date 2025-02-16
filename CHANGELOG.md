@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-02-16
+
+### Added
+
+- Package description in README file.
+- Missing XML documentation for interfaces.
+
+### Changed
+
+- Simplify XML documentation for classes.
+- Rename Entities and Filters capacity arguments names.
+- Downgrade Unity to version 2021.1.0f1.
+
+### Fixed
+
+- 'high performance' to 'high-performance' in Package file.
+
 ## [0.10.1] - 2025-02-16
 
 ### Changed
