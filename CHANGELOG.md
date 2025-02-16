@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.1] - 2025-02-16
+
+### Changed
+
+- Rename world's EntitiesInternal, PoolsInternal, FiltersInternal and SystemsInternal to
+  Entities, Pools, Filters and Systems respectively.
+- Combine options into single structure Options.
+- Update tests with renamed world's fields and combined options.
+
+### Added
+
+- Read only dense array cast to dense array.
+- Tests for read only dense array.
+
+## [0.10.0] - 2025-02-13
+
+### Changed
+
+- Increase default options' values.
+- Add index component getter from pool<T> to IPool<T> interface.
+- Rename pool<T>'s GetUnchecked method to Get.
+- Update tests with renamed methods.
+
+### Fixed
+
+- Add verifier check to index getter from IEntities, IFilter, IPool and IPool<T> interfaces.
+- Remove verifier check from Contains method if it is called not from interfaces IEntities,
+  IFilter, IPool and IPool<T>.
+
 ## [0.9.6] - 2025-02-12
 
 ### Changed
