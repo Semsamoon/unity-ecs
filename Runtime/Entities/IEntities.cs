@@ -26,7 +26,7 @@ namespace ECS
         /// <summary>
         /// Creates a new entity with the specified component types capacity.
         /// </summary>
-        public Entity Create(int componentsCapacity);
+        public Entity Create(int entityComponentsCapacity);
 
         /// <summary>
         /// Checks if the entity collection contains the specified entity.

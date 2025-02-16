@@ -49,22 +49,22 @@ namespace ECS
             return _removed <= 0 ? CreateUnchecked(_entityComponentsCapacity) : RecycleUnchecked();
         }
 
-        public Entity Create(int componentsCapacity)
+        public Entity Create(int entityComponentsCapacity)
         {
             if (_removed <= 0)
             {
-                return CreateUnchecked(componentsCapacity);
+                return CreateUnchecked(entityComponentsCapacity);
             }
 
             var recycle = RecycleUnchecked();
-            _components[_sparseArray[recycle.Id]].ExtendTo(componentsCapacity);
+            _components[_sparseArray[recycle.Id]].ExtendTo(entityComponentsCapacity);
             return recycle;
         }
 
-        public Entity CreateUnchecked(int componentsCapacity)
+        public Entity CreateUnchecked(int entityComponentsCapacity)
         {
             var entity = new Entity(_id, 1);
-            var denseArray = new DenseArray<Type>(componentsCapacity);
+            var denseArray = new DenseArray<Type>(entityComponentsCapacity);
 
             _sparseArray[_id] = Length;
             _components.Add(denseArray);
