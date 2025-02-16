@@ -17,6 +17,11 @@ namespace ECS
             _array = array;
         }
 
+        public static explicit operator DenseArray<T>(ReadOnlyDenseArray<T> array)
+        {
+            return array._array;
+        }
+
         public ReadOnlySpan<T> AsReadOnlySpan()
         {
             return _array.AsReadOnlySpan();
