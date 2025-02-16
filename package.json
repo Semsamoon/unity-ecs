@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "Semsamoon ECS",
   "description": "Entity-Component-System framework for Unity Engine. It is designed to be simple and high-performance.",
-  "unity": "6000.0",
+  "unity": "2022.1",
   "unityRelease": "0f1",
   "documentationUrl": "https://github.com/Semsamoon/unity-ecs/blob/master/README.md",
   "licensesUrl": "https://github.com/Semsamoon/unity-ecs/blob/master/LICENSE.md",
