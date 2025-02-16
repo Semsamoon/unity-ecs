@@ -1,5 +1,8 @@
 ﻿namespace ECS
 {
+    /// <summary>
+    /// Represents a builder for constructing <see cref="Filter"/>s.
+    /// </summary>
     public readonly struct FilterBuilder : IFilterBuilder
     {
         private readonly World _world;

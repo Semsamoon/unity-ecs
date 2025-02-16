@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Pools is a manager for pools.
+    /// Represents a collection of pools in the <see cref="World"/>, managing their lifecycle.
     /// </summary>
     public sealed class Pools : IPools
     {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ECS
 {
+    /// <summary>
+    /// Represents a read-only dense array that stores elements of type <typeparamref name="T"/>.
+    /// </summary>
     public readonly struct ReadOnlyDenseArray<T>
     {
         private readonly DenseArray<T> _array;

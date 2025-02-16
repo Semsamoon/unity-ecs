@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Filters is a manager for filters.
+    /// Represents a collection of filters in the <see cref="World"/>, managing their lifecycle.
     /// </summary>
     public sealed class Filters : IFilters
     {

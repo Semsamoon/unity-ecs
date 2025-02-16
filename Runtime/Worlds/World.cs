@@ -1,5 +1,8 @@
 ﻿namespace ECS
 {
+    /// <summary>
+    /// Represents a world, containing entities, pools, filters, and systems.
+    /// </summary>
     public sealed class World : IWorld
     {
         public Entities Entities { get; }

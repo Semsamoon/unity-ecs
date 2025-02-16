@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Systems is a manager for systems.
+    /// Represents a collection of systems in the <see cref="World"/>, managing their lifecycle.
     /// </summary>
     public sealed class Systems : ISystems
     {

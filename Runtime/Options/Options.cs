@@ -1,5 +1,8 @@
 ﻿namespace ECS
 {
+    /// <summary>
+    /// Represents a collection of options used during the creation of the <see cref="World"/>.
+    /// </summary>
     public readonly struct Options
     {
         public const int DefaultEntitiesCapacity = 128;

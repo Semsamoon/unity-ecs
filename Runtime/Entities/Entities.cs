@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Entities is a manager for entities.
+    /// Represents a collection of entities in the <see cref="World"/>, managing their lifecycle.
     /// </summary>
     public sealed class Entities : IEntities
     {

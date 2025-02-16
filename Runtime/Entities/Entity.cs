@@ -3,7 +3,7 @@
 namespace ECS
 {
     /// <summary>
-    /// Entity in Entity-Component-System architecture.
+    /// Represents an entity.
     /// </summary>
     public readonly struct Entity : IEquatable<Entity>
     {

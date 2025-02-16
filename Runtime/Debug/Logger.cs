@@ -2,6 +2,9 @@
 
 namespace ECS
 {
+    /// <summary>
+    /// Provides logging utilities for warnings and errors in the framework.
+    /// </summary>
     public static class Logger
     {
         public static void Warning(string message)

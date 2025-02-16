@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Dense array is a <see cref="List{T}"/> with swap removing
-    /// (swap with the last element) and index access like in <see cref="Array"/>.
+    /// Represents a dynamically resizing dense array that stores elements of type <typeparamref name="T"/>.
     /// </summary>
     public sealed class DenseArray<T>
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Sparse array is an <see cref="Array"/> with automatic extension.
+    /// Represents a dynamically resizing sparse array that stores elements of type <typeparamref name="T"/>.
     /// </summary>
     public sealed class SparseArray<T>
     {

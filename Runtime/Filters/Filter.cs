@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Filter is a container that holds entities with
-    /// specified components and tags included and excluded.
+    /// Represents a collection of entities filtered based on included and excluded components.
     /// </summary>
     public sealed class Filter : IFilter
     {

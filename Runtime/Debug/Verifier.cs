@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace ECS
 {
+    /// <summary>
+    /// Provides verification methods for the framework.
+    /// </summary>
     public static class Verifier
     {
         [Conditional("ECS_ENABLE_VERIFY")]

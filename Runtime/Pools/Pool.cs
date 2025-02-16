@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace ECS
 {
     /// <summary>
-    /// Pool is a Sparse Set for entities.
-    /// Use <see cref="Pool{T}"/> to store data.
+    /// Represents a collection of tags, managing their lifecycle.
     /// </summary>
     public sealed class Pool : IPool, IPoolInternal
     {
@@ -115,8 +114,7 @@ namespace ECS
     }
 
     /// <summary>
-    /// Pool is a Sparse Set for entities with data.
-    /// Use <see cref="Pool"/> to store entities only.
+    /// Represent a collection of components, managing their lifecycle.
     /// </summary>
     public sealed class Pool<T> : IPool<T>, IPoolInternal
     {
