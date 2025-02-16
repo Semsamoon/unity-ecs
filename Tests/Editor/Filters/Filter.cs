@@ -8,7 +8,7 @@ namespace ECS.Tests
         public void Constructor()
         {
             var filter = new ECS.Filter();
-            var filter0x10x10 = new ECS.Filter(0, new OptionsFilter(10), OptionsEntities.Default);
+            var filter0x10x10 = new ECS.Filter(0, 10, 10);
 
             Assert.Positive(filter.Capacity);
             Assert.AreEqual(10, filter0x10x10.Capacity);

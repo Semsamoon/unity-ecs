@@ -8,7 +8,7 @@ namespace ECS.Tests
         public void Constructor()
         {
             var pool = new ECS.Pool(null, typeof(int));
-            var pool10x10 = new ECS.Pool(null, typeof(int), new OptionsPool(10), OptionsEntities.Default);
+            var pool10x10 = new ECS.Pool(null, typeof(int), 10, 10);
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
@@ -72,16 +72,16 @@ namespace ECS.Tests
         public void Extending()
         {
             var world = (World)World.Create();
-            var pool2x2 = world.Pools.GetTag<ATag>(new OptionsPool(2));
+            var pool2 = world.Pools.GetTag<ATag>(2);
 
             for (var i = 0; i < 33; i++)
             {
-                pool2x2.Add(world.Entities.Create());
+                pool2.Add(world.Entities.Create());
             }
 
-            Assert.AreEqual(64, pool2x2.Capacity);
-            Assert.AreEqual(new ECS.Entity(32, 1), pool2x2[32]);
-            Assert.AreEqual(new ECS.Entity(), pool2x2[33]);
+            Assert.AreEqual(64, pool2.Capacity);
+            Assert.AreEqual(new ECS.Entity(32, 1), pool2[32]);
+            Assert.AreEqual(new ECS.Entity(), pool2[33]);
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace ECS.Tests
         public void Constructor()
         {
             var pool = new Pool<int>(null);
-            var pool10x10 = new Pool<int>(null, new OptionsPool(10), OptionsEntities.Default);
+            var pool10x10 = new Pool<int>(null, 10, 10);
 
             Assert.AreEqual(10, pool10x10.Capacity);
             Assert.Positive(pool.Capacity);
@@ -224,18 +224,18 @@ namespace ECS.Tests
         public void Extending()
         {
             var world = (World)World.Create();
-            var pool2x2 = world.Pools.Get<int>(new OptionsPool(2));
+            var pool2 = world.Pools.Get<int>(2);
 
             for (var i = 0; i < 33; i++)
             {
-                pool2x2.Get(world.Entities.Create()) = i + 1;
+                pool2.Get(world.Entities.Create()) = i + 1;
             }
 
-            Assert.AreEqual(64, pool2x2.Capacity);
-            Assert.AreEqual(new ECS.Entity(32, 1), pool2x2[32]);
-            Assert.AreEqual(33, pool2x2.Get(32));
-            Assert.AreEqual(new ECS.Entity(), pool2x2[33]);
-            Assert.AreEqual(0, pool2x2.Get(33));
+            Assert.AreEqual(64, pool2.Capacity);
+            Assert.AreEqual(new ECS.Entity(32, 1), pool2[32]);
+            Assert.AreEqual(33, pool2.Get(32));
+            Assert.AreEqual(new ECS.Entity(), pool2[33]);
+            Assert.AreEqual(0, pool2.Get(33));
         }
 
         [Test]

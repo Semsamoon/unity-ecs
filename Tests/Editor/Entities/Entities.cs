@@ -9,7 +9,7 @@ namespace ECS.Tests
         public void Constructor()
         {
             var entities = new ECS.Entities(null);
-            var entities10x10 = new ECS.Entities(null, new OptionsEntities(10, 10));
+            var entities10x10 = new ECS.Entities(null, 10, 10);
 
             Assert.AreEqual(10, entities10x10.Capacity);
             Assert.Positive(entities.Capacity);
@@ -96,7 +96,7 @@ namespace ECS.Tests
         [Test]
         public void Extending()
         {
-            var entities = new ECS.Entities(null, new OptionsEntities(2, 2));
+            var entities = new ECS.Entities(null, 2, 2);
 
             for (var i = 0; i < 33; i++)
             {
