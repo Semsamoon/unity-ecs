@@ -21,10 +21,10 @@ namespace ECS.Tests
         public void Getter()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.GetTag<ATag>();
+            var pool = world.Pools.GetTag<ATag>();
             var entity = new ECS.Entity();
-            var entity0x1 = world.EntitiesInternal.Create();
-            var entity1x1 = world.EntitiesInternal.Create();
+            var entity0x1 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
 
             pool
                 .Add(entity0x1)
@@ -39,9 +39,9 @@ namespace ECS.Tests
         public void Add()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.GetTag<ATag>();
-            var entity0x1 = world.EntitiesInternal.Create();
-            var entity1x1 = world.EntitiesInternal.Create();
+            var pool = world.Pools.GetTag<ATag>();
+            var entity0x1 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
 
             pool.Add(entity0x1);
 
@@ -58,9 +58,9 @@ namespace ECS.Tests
         public void Contains()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.GetTag<ATag>();
-            var entity0x1 = world.EntitiesInternal.Create();
-            var entity1x1 = world.EntitiesInternal.Create();
+            var pool = world.Pools.GetTag<ATag>();
+            var entity0x1 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
 
             pool.Add(entity0x1);
 
@@ -72,11 +72,11 @@ namespace ECS.Tests
         public void Extending()
         {
             var world = (World)World.Create();
-            var pool2x2 = world.PoolsInternal.GetTag<ATag>(new OptionsPool(2));
+            var pool2x2 = world.Pools.GetTag<ATag>(new OptionsPool(2));
 
             for (var i = 0; i < 33; i++)
             {
-                pool2x2.Add(world.EntitiesInternal.Create());
+                pool2x2.Add(world.Entities.Create());
             }
 
             Assert.AreEqual(64, pool2x2.Capacity);
@@ -88,8 +88,8 @@ namespace ECS.Tests
         public void Remove()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.GetTag<ATag>();
-            var entity0x1 = world.EntitiesInternal.Create();
+            var pool = world.Pools.GetTag<ATag>();
+            var entity0x1 = world.Entities.Create();
 
             pool
                 .Add(entity0x1)
@@ -114,7 +114,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Add(world.EntitiesInternal.Create());
+                pool.Add(world.Entities.Create());
             }
 
             var span = pool.AsReadOnlySpan();
@@ -135,7 +135,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Add(world.EntitiesInternal.Create());
+                pool.Add(world.Entities.Create());
             }
 
             var j = 0;
@@ -172,10 +172,10 @@ namespace ECS.Tests
         public void Getter()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.Get<int>();
-            var entity0x1 = world.EntitiesInternal.Create();
-            var entity1x1 = world.EntitiesInternal.Create();
-            var entity2x1 = world.EntitiesInternal.Create();
+            var pool = world.Pools.Get<int>();
+            var entity0x1 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
+            var entity2x1 = world.Entities.Create();
 
             pool.Get(entity0x1) = 10;
             pool.Get(entity1x1) = 20;
@@ -191,9 +191,9 @@ namespace ECS.Tests
         public void Set()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.Get<int>();
-            var entity0x1 = world.EntitiesInternal.Create();
-            var entity1x1 = world.EntitiesInternal.Create();
+            var pool = world.Pools.Get<int>();
+            var entity0x1 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
 
             pool
                 .Set(entity0x1, 10)
@@ -210,9 +210,9 @@ namespace ECS.Tests
         public void Contains()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.Get<int>();
-            var entity0x1 = world.EntitiesInternal.Create();
-            var entity1x1 = world.EntitiesInternal.Create();
+            var pool = world.Pools.Get<int>();
+            var entity0x1 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
 
             pool.Get(entity0x1) = 10;
 
@@ -224,11 +224,11 @@ namespace ECS.Tests
         public void Extending()
         {
             var world = (World)World.Create();
-            var pool2x2 = world.PoolsInternal.Get<int>(new OptionsPool(2));
+            var pool2x2 = world.Pools.Get<int>(new OptionsPool(2));
 
             for (var i = 0; i < 33; i++)
             {
-                pool2x2.Get(world.EntitiesInternal.Create()) = i + 1;
+                pool2x2.Get(world.Entities.Create()) = i + 1;
             }
 
             Assert.AreEqual(64, pool2x2.Capacity);
@@ -242,8 +242,8 @@ namespace ECS.Tests
         public void Remove()
         {
             var world = (World)World.Create();
-            var pool = world.PoolsInternal.Get<int>();
-            var entity0x1 = world.EntitiesInternal.Create();
+            var pool = world.Pools.Get<int>();
+            var entity0x1 = world.Entities.Create();
 
             pool
                 .Set(entity0x1, 10)
@@ -268,7 +268,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Get(world.EntitiesInternal.Create()) = i + 1;
+                pool.Get(world.Entities.Create()) = i + 1;
             }
 
             var span = pool.AsReadOnlySpan();
@@ -289,7 +289,7 @@ namespace ECS.Tests
 
             for (var i = 0; i < 4; i++)
             {
-                pool.Get(world.EntitiesInternal.Create()) = i + 1;
+                pool.Get(world.Entities.Create()) = i + 1;
             }
 
             var j = 0;

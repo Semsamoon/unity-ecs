@@ -18,13 +18,13 @@ namespace ECS.Tests
         public void Create()
         {
             var world = (World)World.Create();
-            var filters = world.FiltersInternal;
-            var entity0x1 = world.EntitiesInternal.Create();
-            var entity1x1 = world.EntitiesInternal.Create();
+            var filters = world.Filters;
+            var entity0x1 = world.Entities.Create();
+            var entity1x1 = world.Entities.Create();
             var filterInt = filters.Create().Include<int>().Build();
 
-            world.PoolsInternal.Get<int>().Get(entity0x1) = 10;
-            world.PoolsInternal.Get<string>().Get(entity0x1) = "10";
+            world.Pools.Get<int>().Get(entity0x1) = 10;
+            world.Pools.Get<string>().Get(entity0x1) = "10";
 
             Assert.AreEqual((1, 0), filters.Length);
             Assert.True(filterInt.Contains(entity0x1));
@@ -44,7 +44,7 @@ namespace ECS.Tests
         public void Capacity()
         {
             var world = (World)World.Create();
-            var filters = world.FiltersInternal;
+            var filters = world.Filters;
 
             Assert.DoesNotThrow(() => filters.IncludeCapacity<int>(10).ExcludeCapacity<int>(10));
         }

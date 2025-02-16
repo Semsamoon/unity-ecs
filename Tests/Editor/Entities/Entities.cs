@@ -42,7 +42,7 @@ namespace ECS.Tests
         public void Create()
         {
             var world = (World)World.Create();
-            var entities = world.EntitiesInternal;
+            var entities = world.Entities;
             var entity0x1 = new ECS.Entity(0, 1);
             var entity0x2 = new ECS.Entity(0, 2);
             var entity1x1 = new ECS.Entity(1, 1);
@@ -112,11 +112,11 @@ namespace ECS.Tests
         public void Remove()
         {
             var world = (World)World.Create();
-            var entities = world.EntitiesInternal;
+            var entities = world.Entities;
             var entity0x1 = new ECS.Entity(0, 1);
 
             entities.Create();
-            world.PoolsInternal.Get<int>().Get(entity0x1) = 10;
+            world.Pools.Get<int>().Get(entity0x1) = 10;
             entities.Remove(entity0x1);
 
             Assert.AreEqual(0, entities.Length);
@@ -128,7 +128,7 @@ namespace ECS.Tests
         public void Record()
         {
             var world = (World)World.Create();
-            var entities = world.EntitiesInternal;
+            var entities = world.Entities;
             var entity0x1 = entities.Create();
 
             entities.RecordUnchecked(entity0x1, typeof(int));
@@ -141,7 +141,7 @@ namespace ECS.Tests
         public void Erase()
         {
             var world = (World)World.Create();
-            var entities = world.EntitiesInternal;
+            var entities = world.Entities;
             var entity0x1 = entities.Create();
 
             entities
