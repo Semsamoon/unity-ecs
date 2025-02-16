@@ -112,8 +112,8 @@ namespace ECS
 
             foreach (var component in remove.Components)
             {
-                _world.PoolsInternal.GetPoolUnchecked(component).RemoveUnchecked(entity);
-                _world.FiltersInternal.EraseUnchecked(entity, component);
+                _world.Pools.GetPoolUnchecked(component).RemoveUnchecked(entity);
+                _world.Filters.EraseUnchecked(entity, component);
             }
 
             _components[index].Clear();

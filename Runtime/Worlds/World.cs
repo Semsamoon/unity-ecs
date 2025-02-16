@@ -2,15 +2,15 @@
 {
     public sealed class World : IWorld
     {
-        public Entities EntitiesInternal { get; }
-        public Pools PoolsInternal { get; }
-        public Filters FiltersInternal { get; }
-        public Systems SystemsInternal { get; }
+        public Entities Entities { get; }
+        public Pools Pools { get; }
+        public Filters Filters { get; }
+        public Systems Systems { get; }
 
-        public IEntities Entities => EntitiesInternal;
-        public IPools Pools => PoolsInternal;
-        public IFilters Filters => FiltersInternal;
-        public ISystems Systems => SystemsInternal;
+        IEntities IWorld.Entities => Entities;
+        IPools IWorld.Pools => Pools;
+        IFilters IWorld.Filters => Filters;
+        ISystems IWorld.Systems => Systems;
 
         public static IWorld Create()
         {
@@ -24,15 +24,15 @@
 
         private World(OptionsWorld options)
         {
-            EntitiesInternal = new Entities(this, in options.Entities);
-            PoolsInternal = new Pools(this, in options.Pools, in options.Pool, in options.Entities);
-            FiltersInternal = new Filters(this, in options.Filters, in options.Filter, in options.Entities);
-            SystemsInternal = new Systems(this, in options.Systems);
+            Entities = new Entities(this, in options.Entities);
+            Pools = new Pools(this, in options.Pools, in options.Pool, in options.Entities);
+            Filters = new Filters(this, in options.Filters, in options.Filter, in options.Entities);
+            Systems = new Systems(this, in options.Systems);
         }
 
         public void Destroy()
         {
-            SystemsInternal.Destroy();
+            Systems.Destroy();
         }
     }
 }

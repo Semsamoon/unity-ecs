@@ -42,7 +42,7 @@ namespace ECS
 
         IPool IPool.Add(Entity entity)
         {
-            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityExists(entity, _world.Entities);
             Verifier.EntityNotInPool(entity, this, _type);
             return Add(entity);
         }
@@ -50,8 +50,8 @@ namespace ECS
         public Pool Add(Entity entity)
         {
             AddUnchecked(entity);
-            _world.FiltersInternal.RecordUnchecked(entity, _type);
-            _world.EntitiesInternal.RecordUnchecked(entity, _type);
+            _world.Filters.RecordUnchecked(entity, _type);
+            _world.Entities.RecordUnchecked(entity, _type);
             return this;
         }
 
@@ -75,7 +75,7 @@ namespace ECS
 
         IPool IPool.Remove(Entity entity)
         {
-            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityExists(entity, _world.Entities);
             Verifier.EntityInPool(entity, this, _type);
             return Remove(entity);
         }
@@ -83,8 +83,8 @@ namespace ECS
         public Pool Remove(Entity entity)
         {
             RemoveUnchecked(entity);
-            _world.FiltersInternal.EraseUnchecked(entity, _type);
-            _world.EntitiesInternal.EraseUnchecked(entity, _type);
+            _world.Filters.EraseUnchecked(entity, _type);
+            _world.Entities.EraseUnchecked(entity, _type);
             return this;
         }
 
@@ -151,7 +151,7 @@ namespace ECS
 
         IPool<T> IPool<T>.Set(Entity entity, T value)
         {
-            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityExists(entity, _world.Entities);
             Get(entity) = value;
             return this;
         }
@@ -170,7 +170,7 @@ namespace ECS
 
         ref T IPool<T>.Get(Entity entity)
         {
-            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityExists(entity, _world.Entities);
             return ref Get(entity);
         }
 
@@ -183,8 +183,8 @@ namespace ECS
 
             _sparseArray[entity.Id] = Length;
             _denseArray.Add((entity, default));
-            _world.FiltersInternal.RecordUnchecked(entity, typeof(T));
-            _world.EntitiesInternal.RecordUnchecked(entity, typeof(T));
+            _world.Filters.RecordUnchecked(entity, typeof(T));
+            _world.Entities.RecordUnchecked(entity, typeof(T));
 
             return ref _denseArray[^1].Value;
         }
@@ -218,7 +218,7 @@ namespace ECS
 
         IPool<T> IPool<T>.Remove(Entity entity)
         {
-            Verifier.EntityExists(entity, _world.EntitiesInternal);
+            Verifier.EntityExists(entity, _world.Entities);
             Verifier.EntityInPool(entity, this, typeof(T));
             return Remove(entity);
         }
@@ -226,8 +226,8 @@ namespace ECS
         public Pool<T> Remove(Entity entity)
         {
             RemoveUnchecked(entity);
-            _world.FiltersInternal.EraseUnchecked(entity, typeof(T));
-            _world.EntitiesInternal.EraseUnchecked(entity, typeof(T));
+            _world.Filters.EraseUnchecked(entity, typeof(T));
+            _world.Entities.EraseUnchecked(entity, typeof(T));
             return this;
         }
 

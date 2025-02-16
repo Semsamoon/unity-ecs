@@ -22,9 +22,9 @@
 
         public FilterBuilder Include<T>()
         {
-            var pool = _world.PoolsInternal.GetPool<T>();
+            var pool = _world.Pools.GetPool<T>();
             _filter.Sum++;
-            _world.FiltersInternal.Include(_filter, typeof(T));
+            _world.Filters.Include(_filter, typeof(T));
 
             for (var i = 0; i < pool.Length; i++)
             {
@@ -61,11 +61,11 @@
 
         public FilterBuilder Exclude<T>()
         {
-            var pool = _world.PoolsInternal.GetPool<T>();
-            _world.FiltersInternal.Exclude(_filter, typeof(T));
+            var pool = _world.Pools.GetPool<T>();
+            _world.Filters.Exclude(_filter, typeof(T));
             _filter.Sum++;
 
-            foreach (var entity in _world.EntitiesInternal)
+            foreach (var entity in _world.Entities)
             {
                 if (!pool.Contains(entity.Entity))
                 {
