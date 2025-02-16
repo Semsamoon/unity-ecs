@@ -16,14 +16,10 @@ namespace ECS
 
         public ISystem this[int index] => _systems[index];
 
-        public Systems(World world) : this(world, OptionsSystems.Default)
-        {
-        }
-
-        public Systems(World world, in OptionsSystems options)
+        public Systems(World world, int systemsCapacity = Options.DefaultSystemsCapacity)
         {
             _world = world;
-            _systems = new DenseArray<ISystem>(options.Capacity);
+            _systems = new DenseArray<ISystem>(systemsCapacity);
         }
 
         ISystems ISystems.Add<T>()

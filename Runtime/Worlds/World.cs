@@ -14,20 +14,31 @@
 
         public static IWorld Create()
         {
-            return new World(OptionsWorld.Default);
+            return new World();
         }
 
-        public static IWorld Create(OptionsWorld world)
+        public static IWorld Create(in Options options)
         {
-            return new World(world);
+            return new World(in options);
         }
 
-        private World(OptionsWorld options)
+        private World()
         {
-            Entities = new Entities(this, in options.Entities);
-            Pools = new Pools(this, in options.Pools, in options.Pool, in options.Entities);
-            Filters = new Filters(this, in options.Filters, in options.Filter, in options.Entities);
-            Systems = new Systems(this, in options.Systems);
+            Entities = new Entities(this);
+            Pools = new Pools(this);
+            Filters = new Filters(this);
+            Systems = new Systems(this);
+        }
+
+        private World(in Options options)
+        {
+            Entities = new Entities(this, options.EntitiesCapacity, options.EntityComponentsCapacity);
+            Pools = new Pools(this,
+                options.PoolsCapacity, options.EntitiesCapacity, options.PoolComponentsCapacity);
+            Filters = new Filters(this,
+                options.FiltersCapacity, options.FiltersWithSameComponentCapacity,
+                options.EntitiesCapacity, options.FilterEntitiesCapacity);
+            Systems = new Systems(this, options.SystemsCapacity);
         }
 
         public void Destroy()

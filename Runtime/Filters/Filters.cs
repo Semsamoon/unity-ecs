@@ -11,44 +11,46 @@ namespace ECS
         private readonly World _world;
         private readonly Dictionary<Type, DenseArray<Filter>> _included;
         private readonly Dictionary<Type, DenseArray<Filter>> _excluded;
-        private readonly int _defaultFiltersCapacity;
-        private readonly OptionsFilter _defaultFilterOptions;
-        private readonly OptionsEntities _entitiesOptions;
+
+        private readonly int _filtersWithSameComponentCapacity;
+        private readonly int _entitiesCapacity;
+        private readonly int _filterEntitiesCapacity;
 
         public (int included, int excluded) Length => (_included.Count, _excluded.Count);
 
-        public Filters(World world) : this(world, OptionsFilters.Default, OptionsFilter.Default, OptionsEntities.Default)
-        {
-        }
-
-        public Filters(World world, in OptionsFilters filtersOptions, in OptionsFilter filterOptions, in OptionsEntities entitiesOptions)
+        public Filters(
+            World world,
+            int filtersCapacity = Options.DefaultFiltersCapacity,
+            int filtersWithSameComponentCapacity = Options.DefaultFiltersWithSameComponentCapacity,
+            int entitiesCapacity = Options.DefaultEntitiesCapacity,
+            int filterEntitiesCapacity = Options.DefaultFilterEntitiesCapacity)
         {
             _world = world;
-            _included = new Dictionary<Type, DenseArray<Filter>>(filtersOptions.Capacity);
-            _excluded = new Dictionary<Type, DenseArray<Filter>>(filtersOptions.Capacity);
-            _defaultFiltersCapacity = filtersOptions.FiltersCapacity;
-            _defaultFilterOptions = filterOptions;
-            _entitiesOptions = entitiesOptions;
+            _included = new Dictionary<Type, DenseArray<Filter>>(filtersCapacity);
+            _excluded = new Dictionary<Type, DenseArray<Filter>>(filtersCapacity);
+            _filtersWithSameComponentCapacity = filtersWithSameComponentCapacity;
+            _entitiesCapacity = entitiesCapacity;
+            _filterEntitiesCapacity = filterEntitiesCapacity;
         }
 
         IFilterBuilderEmpty IFilters.Create()
         {
-            return new FilterBuilder(_world, in _defaultFilterOptions, in _entitiesOptions);
+            return new FilterBuilder(_world, _entitiesCapacity, _filterEntitiesCapacity);
         }
 
         public FilterBuilder Create()
         {
-            return new FilterBuilder(_world, in _defaultFilterOptions, in _entitiesOptions);
+            return new FilterBuilder(_world, _entitiesCapacity, _filterEntitiesCapacity);
         }
 
-        IFilterBuilderEmpty IFilters.Create(in OptionsFilter options)
+        IFilterBuilderEmpty IFilters.Create(int filterEntitiesCapacity)
         {
-            return new FilterBuilder(_world, in options, in _entitiesOptions);
+            return new FilterBuilder(_world, _entitiesCapacity, filterEntitiesCapacity);
         }
 
-        public FilterBuilder Create(in OptionsFilter options)
+        public FilterBuilder Create(int filterEntitiesCapacity)
         {
-            return new FilterBuilder(_world, in options, in _entitiesOptions);
+            return new FilterBuilder(_world, _entitiesCapacity, filterEntitiesCapacity);
         }
 
         IFilters IFilters.IncludeCapacity<T>(int capacity)
@@ -77,7 +79,7 @@ namespace ECS
 
         public Filters Include(Filter filter, Type type)
         {
-            Add(_included, filter, type, _defaultFiltersCapacity);
+            Add(_included, filter, type, _filtersWithSameComponentCapacity);
             return this;
         }
 
@@ -89,7 +91,7 @@ namespace ECS
 
         public Filters Exclude(Filter filter, Type type)
         {
-            Add(_excluded, filter, type, _defaultFiltersCapacity);
+            Add(_excluded, filter, type, _filtersWithSameComponentCapacity);
             return this;
         }
 

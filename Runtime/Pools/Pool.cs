@@ -28,16 +28,16 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index];
 
-        public Pool(World world, Type type) : this(world, type, OptionsPool.Default, OptionsEntities.Default)
-        {
-        }
-
-        public Pool(World world, Type type, in OptionsPool poolOptions, in OptionsEntities entitiesOptions)
+        public Pool(
+            World world,
+            Type type,
+            int entitiesCapacity = Options.DefaultEntitiesCapacity,
+            int poolComponentsCapacity = Options.DefaultPoolComponentsCapacity)
         {
             _world = world;
             _type = type;
-            _sparseArray = new SparseArray<int>(entitiesOptions.Capacity);
-            _denseArray = new DenseArray<Entity>(poolOptions.Capacity);
+            _sparseArray = new SparseArray<int>(entitiesCapacity);
+            _denseArray = new DenseArray<Entity>(poolComponentsCapacity);
         }
 
         IPool IPool.Add(Entity entity)
@@ -138,15 +138,14 @@ namespace ECS
 
         public Entity this[int index] => _denseArray[index].Entity;
 
-        public Pool(World world) : this(world, OptionsPool.Default, OptionsEntities.Default)
-        {
-        }
-
-        public Pool(World world, in OptionsPool poolOptions, in OptionsEntities entitiesOptions)
+        public Pool(
+            World world,
+            int entitiesCapacity = Options.DefaultEntitiesCapacity,
+            int poolComponentsCapacity = Options.DefaultPoolComponentsCapacity)
         {
             _world = world;
-            _sparseArray = new SparseArray<int>(entitiesOptions.Capacity);
-            _denseArray = new DenseArray<(Entity, T)>(poolOptions.Capacity);
+            _sparseArray = new SparseArray<int>(entitiesCapacity);
+            _denseArray = new DenseArray<(Entity, T)>(poolComponentsCapacity);
         }
 
         IPool<T> IPool<T>.Set(Entity entity, T value)

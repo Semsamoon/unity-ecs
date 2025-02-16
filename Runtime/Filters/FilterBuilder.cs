@@ -5,14 +5,13 @@
         private readonly World _world;
         private readonly Filter _filter;
 
-        public FilterBuilder(World world) : this(world, OptionsFilter.Default, OptionsEntities.Default)
-        {
-        }
-
-        public FilterBuilder(World world, in OptionsFilter filterOptions, in OptionsEntities entitiesOptions)
+        public FilterBuilder(
+            World world,
+            int entitiesCapacity = Options.DefaultEntitiesCapacity,
+            int filterEntitiesCapacity = Options.DefaultFilterEntitiesCapacity)
         {
             _world = world;
-            _filter = new Filter(0, filterOptions, entitiesOptions);
+            _filter = new Filter(0, entitiesCapacity, filterEntitiesCapacity);
         }
 
         IFilterBuilder IFilterBuilderEmpty.Include<T>()

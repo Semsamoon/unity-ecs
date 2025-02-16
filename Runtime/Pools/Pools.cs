@@ -10,39 +10,40 @@ namespace ECS
     {
         private readonly World _world;
         private readonly Dictionary<Type, IPoolInternal> _pools;
-        private readonly OptionsPool _defaultPoolOptions;
-        private readonly OptionsEntities _entitiesOptions;
+
+        private readonly int _entitiesCapacity;
+        private readonly int _poolComponentsCapacity;
 
         public int Length => _pools.Count;
 
-        public Pools(World world) : this(world, OptionsPools.Default, OptionsPool.Default, OptionsEntities.Default)
-        {
-        }
-
-        public Pools(World world, in OptionsPools poolsOptions, in OptionsPool poolOptions, in OptionsEntities entitiesOptions)
+        public Pools(
+            World world,
+            int poolsCapacity = Options.DefaultPoolsCapacity,
+            int entitiesCapacity = Options.DefaultEntitiesCapacity,
+            int poolComponentsCapacity = Options.DefaultPoolComponentsCapacity)
         {
             _world = world;
-            _pools = new Dictionary<Type, IPoolInternal>(poolsOptions.Capacity);
-            _defaultPoolOptions = poolOptions;
-            _entitiesOptions = entitiesOptions;
+            _pools = new Dictionary<Type, IPoolInternal>(poolsCapacity);
+            _entitiesCapacity = entitiesCapacity;
+            _poolComponentsCapacity = poolComponentsCapacity;
         }
 
         IPools IPools.Add<T>()
         {
-            return Add<T>(in _defaultPoolOptions);
+            return Add<T>(_poolComponentsCapacity);
         }
 
         public Pools Add<T>()
         {
-            return Add<T>(in _defaultPoolOptions);
+            return Add<T>(_poolComponentsCapacity);
         }
 
-        IPools IPools.Add<T>(in OptionsPool options)
+        IPools IPools.Add<T>(int poolComponentsCapacity)
         {
-            return Add<T>(in options);
+            return Add<T>(poolComponentsCapacity);
         }
 
-        public Pools Add<T>(in OptionsPool options)
+        public Pools Add<T>(int poolComponentsCapacity)
         {
             if (_pools.ContainsKey(typeof(T)))
             {
@@ -51,37 +52,37 @@ namespace ECS
 
             if (typeof(ITag).IsAssignableFrom(typeof(T)))
             {
-                _pools.Add(typeof(T), new Pool(_world, typeof(T), in options, in _entitiesOptions));
+                _pools.Add(typeof(T), new Pool(_world, typeof(T), _entitiesCapacity, poolComponentsCapacity));
                 return this;
             }
 
-            _pools.Add(typeof(T), new Pool<T>(_world, in options, in _entitiesOptions));
+            _pools.Add(typeof(T), new Pool<T>(_world, _entitiesCapacity, poolComponentsCapacity));
             return this;
         }
 
         IPool<T> IPools.Get<T>()
         {
-            return Get<T>(in _defaultPoolOptions);
+            return Get<T>(_poolComponentsCapacity);
         }
 
         public Pool<T> Get<T>()
         {
-            return Get<T>(in _defaultPoolOptions);
+            return Get<T>(_poolComponentsCapacity);
         }
 
-        IPool<T> IPools.Get<T>(in OptionsPool options)
+        IPool<T> IPools.Get<T>(int poolComponentsCapacity)
         {
-            return Get<T>(in options);
+            return Get<T>(poolComponentsCapacity);
         }
 
-        public Pool<T> Get<T>(in OptionsPool options)
+        public Pool<T> Get<T>(int poolComponentsCapacity)
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
                 return (Pool<T>)existing;
             }
 
-            var pool = new Pool<T>(_world, in options, _entitiesOptions);
+            var pool = new Pool<T>(_world, _entitiesCapacity, poolComponentsCapacity);
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -93,27 +94,27 @@ namespace ECS
 
         IPool IPools.GetTag<T>()
         {
-            return GetTag<T>(in _defaultPoolOptions);
+            return GetTag<T>(_poolComponentsCapacity);
         }
 
         public Pool GetTag<T>() where T : ITag
         {
-            return GetTag<T>(in _defaultPoolOptions);
+            return GetTag<T>(_poolComponentsCapacity);
         }
 
-        IPool IPools.GetTag<T>(in OptionsPool options)
+        IPool IPools.GetTag<T>(int poolComponentsCapacity)
         {
-            return GetTag<T>(in options);
+            return GetTag<T>(poolComponentsCapacity);
         }
 
-        public Pool GetTag<T>(in OptionsPool options) where T : ITag
+        public Pool GetTag<T>(int poolComponentsCapacity) where T : ITag
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
                 return (Pool)existing;
             }
 
-            var pool = new Pool(_world, typeof(T), in options, in _entitiesOptions);
+            var pool = new Pool(_world, typeof(T), _entitiesCapacity, poolComponentsCapacity);
             _pools.Add(typeof(T), pool);
             return pool;
         }
@@ -125,10 +126,10 @@ namespace ECS
 
         public IPoolInternal GetPool<T>()
         {
-            return GetPool<T>(in _defaultPoolOptions);
+            return GetPool<T>(_poolComponentsCapacity);
         }
 
-        public IPoolInternal GetPool<T>(in OptionsPool options)
+        public IPoolInternal GetPool<T>(int poolComponentsCapacity)
         {
             if (_pools.TryGetValue(typeof(T), out var existing))
             {
@@ -137,12 +138,12 @@ namespace ECS
 
             if (typeof(T).IsAssignableFrom(typeof(ITag)))
             {
-                var pool = new Pool(_world, typeof(T), in options, in _entitiesOptions);
+                var pool = new Pool(_world, typeof(T), _entitiesCapacity, poolComponentsCapacity);
                 _pools.Add(typeof(T), pool);
                 return pool;
             }
 
-            var poolT = new Pool<T>(_world, in options, in _entitiesOptions);
+            var poolT = new Pool<T>(_world, _entitiesCapacity, poolComponentsCapacity);
             _pools.Add(typeof(T), poolT);
             return poolT;
         }

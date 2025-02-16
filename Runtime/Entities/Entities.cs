@@ -12,7 +12,8 @@ namespace ECS
         private readonly SparseArray<int> _sparseArray;
         private readonly DenseArray<(Entity Entity, ReadOnlyDenseArray<Type> Components)> _denseArray;
         private readonly DenseArray<DenseArray<Type>> _components;
-        private readonly int _defaultComponentsCapacity;
+
+        private readonly int _entityComponentsCapacity;
 
         private int _removed;
         private int _id;
@@ -31,22 +32,21 @@ namespace ECS
 
         public (Entity Entity, ReadOnlyDenseArray<Type> Components) this[int index] => _denseArray[index];
 
-        public Entities(World world) : this(world, OptionsEntities.Default)
-        {
-        }
-
-        public Entities(World world, in OptionsEntities options)
+        public Entities(
+            World world,
+            int entitiesCapacity = Options.DefaultEntitiesCapacity,
+            int entityComponentsCapacity = Options.DefaultEntityComponentsCapacity)
         {
             _world = world;
-            _sparseArray = new SparseArray<int>(options.Capacity);
-            _denseArray = new DenseArray<(Entity, ReadOnlyDenseArray<Type>)>(options.Capacity);
-            _components = new DenseArray<DenseArray<Type>>(options.Capacity);
-            _defaultComponentsCapacity = options.ComponentsCapacity;
+            _sparseArray = new SparseArray<int>(entitiesCapacity);
+            _denseArray = new DenseArray<(Entity, ReadOnlyDenseArray<Type>)>(entitiesCapacity);
+            _components = new DenseArray<DenseArray<Type>>(entitiesCapacity);
+            _entityComponentsCapacity = entityComponentsCapacity;
         }
 
         public Entity Create()
         {
-            return _removed <= 0 ? CreateUnchecked(_defaultComponentsCapacity) : RecycleUnchecked();
+            return _removed <= 0 ? CreateUnchecked(_entityComponentsCapacity) : RecycleUnchecked();
         }
 
         public Entity Create(int componentsCapacity)
